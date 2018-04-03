@@ -1,0 +1,4 @@
+Question -> "string"
+department -> "string" // string can be "all" also which says that this poll is open throughout all departments
+OneLiner -> "string"
+Votes -> list of string // "where string is entryNumber", "We append the entryNumber as when voted"
