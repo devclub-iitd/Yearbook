@@ -1,0 +1,18 @@
+User Functions -
+Login/Authentication()
+Signup() // Most probably don't need it due to kerberos
+ViewProfile() // Everything that needs to be seen by the user
+UpdateUserInfo()
+UpdateMyGenAnswers()
+UpdateMyComments()
+UpdateOtherComments() // only display propertoes is editable
+UpdatePoll() 
+
+Admin Functions - 
+CreatePoll()
+CreateGenQuestions()
+UpdatePoll()
+UpdateGenQuestions()
+DeletePoll()
+DeleteGenQuestions()
+GenerateYearBook()
