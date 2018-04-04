@@ -1,0 +1,101 @@
+User Functions -
+Login/Authentication()
+	- params:
+		- entryNumber
+		- password
+	- return:
+		- Django sets the authentication flags inside itself
+Logout()
+	- inbuilt
+Signup()
+	-  we'd create users' accounts ourselves and mail them their temporary passwords
+EditPassword()
+	- requires login
+	- params:
+		- userID
+		- currentPassword(hash)
+		- newPassword(hash)
+ViewProfile() 
+	- requires login
+	- returns the user
+	- params:
+		- userID
+	- return:
+		- user
+UpdateUserInfo()
+	- requires login
+	- updates the user's basic information
+	- params:
+		- userID
+		- name
+		- entryNumber
+		- department
+		- DP
+		- Phone 
+		- Email 
+		- OneLiner
+UpdateMyGenAnswers()
+	- requires login
+	- updates the users' answers for themselves
+	- params:
+		- userID
+		- AnswersAboutMyself
+UpdateMyComments()
+	- requires login
+	- updates the user's comments for other people
+	- params:
+		- userID
+		- CommentsIWrite
+UpdateOtherComments()
+	- requires login
+	- updates the display property of comments written by others for me
+	- params:
+		- userID
+		- CommentsIGet
+AnswerPoll() 
+	- requires login
+	- updates the user's votes for general polls
+	- params:
+		- userID
+		- VotesIHaveGiven
+UploadPhoto()
+	- requires login
+	- let's the user upload images
+	- params:
+		- userID
+		- photo
+
+Admin Functions - IT MAY HAPPEN THAT WE NEED NOT CREATE THESE AS DJANGO IS LOVE
+CreatePoll()
+	- requires superuser access
+	- create a new poll
+	- params:
+		- poll
+CreateGenQuestions()
+	- requires superuser access
+	- create a new general question
+	- params:
+		- generalQuestion
+UpdatePoll()
+	- requires superuser access
+	- update a poll
+	- params:
+		- pollID (inbuilt primary key of djnago model)
+		- poll
+UpdateGenQuestions()
+	- requires superuser access
+	- update general question
+	- params:
+		- generalQuestionID (inbuilt primary key of djnago model)
+		- generalQuestion
+DeletePoll()
+	- requires superuser access
+	- delete a poll
+	- params:
+		- pollID (inbuilt primary key of djnago model)
+DeleteGenQuestions()
+	- requires superuser access
+	- delete general question
+	- params:
+		- generalQuestionID (inbuilt primary key of djnago model)
+GenerateYearBook()

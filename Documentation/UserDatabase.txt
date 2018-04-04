@@ -1,15 +1,16 @@
-name -> "string"
-entryNumber -> "string"
-*department -> "string"
-passwordHash -> "string"
-DP -> URL of photo
-Phone -> List of string
-Email -> List of email
-OneLiner -> "string"
-AnswersAboutMyself -> Dictionary <int,string> // "where int is PID of generalQuestions"
-ImagesIUpload -> URL of photo
-VotesIHaveGiven -> Dictionary <int,string> // "where int is PID of Polls, string is entryNumber"
-CommentsIWrite -> [[Comment "string", ForWhom "string", anonymous-"bool"],...] // ForWhom is entryNumber 
-*CommentsIGet -> [[Comment "string", FromWhom "string", DisplayInPdf-"bool"],...] // FromWhom is Name 
+*id					: int
+name 				: string
+entryNumber 		: string
+*department 		: string
+passwordHash 		: string
+DP 					: url photo
+Phone 				: string list
+Email 				: string list
+OneLiner			: string
+AnswersAboutMyself 	: Dictionary <int,string> // int is PID of generalQuestions
+ImagesIUpload 		: url photo list
+VotesIHaveGiven 	: Dictionary <int,string> // int is PID of Polls, string is entryNumber
+CommentsIWrite 		: [Comment: string, ForWhom: string, anonymous: bool] list // ForWhom is entryNumber 
+*CommentsIGet 		: [Comment: string, FromWhom: string, DisplayInPdf: bool] list // FromWhom is Name 
 
 // * means that we won't ask this from the user
