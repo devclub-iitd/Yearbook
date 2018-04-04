@@ -1,3 +1,7 @@
+In order to utilize the authentication offered by Django,we will create a one to one field in our custom User database which points to Django's user
+Read more here: https://docs.djangoproject.com/en/2.0/topics/auth/customizing/#extending-user
+
+
 *id					: int
 name 				: string
 entryNumber 		: string
