@@ -24,10 +24,10 @@ SECRET_KEY = '0)f5-u(p#y^oza438k_i^7*yga2(dno@uw@loap)%kq_l8n=$1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+LOGIN_URL = '/yearbook/'
 ALLOWED_HOSTS = []
 MEDIA_URL = '/media/'
-
+STATIC_URL = '/static/'
 
 # Application definition
 
@@ -119,4 +119,3 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
