@@ -8,5 +8,7 @@ urlpatterns = [
     url(r'^logout/$', views.userlogout, name='logout'),
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^changePassword/$', views.changePassword, name='changePassword'),
+    url(r'^poll/$', views.poll, name='poll'),
+    url(r'^comment/$', views.comment, name='comment'),
 
 ]

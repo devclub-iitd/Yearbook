@@ -33,7 +33,7 @@ class Student(models.Model):
 	CommentsIWrite = JSONField(blank=True)
 	CommensIGet = JSONField(blank=True)
 	def __str__(self):
-		return self.name
+		return self.name 
 
 class ImageModel(models.Model):
 	image = models.ImageField(upload_to=user_directory_path)

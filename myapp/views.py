@@ -22,13 +22,36 @@ def index(request):
 
 @login_required()
 def profile(request):
-	u = User.objects.get(id = request.user.id)
-	# u.AnswersAboutMyself
-	allGenQuestions = GenQuestion.objects.all()
-	allPolls = Poll.objects.all()
-	tmp = [1,2,3]
-	context={"user":u,"questions":allGenQuestions,"polls":allPolls,"tmp":tmp}
-	return render(request, 'myapp/profile.html',context)
+	if request.method=='GET':
+		u = request.user
+		allGenQuestions = GenQuestion.objects.all()
+		UsrObj = Student(name=u.student.name, department=u.student.department,
+			DP=u.student.DP,phone=u.student.phone,email=u.student.email,
+			oneliner=u.student.oneliner,AnswersAboutMyself=u.student.AnswersAboutMyself)
+
+		context={"user":UsrObj,"questions":allGenQuestions}
+		return render(request, 'myapp/profile.html',context)
+
+@login_required()
+def poll(request):
+	if request.method=='GET':
+		u = request.user
+		allPolls = Poll.objects.all()
+		deptPolls = Poll.objects.filter(department=u.student.department)
+		# Create a new object to remove the field of votes
+
+		context={"allPolls":allPolls, "deptPolls":deptPolls}
+		return render(request, 'myapp/poll.html',context)
+
+@login_required()
+def comment(request):
+	if request.method=='GET':
+		u = request.user
+		myComments = u.student.CommentsIWrite
+		# Convert myComments to required types
+		
+		context={"myComments":myComments}
+		return render(request, 'myapp/comment.html',context)
 
 def userlogout(request):
 	logout(request)

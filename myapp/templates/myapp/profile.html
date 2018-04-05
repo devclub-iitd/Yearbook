@@ -5,14 +5,14 @@
 <a href="/yearbook/logout">Logout</a>
 <a href="/yearbook/changePassword">Change Password</a>
 <hr>
-<p>Entry Number : {{ user.username }}</p>
-<p>Name : {{ user.student.name }}</p>
-<p>Department : {{ user.student.department }}</p>
-<img src="{{ user.student.DP.url }}" width="500px"/>
-<p>Phone : {{ user.student.phone }}</p>
-<p>Email : {{ user.student.email }}</p>
-<p>Oneliner : {{ user.student.oneliner }}</p>
-<p>AnswersAboutMyself : {{ user.student.AnswersAboutMyself }}</p>
+<!-- <p>Entry Number : {{ user.username }}</p> -->
+<p>Name : {{ user.name }}</p>
+<p>Department : {{ user.department }}</p>
+<img src="{{ user.DP.url }}" width="500px"/>
+<p>Phone : {{ user.phone }}</p>
+<p>Email : {{ user.email }}</p>
+<p>Oneliner : {{ user.oneliner }}</p>
+<p>AnswersAboutMyself : {{ user.AnswersAboutMyself }}</p>
 <!-- <p>Tmp : {{ tmp }}</p>
 {% for i in user.student.AnswersAboutMyself %}
 	<h4>{{ i }}</option>
