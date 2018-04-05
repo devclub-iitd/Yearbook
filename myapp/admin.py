@@ -26,6 +26,5 @@ class UserAdmin(BaseUserAdmin):
 # Register your models here.
 admin.site.register(Poll)
 admin.site.register(GenQuestion)
-admin.site.register(ImageModel)
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin,)
