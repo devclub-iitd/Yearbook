@@ -32,7 +32,9 @@ class Student(models.Model):
 	VotesIHaveGiven = JSONField(blank=True)
 	CommentsIWrite = JSONField(blank=True)
 	CommensIGet = JSONField(blank=True)
-	
+	def __str__(self):
+		return self.name
+
 class ImageModel(models.Model):
 	image = models.ImageField(upload_to=user_directory_path)
 	student = models.ForeignKey(User,on_delete=models.CASCADE)
