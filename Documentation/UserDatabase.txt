@@ -1,20 +1,29 @@
 In order to utilize the authentication offered by Django,we will create a one to one field in our custom User database which points to Django's user
 Read more here: https://docs.djangoproject.com/en/2.0/topics/auth/customizing/#extending-user
 
-
-*id					: int
+user 				: ForeignKey(User) //User is inbuilt
 name 				: string
-entryNumber 		: string
-*department 		: string
-passwordHash 		: string
+department 			: string
 DP 					: url photo
-Phone 				: string list
-Email 				: string list
-OneLiner			: string
-AnswersAboutMyself 	: Dictionary <int,string> // int is PID of generalQuestions
-ImagesIUpload 		: url photo list
-VotesIHaveGiven 	: Dictionary <int,string> // int is PID of Polls, string is entryNumber
-CommentsIWrite 		: [Comment: string, ForWhom: string, anonymous: bool] list // ForWhom is entryNumber 
-*CommentsIGet 		: [Comment: string, FromWhom: string, DisplayInPdf: bool] list // FromWhom is Name 
+phone 				: string
+email 				: string
+oneLiner			: string
+AnswersAboutMyself 	: {
+							int:string,
+						} // int is PID of generalQuestions
+VotesIHaveGiven 	: {
+						int:string
+					} // int is PID of Polls, string is entryNumber
+CommentsIWrite 		: [{
+						"comment":string,
+						"forWhom":string,
+						"anonymous":bool
+					},
+					]// ForWhom is entryNumber 
+CommentsIGet 		: [{
+						"comment":string,
+						"fromWhom":string,
+						"displayInPdf":bool
+					},
+					][Comment: string, FromWhom: string, DisplayInPdf: bool] list // FromWhom is Name 
 
-// * means that we won't ask this from the user

@@ -1,5 +1,6 @@
 id		 	: int
-Question 	: string
+poll 		: string
 department 	: string // can be "all" which means this poll is open for all departments
-OneLiner 	: string
-Votes 		: Dictionary<string,int>  // where string is entryNumber, int is the vote count
+oneLiner 	: string
+votes 		: {string:int,
+				}  // where string is entryNumber, int is the vote count
