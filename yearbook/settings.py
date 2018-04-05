@@ -26,7 +26,7 @@ SECRET_KEY = '0)f5-u(p#y^oza438k_i^7*yga2(dno@uw@loap)%kq_l8n=$1'
 DEBUG = True
 LOGIN_URL = '/yearbook/'
 ALLOWED_HOSTS = []
-MEDIA_URL = '/media/'
+MEDIA_URL = '/'
 STATIC_URL = '/static/'
 
 # Application definition

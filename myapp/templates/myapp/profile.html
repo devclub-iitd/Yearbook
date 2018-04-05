@@ -1,25 +1,43 @@
-{% extends 'myapp/index.html' %}
-{% block title %}Profile{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %}Profile{% endblock %}</title>
+</head>
+<body>
 {% block body %}
-<h1>Profile</h1>
-<a href="/yearbook/logout">Logout</a>
-<a href="/yearbook/changePassword">Change Password</a>
-<hr>
-<!-- <p>Entry Number : {{ user.username }}</p> -->
-<p>Name : {{ user.name }}</p>
-<p>Department : {{ user.department }}</p>
-<img src="{{ user.DP.url }}" width="500px"/>
-<p>Phone : {{ user.phone }}</p>
-<p>Email : {{ user.email }}</p>
-<p>Oneliner : {{ user.oneliner }}</p>
-<p>AnswersAboutMyself : {{ user.AnswersAboutMyself }}</p>
-<!-- <p>Tmp : {{ tmp }}</p>
-{% for i in user.student.AnswersAboutMyself %}
-	<h4>{{ i }}</option>
-{% endfor %} -->
+	<h1>Profile</h1>
+	<a href="/yearbook/logout">Logout</a>
+	<a href="/yearbook/changePassword">Change Password</a>
+	<hr>
+	<p>Name : {{ user.name }}</p>
+	<p>Department : {{ user.department }}</p>
+	<img src="{{ user.DP.url }}" width="500px"/>
+	<p>Phone : {{ user.phone }}</p>
+	<p>Email : {{ user.email }}</p>
+	<p>Oneliner : {{ user.oneliner }}</p>
 
 
-
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<label>Name: </label>
+		<input type="text" name="name" value="{{ user.name }}">
+		<br>
+		<label>Department: </label>
+		<input type="text" name="department" value="{{ user.department }}" readonly="readonly">
+		<br>
+		<label>Phone: </label>
+		<input type="text" name="phone" value="{{ user.phone }}">
+		<br>
+		<label>Email: </label>
+		<input type="email" name="email" value="{{ user.email }}">
+		<br>
+		<label>Oneliner: </label>
+		<input type="text" name="oneliner" value="{{ user.oneliner }}">
+		<br>
+		<button>Edit</button>
+	</form>
 
 
 {% endblock %}
+</body>
+</html>
