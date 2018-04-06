@@ -15,7 +15,7 @@ class GenQuestion(models.Model):
 class Poll(models.Model):
 	poll = models.CharField(max_length=200)
 	department = models.CharField(max_length=200)
-	votes = JSONField(blank=True)
+	votes = JSONField(blank=True,default=dict)
 	def __str__(self):
 		return self.poll
 
@@ -29,10 +29,10 @@ class Student(models.Model):
 	phone = models.CharField(max_length=10,blank=True)
 	email = models.CharField(max_length=100,blank=True)
 	oneliner = models.CharField(max_length=100,blank=True)
-	AnswersAboutMyself = JSONField(blank=True)
-	VotesIHaveGiven = JSONField(blank=True)
-	CommentsIWrite = JSONField(blank=True)
-	CommensIGet = JSONField(blank=True)
+	AnswersAboutMyself = JSONField(blank=True,default=dict)
+	VotesIHaveGiven = JSONField(blank=True,default=dict)
+	CommentsIWrite = JSONField(blank=True,default=dict)
+	CommensIGet = JSONField(blank=True,default=dict)
 	def __str__(self):
 		return self.name 
 
