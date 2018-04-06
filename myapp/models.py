@@ -31,7 +31,7 @@ class Student(models.Model):
 	email = models.CharField(max_length=100,blank=True)
 	oneliner = models.CharField(max_length=100,blank=True)
 	AnswersAboutMyself = JSONField(blank=True)
-	VotesIHaveGiven = JSONField(blank=True)
+	VotesIHavotesveGiven = JSONField(blank=True)
 	CommentsIWrite = JSONField(blank=True)
 	CommensIGet = JSONField(blank=True)
 	def __str__(self):

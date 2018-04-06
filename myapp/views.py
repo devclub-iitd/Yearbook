@@ -45,15 +45,35 @@ def answerMyself(request):
 
 @login_required()
 def poll(request):
+	u = request.user
 	if request.method=='GET':
-		u = request.user
 		allPolls = Poll.objects.filter(department="all")
 		deptPolls = Poll.objects.filter(department=u.student.department)
-		# Create a new object to remove the field of votes
-
-		context={"allPolls":allPolls, "deptPolls":deptPolls}
+		
+		# Create a new object to set the field of votes to null
+		for p in allPolls:
+			p.votes = {}
+		for p in deptPolls:
+			p.votes = {}	
+		# Change the following line to suit front end needs 
+		VotesDisplay = u.student.VotesIHaveGiven
+	
+		context={"allPolls":allPolls, "deptPolls":deptPolls, "VotesToPrint":VotesDisplay}
 		return render(request, 'myapp/poll.html',context)
 
+	# if POST request 
+	fetchPoll = Poll.objects.get(id = request.POST['id'])
+	OldVote = u.student.VotesIHaveGiven.has_key[request.POST['id']]
+	if OldVote==False:
+		fetchPoll.votes[request.POST['entryNumber']] = fetchPoll.votes[request.POST['entryNumber']] + 1	
+	else
+		fetchPoll.votes[OldVote] = fetchPoll.votes[OldVote] - 1	
+		fetchPoll.votes[request.POST['entryNumber']] = fetchPoll.votes[request.POST['entryNumber']] + 1	
+	u.student.VotesIHaveGiven[request.POST['id']] = request.POST['entryNumber']		
+	fetchPoll.save()
+	u.save()
+	return redirect("myapp/poll.html")
+		
 @login_required()
 def comment(request):
 	if request.method=='GET':
