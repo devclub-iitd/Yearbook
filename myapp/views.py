@@ -41,8 +41,20 @@ def profile(request):
 
 @login_required
 def answerMyself(request):
-	pass
-
+	u = request.user
+	if request.method=='GET':
+		GenQuestions = GenQuestion.objects.all()
+		AnswersDisplay = u.student.AnswersAboutMyself
+		gen_GenQuestions = []
+		for q in GenQuestions:
+			gen_GenQuestions.append([q.id,q.question,""])
+			if (AnswersDisplay.has_key(str(q.id))):
+				gen_GenQuestions[-1][-1] = AnswersDisplay[str(q.id)]
+		context={"genQuestions":gen_GenQuestions}
+		return render(request, 'myapp/answers.html',context)
+	u.student.AnswersAboutMyself[request.POST['id']] = request.POST['answer']
+	u.student.save()
+	return redirect('/yearbook/answer')	
 @login_required()
 def poll(request):
 	u = request.user
