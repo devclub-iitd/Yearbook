@@ -49,30 +49,39 @@ def poll(request):
 	if request.method=='GET':
 		allPolls = Poll.objects.filter(department="all")
 		deptPolls = Poll.objects.filter(department=u.student.department)
-		
-		# Create a new object to set the field of votes to null
-		for p in allPolls:
-			p.votes = {}
-		for p in deptPolls:
-			p.votes = {}	
-		# Change the following line to suit front end needs 
 		VotesDisplay = u.student.VotesIHaveGiven
+		gen_allPolls=[]
+		gen_deptPolls=[]
+		for p in allPolls:
+			gen_allPolls.append([p.id,p.poll,""])
+			if (VotesDisplay.has_key(str(p.id))):
+				gen_allPolls[-1][-1]=VotesDisplay[str(p.id)]
+		for p in deptPolls:
+			gen_deptPolls.append([p.id,p.poll,""])
+			if (VotesDisplay.has_key(str(p.id))):
+				gen_deptPolls[-1][-1]=VotesDisplay[str(p.id)]
 	
-		context={"allPolls":allPolls, "deptPolls":deptPolls, "VotesToPrint":VotesDisplay}
+		context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls}
 		return render(request, 'myapp/poll.html',context)
 
 	# if POST request 
-	fetchPoll = Poll.objects.get(id = request.POST['id'])
-	OldVote = u.student.VotesIHaveGiven.has_key[request.POST['id']]
-	if OldVote==False:
-		fetchPoll.votes[request.POST['entryNumber']] = fetchPoll.votes[request.POST['entryNumber']] + 1	
-	else
-		fetchPoll.votes[OldVote] = fetchPoll.votes[OldVote] - 1	
-		fetchPoll.votes[request.POST['entryNumber']] = fetchPoll.votes[request.POST['entryNumber']] + 1	
-	u.student.VotesIHaveGiven[request.POST['id']] = request.POST['entryNumber']		
+	fetchPoll = ""
+	if Poll.objects.filter(id = request.POST['id']).exists():
+		fetchPoll = Poll.objects.get(id = request.POST['id'])
+	else:
+		return redirect("/yearbook/poll")
+	if (u.student.VotesIHaveGiven.has_key(request.POST['id'])):
+		OldVotePresent = u.student.VotesIHaveGiven[request.POST['id']]
+		fetchPoll.votes[OldVotePresent] = fetchPoll.votes[OldVotePresent] - 1	
+	
+	if(fetchPoll.votes.has_key(request.POST['entrynumber'])):
+		fetchPoll.votes[request.POST['entrynumber']] = fetchPoll.votes[request.POST['entrynumber']] + 1	
+	else:
+		fetchPoll.votes[request.POST['entrynumber']] = 1
+	u.student.VotesIHaveGiven[request.POST['id']] = request.POST['entrynumber']		
 	fetchPoll.save()
-	u.save()
-	return redirect("myapp/poll.html")
+	u.student.save()
+	return redirect("/yearbook/poll")
 		
 @login_required()
 def comment(request):
