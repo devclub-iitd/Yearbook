@@ -97,16 +97,51 @@ def poll(request):
 		
 @login_required()
 def comment(request):
+	u = request.user
 	if request.method=='GET':
-		u = request.user
 		myComments = u.student.CommentsIWrite
-		# Convert myComments to required types
-		
-		context={"myComments":myComments}
+		gen_comments = []
+		for c in myComments:
+			gen_comments.append([c["comment"],c["forWhom"]])
+		context={"comments":gen_comments}
 		return render(request, 'myapp/comment.html',context)
+	for c in u.student.CommentsIWrite:
+		if c["forWhom"]==request.POST["forWhom"]:#updating an already written message
+			c["comment"]=request.POST["val"]
+			u_new = User.objects.get(username=request.POST["forWhom"])#add a not found check
+			for c_new in u_new.student.CommentsIGet:
+				if c_new["fromWhom"]==u.username:
+					c_new["comment"]=request.POST["val"]
+					break
+			u_new.student.save()
+			break
+	else:
+		u.student.CommentsIWrite.append({"comment":request.POST["val"],"forWhom":request.POST["forWhom"]})
+		u_new = User.objects.get(username=request.POST["forWhom"])#add a not found check
+		u_new.student.CommentsIGet.append({"comment":request.POST["val"],"fromWhom":u.username,"displayInPdf":"True"})
+		u_new.student.save()
+	u.student.save()
+	return redirect('/yearbook/comment')
+
 @login_required()
 def otherComment(request):
-	pass
+	u = request.user
+	if request.method=='GET':
+		CommentsIGet = u.student.CommentsIGet
+		gen_comments=[]
+		for c in CommentsIGet:
+			gen_comments.append([c["comment"],c["fromWhom"],c["displayInPdf"]])
+		context={"comments":gen_comments}
+		print gen_comments
+		return render(request, 'myapp/otherComment.html',context)
+	for c in u.student.CommentsIGet:
+		if c["fromWhom"]==request.POST["fromWhom"]:
+			c["displayInPdf"]=request.POST["val"]
+			break
+	u.student.save()
+	return redirect('/yearbook/otherComment')
+
+
 
 def userlogout(request):
 	logout(request)

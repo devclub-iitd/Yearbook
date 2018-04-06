@@ -31,8 +31,8 @@ class Student(models.Model):
 	oneliner = models.CharField(max_length=100,blank=True)
 	AnswersAboutMyself = JSONField(blank=True,default=dict)
 	VotesIHaveGiven = JSONField(blank=True,default=dict)
-	CommentsIWrite = JSONField(blank=True,default=dict)
-	CommensIGet = JSONField(blank=True,default=dict)
+	CommentsIWrite = JSONField(blank=True,default=list)
+	CommentsIGet = JSONField(blank=True,default=list)
 	def __str__(self):
 		return self.name 
 

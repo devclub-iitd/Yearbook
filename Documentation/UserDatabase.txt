@@ -17,13 +17,12 @@ VotesIHaveGiven 	: {
 CommentsIWrite 		: [{
 						"comment":string,
 						"forWhom":string,
-						"anonymous":bool
 					},
 					]// ForWhom is entryNumber 
 CommentsIGet 		: [{
 						"comment":string,
 						"fromWhom":string,
-						"displayInPdf":bool
+						"displayInPdf":string
 					},
 					][Comment: string, FromWhom: string, DisplayInPdf: bool] list // FromWhom is Name 
 
