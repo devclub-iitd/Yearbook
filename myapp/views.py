@@ -91,11 +91,13 @@ def poll(request):
 			OldVotePresent = u.student.VotesIHaveGiven[request.POST.getlist('id[]')[i]]
 			fetchPoll.votes[OldVotePresent] = fetchPoll.votes[OldVotePresent] - 1	
 		
-		if(fetchPoll.votes.has_key(request.POST.getlist('entrynumber[]')[i])):
-			fetchPoll.votes[request.POST.getlist('entrynumber[]')[i]] = fetchPoll.votes[request.POST.getlist('entrynumber[]')[i]] + 1	
+		lowerEntry = (request.POST.getlist('entrynumber[]')[i]).lower()
+
+		if(fetchPoll.votes.has_key(lowerEntry)):
+			fetchPoll.votes[lowerEntry] = fetchPoll.votes[lowerEntry] + 1	
 		else:
-			fetchPoll.votes[request.POST.getlist('entrynumber[]')[i]] = 1
-		u.student.VotesIHaveGiven[request.POST.getlist('id[]')[i]] = request.POST.getlist('entrynumber[]')[i]		
+			fetchPoll.votes[lowerEntry] = 1
+		u.student.VotesIHaveGiven[request.POST.getlist('id[]')[i]] = lowerEntry		
 		fetchPoll.save()
 		u.student.save()
 	return redirect("/yearbook/poll")
@@ -112,10 +114,11 @@ def comment(request):
 		return render(request, 'myapp/comment.html',context)
 	# print len(request.POST.getlist('forWhom[]'))
 	for i in range(len(request.POST.getlist('forWhom[]'))):
+		lowerEntry = (request.POST.getlist('forWhom[]')[i]).lower()
 		for c in u.student.CommentsIWrite:
-			if c["forWhom"]==request.POST.getlist('forWhom[]')[i]:#updating an already written message
+			if c["forWhom"]==lowerEntry: #updating an already written message
 				c["comment"]=request.POST.getlist('val[]')[i]
-				u_new = User.objects.get(username=request.POST.getlist('forWhom[]')[i])#add a not found check
+				u_new = User.objects.get(username=lowerEntry) #add a not found check
 				for c_new in u_new.student.CommentsIGet:
 					if c_new["fromWhom"]==u.username:
 						c_new["comment"]=request.POST.getlist('val[]')[i]
@@ -123,8 +126,8 @@ def comment(request):
 				u_new.student.save()
 				break
 		else:
-			u.student.CommentsIWrite.append({"comment":request.POST.getlist('val[]')[i],"forWhom":request.POST.getlist('forWhom[]')[i]})
-			u_new = User.objects.get(username=request.POST.getlist('forWhom[]')[i])#add a not found check
+			u.student.CommentsIWrite.append({"comment":request.POST.getlist('val[]')[i],"forWhom":lowerEntry})
+			u_new = User.objects.get(username=lowerEntry)#add a not found check
 			u_new.student.CommentsIGet.append({"comment":request.POST.getlist('val[]')[i],"fromWhom":u.username,"displayInPdf":"True"})
 			u_new.student.save()
 		u.student.save()
@@ -142,8 +145,9 @@ def otherComment(request):
 		return render(request, 'myapp/otherComment.html',context)
 	# print request.POST.getlist('val[]')
 	for i in range(len(request.POST.getlist('fromWhom[]'))):
+		lowerEntry = (request.POST.getlist('fromWhom[]')[i]).lower()
 		for c in u.student.CommentsIGet:
-			if c["fromWhom"]==request.POST.getlist('fromWhom[]')[i]:
+			if c["fromWhom"]==lowerEntry:
 				c["displayInPdf"]=request.POST.getlist('val[]')[i]
 				break
 		u.student.save()
