@@ -1,2 +1,0 @@
-image 		: ImageField
-student		: ForeignKey(User) //User is inbuilt

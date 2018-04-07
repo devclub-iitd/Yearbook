@@ -9,10 +9,10 @@ phone 				: string
 email 				: string
 oneLiner			: string
 AnswersAboutMyself 	: {
-							int:string,
+							string:string,
 						} // int is PID of generalQuestions
 VotesIHaveGiven 	: {
-						int:string
+						string:string
 					} // int is PID of Polls, string is entryNumber
 CommentsIWrite 		: [{
 						"comment":string,
