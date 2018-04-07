@@ -12,7 +12,8 @@ from .models import *
 # Create your views here.
 def index(request):
 	if request.method=='POST':
-		user = authenticate(request,username=request.POST['username'],password=request.POST['password'])
+		lowerUsername = (request.POST['username']).lower()
+		user = authenticate(request,username=lowerUsername,password=request.POST['password'])
 		if (user is not None) and (user.is_superuser==False):
 			login(request,user)
 			return redirect('/yearbook/profile')
