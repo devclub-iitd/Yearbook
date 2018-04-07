@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %}Profile{% endblock %}</title>
+</head>
+<body>
+{% block body %}
+	<h1>Profile</h1>
+	<a href="/yearbook/logout">Logout</a>
+	<a href="/yearbook/otherComment">Other Comment</a>
+	<a href="/yearbook/comment">Comment</a>
+	<a href="/yearbook/answer">Answer</a>
+	<a href="/yearbook/changePassword">Change Password</a>
+	<a href="/yearbook/poll">Poll</a>
+
+	<hr>
+	<p>Name : {{ user.name }}</p>
+	{% if user.DP %}
+		<img src={{user.DP.url}}>
+	{% endif %}
+	<p>Department : {{ user.department }}</p>
+	<p>Phone : {{ user.phone }}</p>
+	<p>Email : {{ user.email }}</p>
+	<p>Oneliner : {{ user.oneliner }}</p>
+	{% if user.genPic1 %}
+		<img src={{user.genPic1.url}}>
+	{% endif %}
+	{% if user.genPic2 %}
+		<img src={{user.genPic2.url}}>
+	{% endif %}
+
+
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<label>Name: </label>
+		<input type="text" name="name" value="{{ user.name }}">
+		<br>
+		<label>DP: </label>
+		<input type="file" name="dp">
+		<br>
+		<label>Department: </label>
+		<input type="text" name="department" value="{{ user.department }}" readonly="readonly">
+		<br>
+		<label>Phone: </label>
+		<input type="text" name="phone" value="{{ user.phone }}">
+		<br>
+		<label>Email: </label>
+		<input type="email" name="email" value="{{ user.email }}">
+		<br>
+		<label>Oneliner: </label>
+		<input type="text" name="oneliner" value="{{ user.oneliner }}">
+		<br>
+		<label>Group pic 1: </label>
+		<input type="file" name="genPic1">
+		<br>
+		<label>Group pic 2: </label>
+		<input type="file" name="genPic2">
+		<br>
+		<button>Edit</button>
+	</form>
+
+
+{% endblock %}
+</body>
+</html>

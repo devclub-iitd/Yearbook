@@ -1,41 +1,60 @@
 {% extends 'myapp/profile.html' %}
 {% block title %}Poll{% endblock %}
 {% block body %}
-	<h1>Poll</h1>
-	<a href="/yearbook/logout">Logout</a>
-	<a href="/yearbook/profile">Profile</a>
-	<a href="/yearbook/answer">Answer</a>
-	<a href="/yearbook/changePassword">Change Password</a>
-	<hr>
-	<h2>All Polls</h2>
-	<form method="POST" enctype="multipart/form-data">
-		{% csrf_token %}
-		{% for id,poll,val in allPolls %}
-			<p>Title : {{ poll }}</p>
-				<label>Id: </label>
-				<input type="text" name="id[]" value="{{ id }}" readonly="readonly">
-				<br>
-				<label>Vote for: </label>
-				<input type="text" name="entrynumber[]" value="{{ val }}">
-				<br>
-		{% endfor %}
-		<button>Vote</button>
-	</form>
-	<hr>
-	<h2>Department Polls</h2>
-	<form method="POST" enctype="multipart/form-data">
-		{% csrf_token %}
-		{% for id,poll,val in deptPolls %}
-			<p>Title : {{ poll }}</p>
-				<label>Id: </label>
-				<input type="text" name="id[]" value="{{ id }}" readonly="readonly">
-				<br>
-				<label>Vote for: </label>
-				<input type="text" name="entrynumber[]" value="{{ val }}">
-				<br>
-		{% endfor %}
-		<button>Vote</button>
-	</form>
+	{% if allPolls %}
+		<div class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
+			<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
+				{% csrf_token %}
+				<span class="login100-form-title p-b-37">
+					All polls
+				</span>
+				{% for id,poll,val in allPolls %}
+					<h5>{{ poll }}</h5>
+					<input style="display: none" type="text" name="id[]" value="{{ id }}" readonly="readonly">
+					<div class="wrap-input100 validate-input m-b-20">
+						<input class="input100" type="text" name="entrynumber[]" value="{{ val }}" placeholder="Vote for someone">
+						<span class="focus-input100"></span>
+					</div>
+					<hr>
+				{% endfor %}
+				<div class="container-login100-form-btn">
+					<button class="login100-form-btn">
+						Vote
+					</button>
+				</div>
+			</form>			
+		</div>
+	{% endif %}
+	{% if deptPolls %}
+		<div style="margin-left: 20px" class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
+			<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
+				{% csrf_token %}
+				<span class="login100-form-title p-b-37">
+					Department polls
+				</span>
+				{% for id,poll,val in deptPolls %}
+					<h5>{{ poll }}</h5>
+					<input style="display: none" type="text" name="id[]" value="{{ id }}" readonly="readonly">
+					<div class="wrap-input100 validate-input m-b-20">
+						<!-- <input class="input100" type="text" name="entrynumber[]" value="{{ val }}" placeholder="Vote for someone"> -->
+						<input class="input100" list="students" name="entrynumber[]" value="{{ val }}" placeholder="Vote for someone" autocomplete="off">
+						<datalist id="students" scrollable>
+							{% for user in users %}
+								<option value="{{user.username}}" >{{user.student.name}}</option>
+							{% endfor %}
+						</datalist>
+						<span class="focus-input100"></span>
+					</div>
+					<hr>
+				{% endfor %}
+				<div class="container-login100-form-btn">
+					<button class="login100-form-btn">
+						Vote
+					</button>
+				</div>
+			</form>			
+		</div>
+	{% endif %}
 {% endblock %}
 </body>
 </html>

@@ -1,0 +1,29 @@
+{% extends 'myapp/profile.html' %}
+{% block title %}Answers{% endblock %}
+{% block body %}
+	<h1>Answers</h1>
+	<a href="/yearbook/logout">Logout</a>
+	<a href="/yearbook/profile">Profile</a>
+	<a href="/yearbook/otherComment">Other Comment</a>
+	<a href="/yearbook/poll">Poll</a>
+	<a href="/yearbook/changePassword">Change Password</a>
+	<hr>
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{% for id,question,val in genQuestions %}
+			<p>Title : {{ question }}</p>
+				<label>Id: </label>
+				<input type="text" name="id[]" value="{{ id }}" readonly="readonly">
+				<br>
+				<label>Answer for: </label>
+				<input type="text" name="answer[]" value="{{ val }}">
+				<br>
+		{% endfor %}
+		<button>Answer</button>
+	</form>
+
+
+
+{% endblock %}
+</body>
+</html>

@@ -26,8 +26,7 @@ SECRET_KEY = '0)f5-u(p#y^oza438k_i^7*yga2(dno@uw@loap)%kq_l8n=$1'
 DEBUG = True
 LOGIN_URL = '/yearbook/'
 ALLOWED_HOSTS = []
-MEDIA_URL = '/'
-STATIC_URL = '/static/'
+
 
 # Application definition
 
@@ -114,6 +113,12 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+MEDIA_URL = '/myapp/media/'
+STATIC_URL = '/myapp/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/myapp/static/myapp')
+
 
 
 # Static files (CSS, JavaScript, Images)

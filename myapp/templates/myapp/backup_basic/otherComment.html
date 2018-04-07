@@ -1,0 +1,40 @@
+{% extends 'myapp/profile.html' %}
+{% block title %}Other comments{% endblock %}
+{% block body %}
+	<h1>Other Comments</h1>
+	<a href="/yearbook/logout">Logout</a>
+	<a href="/yearbook/profile">Profile</a>
+	<a href="/yearbook/poll">Poll</a>
+	<a href="/yearbook/otherComment">Other Comment</a>
+	<a href="/yearbook/changePassword">Change Password</a>
+	<hr>
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{% for comment,fromWhom,displayInPdf in comments %}
+			<p>Comment : {{ comment }}</p>
+				<label>From whom: </label>
+				<input type="text" name="fromWhom[]" value="{{ fromWhom }}" readonly="readonly">
+				<br>
+				<label>Display in pdf: </label>
+				{% if displayInPdf == 'True' %}
+					<select name = "val[]" >
+						<option value="True">Yes</option>
+						<option value="False">No</option>
+					</select>
+					<br>
+				{% else %}
+					<select name = "val[]" >
+						<option value="False">No</option>
+						<option value="True">Yes</option>
+					</select>
+					<br>
+				{% endif %}
+		{% endfor %}
+		<button>Answer</button>
+	</form>
+
+
+
+{% endblock %}
+</body>
+</html>

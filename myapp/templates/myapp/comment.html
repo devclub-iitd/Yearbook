@@ -1,40 +1,58 @@
 {% extends 'myapp/profile.html' %}
 {% block title %}My comments{% endblock %}
 {% block body %}
-	<h1>Comments</h1>
-	<a href="/yearbook/logout">Logout</a>
-	<a href="/yearbook/profile">Profile</a>
-	<a href="/yearbook/poll">Poll</a>
-	<a href="/yearbook/otherComment">Other Comment</a>
-	<a href="/yearbook/comment">Comment</a>
-	<a href="/yearbook/changePassword">Change Password</a>
-	<hr>
-		<form method="POST" enctype="multipart/form-data">
+	{% if comments  %}
+	<div class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
+		<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
 			{% csrf_token %}
+			<span class="login100-form-title p-b-37">
+				Comments already written
+			</span>
 			{% for comment,forWhom in comments %}
-				<label>For whom: </label>
-				<input type="text" name="forWhom[]" value="{{ forWhom }}" readonly="readonly">
+				<label>For : {{ forWhom }}</label>
+				<input style="display:none" type="text" name="forWhom[]" value="{{ forWhom }}" readonly="readonly">
 				<br>
-				<label>Comment: </label>
-				<input type="text" name="val[]" value="{{ comment }}">
-				<br>
+				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
+					<input class="input100" type="text" name="val[]" value="{{ comment }}" placeholder="Comment">
+					<span class="focus-input100"></span>
+				</div>
 				<hr>
 			{% endfor %}
-			<button>Comment</button>
-		</form>
-	<hr>
-	<h3>New comment</h3>
-	<form method="POST" enctype="multipart/form-data">
-		{% csrf_token %}
-		<label>For whom: </label>
-		<input type="text" name="forWhom[]" >
-		<br>
-		<label>Comment: </label>
-		<input type="text" name="val[]" >
-		<button>Comment</button>
-	</form>
-
-
+			<div class="container-login100-form-btn">
+				<button class="login100-form-btn">
+					Edit my comments
+				</button>
+			</div>
+		</form>			
+	</div>
+	{% endif %}
+	<div style="margin-left: 20px" class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
+		<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			<span class="login100-form-title p-b-37">
+				New Comment
+			</span>
+			<div class="wrap-input100 validate-input m-b-20">
+				<!-- <input class="input100" type="text" name="forWhom[]" placeholder="for whom"> -->
+				<input class="input100" list="students" name="forWhom[]" placeholder="for whom" autocomplete="off">
+				<datalist id="students" scrollable>
+					{% for user in users %}
+						<option value="{{user.username}}" >{{user.student.name}}</option>
+					{% endfor %}
+				</datalist>
+				<span class="focus-input100"></span>
+			</div>
+			<div class="wrap-input100 validate-input m-b-20">
+				<input class="input100" type="text" name="val[]" placeholder="Comment">
+				<span class="focus-input100"></span>
+			</div>
+			<div class="container-login100-form-btn">
+				<button class="login100-form-btn">
+					New comment
+				</button>
+			</div>
+		</form>			
+	</div>
 {% endblock %}
 </body>
 </html>

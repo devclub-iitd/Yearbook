@@ -28,9 +28,13 @@ def profile(request):
 	if request.method=='GET':
 		UsrObj = Student(name=u.student.name, department=u.student.department,
 			DP=u.student.DP,phone=u.student.phone,email=u.student.email,
-			oneliner=u.student.oneliner)
+			oneliner=u.student.oneliner,genPic1=u.student.genPic1,genPic2=u.student.genPic2)
 		context={"user":UsrObj}
 		return render(request, 'myapp/profile.html',context)
+	print request.FILES.get('dp')
+	u.student.DP = request.FILES.get('dp')
+	u.student.genPic1 = request.FILES.get('genPic1')
+	u.student.genPic2 = request.FILES.get('genPic2')
 	u.student.name = request.POST['name']
 	u.student.phone = request.POST['phone']
 	u.student.email = request.POST['email']
@@ -65,6 +69,7 @@ def answerMyself(request):
 def poll(request):
 	u = request.user
 	if request.method=='GET':
+		users_all = User.objects.filter(is_superuser=False,username="2016cs50394").order_by('username')
 		allPolls = Poll.objects.filter(department="all")
 		deptPolls = Poll.objects.filter(department=u.student.department)
 		VotesDisplay = u.student.VotesIHaveGiven
@@ -79,11 +84,11 @@ def poll(request):
 			if (VotesDisplay.has_key(str(p.id))):
 				gen_deptPolls[-1][-1]=VotesDisplay[str(p.id)]
 	
-		context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls}
+		context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users_all}
 		return render(request, 'myapp/poll.html',context)
 
 	# if POST request 
-	# print request.POST.getlist('entrynumber[]')
+	print request.POST.getlist('entrynumber[]')
 	for i in range(len(request.POST.getlist('entrynumber[]'))):
 		fetchPoll = ""
 		if Poll.objects.filter(id = request.POST.getlist('id[]')[i]).exists():
@@ -117,13 +122,14 @@ def poll(request):
 def comment(request):
 	u = request.user
 	if request.method=='GET':
+		users_all = User.objects.filter(is_superuser=False).order_by('username') #we pass this to display options, remove self user
 		myComments = u.student.CommentsIWrite
 		gen_comments = []
 		for c in myComments:
 			gen_comments.append([c["comment"],c["forWhom"]])
-		context={"comments":gen_comments}
+		context={"comments":gen_comments,"users":users_all}
 		return render(request, 'myapp/comment.html',context)
-	# print len(request.POST.getlist('forWhom[]'))
+	print (request.POST.getlist('forWhom[]'))
 	for i in range(len(request.POST.getlist('forWhom[]'))):
 		lowerEntry = (request.POST.getlist('forWhom[]')[i]).lower()
 		for c in u.student.CommentsIWrite:
@@ -146,6 +152,7 @@ def comment(request):
 			if (User.objects.filter(username = lowerEntry).exists() and (u.username.lower() != lowerEntry)):
 				u_new = User.objects.get(username=lowerEntry)
 			else:
+				print User.objects.filter(username = lowerEntry).exists()
 				return redirect('/yearbook/comment')
 			u_new.student.CommentsIGet.append({"comment":request.POST.getlist('val[]')[i],"fromWhom":u.username,"displayInPdf":"True"})
 			u_new.student.save()

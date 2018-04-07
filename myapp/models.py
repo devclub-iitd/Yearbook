@@ -5,7 +5,7 @@ from jsonfield import JSONField
 from django.contrib.auth.models import User
 
 def user_directory_path(instance, filename):
-	return 'media/{0}/{1}'.format(instance.department, filename)
+	return '{0}/{1}'.format(instance.department, filename)
 # Create your models here.
 class GenQuestion(models.Model):
 	question = models.CharField(max_length=200)
@@ -23,7 +23,7 @@ class Student(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	name = models.CharField(max_length=100,blank=True)
 	department = models.CharField(max_length=100)
-	DP = models.ImageField(upload_to="media/DP",blank=True)
+	DP = models.ImageField(upload_to="DP",blank=True)
 	genPic1 = models.ImageField(upload_to=user_directory_path,blank=True)
 	genPic2 = models.ImageField(upload_to=user_directory_path,blank=True)
 	phone = models.CharField(max_length=10,blank=True)

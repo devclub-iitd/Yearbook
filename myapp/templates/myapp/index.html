@@ -1,24 +1,52 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<title>{% block title %}Index{% endblock %}</title>
-	<link rel="stylesheet" type="text/css" href="{% static 'myapp/style.css'%}">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'myapp/css/main.css'%}">
+	<link rel="stylesheet" type="text/css" href="{% static 'myapp/css/util.css'%}">
+<!--===============================================================================================-->
 </head>
 <body>
+	
 	{% block body %}
-		<h1>Welcome</h1>
-		<h2>Login</h2>
-		<form method="POST" enctype="multipart/form-data">
-			{% csrf_token %}
-			<label>Entrynumber: </label>
-			<input type="text" name="username">
-			<br>
-			<label>Password: </label>
-			<input type="password" name="password">
-			<br>
-			<button>Login</button>
-		</form>
+	<div class="container-login100">
+		<div class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
+			<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
+				{% csrf_token %}
+				<span class="login100-form-title p-b-37">
+					Yearbook
+				</span>
+
+				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
+					<input class="input100" type="text" name="username" placeholder="Entrynumber">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100 validate-input m-b-25" data-validate = "Enter password">
+					<input class="input100" type="password" name="password" placeholder="password">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="container-login100-form-btn">
+					<button class="login100-form-btn">
+						Sign In
+					</button>
+				</div>
+			</form>			
+		</div>
+	</div>
 	{% endblock %}
+	
+<!--===============================================================================================-->
+	<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
 </body>
 </html>

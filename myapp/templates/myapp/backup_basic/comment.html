@@ -1,0 +1,40 @@
+{% extends 'myapp/profile.html' %}
+{% block title %}My comments{% endblock %}
+{% block body %}
+	<h1>Comments</h1>
+	<a href="/yearbook/logout">Logout</a>
+	<a href="/yearbook/profile">Profile</a>
+	<a href="/yearbook/poll">Poll</a>
+	<a href="/yearbook/otherComment">Other Comment</a>
+	<a href="/yearbook/comment">Comment</a>
+	<a href="/yearbook/changePassword">Change Password</a>
+	<hr>
+		<form method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			{% for comment,forWhom in comments %}
+				<label>For whom: </label>
+				<input type="text" name="forWhom[]" value="{{ forWhom }}" readonly="readonly">
+				<br>
+				<label>Comment: </label>
+				<input type="text" name="val[]" value="{{ comment }}">
+				<br>
+				<hr>
+			{% endfor %}
+			<button>Comment</button>
+		</form>
+	<hr>
+	<h3>New comment</h3>
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<label>For whom: </label>
+		<input type="text" name="forWhom[]" >
+		<br>
+		<label>Comment: </label>
+		<input type="text" name="val[]" >
+		<button>Comment</button>
+	</form>
+
+
+{% endblock %}
+</body>
+</html>
