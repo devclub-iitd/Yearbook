@@ -55,7 +55,10 @@ def answerMyself(request):
 		return render(request, 'myapp/answers.html',context)
 	# print request.POST.getlist('answer[]')
 	for i in range(len(request.POST.getlist('answer[]'))):
-		u.student.AnswersAboutMyself[request.POST.getlist('id[]')[i]] = request.POST.getlist('answer[]')[i]
+		if GenQuestion.objects.filter(id = request.POST.getlist('id[]')[i]).exists():
+			u.student.AnswersAboutMyself[request.POST.getlist('id[]')[i]] = request.POST.getlist('answer[]')[i]
+		else:
+			return redirect('/yearbook/answer')
 		u.student.save()
 	return redirect('/yearbook/answer')	
 @login_required()
@@ -96,7 +99,15 @@ def poll(request):
 		if(fetchPoll.votes.has_key(lowerEntry)):
 			fetchPoll.votes[lowerEntry] = fetchPoll.votes[lowerEntry] + 1	
 		else:
-			fetchPoll.votes[lowerEntry] = 1
+			toVoteDepartment = (User.objects.get(username=lowerEntry)).student.department
+			# A not found check for poll and Cannot vote oneself
+			if (User.objects.filter(username = lowerEntry).exists() and (lowerEntry != u.username.lower())):
+				if ((fetchPoll.department.lower() == "all") or (fetchPoll.department.lower() == toVoteDepartment.lower())):		
+					fetchPoll.votes[lowerEntry] = 1
+				else:
+					return redirect("/yearbook/poll")		
+			else:
+				return redirect("/yearbook/poll")
 		u.student.VotesIHaveGiven[request.POST.getlist('id[]')[i]] = lowerEntry		
 		fetchPoll.save()
 		u.student.save()
@@ -118,7 +129,11 @@ def comment(request):
 		for c in u.student.CommentsIWrite:
 			if c["forWhom"]==lowerEntry: #updating an already written message
 				c["comment"]=request.POST.getlist('val[]')[i]
-				u_new = User.objects.get(username=lowerEntry) #add a not found check
+				# A not found check for the user
+				if (User.objects.filter(username = lowerEntry).exists() and (u.username.lower() != lowerEntry)):
+					u_new = User.objects.get(username=lowerEntry) 
+				else:
+					return redirect('/yearbook/comment')
 				for c_new in u_new.student.CommentsIGet:
 					if c_new["fromWhom"]==u.username:
 						c_new["comment"]=request.POST.getlist('val[]')[i]
@@ -127,7 +142,11 @@ def comment(request):
 				break
 		else:
 			u.student.CommentsIWrite.append({"comment":request.POST.getlist('val[]')[i],"forWhom":lowerEntry})
-			u_new = User.objects.get(username=lowerEntry)#add a not found check
+			# A not found check of user and I cant comment for myself
+			if (User.objects.filter(username = lowerEntry).exists() and (u.username.lower() != lowerEntry)):
+				u_new = User.objects.get(username=lowerEntry)
+			else:
+				return redirect('/yearbook/comment')
 			u_new.student.CommentsIGet.append({"comment":request.POST.getlist('val[]')[i],"fromWhom":u.username,"displayInPdf":"True"})
 			u_new.student.save()
 		u.student.save()
