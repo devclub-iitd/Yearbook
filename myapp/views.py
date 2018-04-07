@@ -52,8 +52,10 @@ def answerMyself(request):
 				gen_GenQuestions[-1][-1] = AnswersDisplay[str(q.id)]
 		context={"genQuestions":gen_GenQuestions}
 		return render(request, 'myapp/answers.html',context)
-	u.student.AnswersAboutMyself[request.POST['id']] = request.POST['answer']
-	u.student.save()
+	# print request.POST.getlist('answer[]')
+	for i in range(len(request.POST.getlist('answer[]'))):
+		u.student.AnswersAboutMyself[request.POST.getlist('id[]')[i]] = request.POST.getlist('answer[]')[i]
+		u.student.save()
 	return redirect('/yearbook/answer')	
 @login_required()
 def poll(request):
@@ -77,22 +79,24 @@ def poll(request):
 		return render(request, 'myapp/poll.html',context)
 
 	# if POST request 
-	fetchPoll = ""
-	if Poll.objects.filter(id = request.POST['id']).exists():
-		fetchPoll = Poll.objects.get(id = request.POST['id'])
-	else:
-		return redirect("/yearbook/poll")
-	if (u.student.VotesIHaveGiven.has_key(request.POST['id'])):
-		OldVotePresent = u.student.VotesIHaveGiven[request.POST['id']]
-		fetchPoll.votes[OldVotePresent] = fetchPoll.votes[OldVotePresent] - 1	
-	
-	if(fetchPoll.votes.has_key(request.POST['entrynumber'])):
-		fetchPoll.votes[request.POST['entrynumber']] = fetchPoll.votes[request.POST['entrynumber']] + 1	
-	else:
-		fetchPoll.votes[request.POST['entrynumber']] = 1
-	u.student.VotesIHaveGiven[request.POST['id']] = request.POST['entrynumber']		
-	fetchPoll.save()
-	u.student.save()
+	# print request.POST.getlist('entrynumber[]')
+	for i in range(len(request.POST.getlist('entrynumber[]'))):
+		fetchPoll = ""
+		if Poll.objects.filter(id = request.POST.getlist('id[]')[i]).exists():
+			fetchPoll = Poll.objects.get(id = request.POST.getlist('id[]')[i])
+		else:
+			return redirect("/yearbook/poll")
+		if (u.student.VotesIHaveGiven.has_key(request.POST.getlist('id[]')[i])):
+			OldVotePresent = u.student.VotesIHaveGiven[request.POST.getlist('id[]')[i]]
+			fetchPoll.votes[OldVotePresent] = fetchPoll.votes[OldVotePresent] - 1	
+		
+		if(fetchPoll.votes.has_key(request.POST.getlist('entrynumber[]')[i])):
+			fetchPoll.votes[request.POST.getlist('entrynumber[]')[i]] = fetchPoll.votes[request.POST.getlist('entrynumber[]')[i]] + 1	
+		else:
+			fetchPoll.votes[request.POST.getlist('entrynumber[]')[i]] = 1
+		u.student.VotesIHaveGiven[request.POST.getlist('id[]')[i]] = request.POST.getlist('entrynumber[]')[i]		
+		fetchPoll.save()
+		u.student.save()
 	return redirect("/yearbook/poll")
 		
 @login_required()
@@ -105,22 +109,24 @@ def comment(request):
 			gen_comments.append([c["comment"],c["forWhom"]])
 		context={"comments":gen_comments}
 		return render(request, 'myapp/comment.html',context)
-	for c in u.student.CommentsIWrite:
-		if c["forWhom"]==request.POST["forWhom"]:#updating an already written message
-			c["comment"]=request.POST["val"]
-			u_new = User.objects.get(username=request.POST["forWhom"])#add a not found check
-			for c_new in u_new.student.CommentsIGet:
-				if c_new["fromWhom"]==u.username:
-					c_new["comment"]=request.POST["val"]
-					break
+	# print len(request.POST.getlist('forWhom[]'))
+	for i in range(len(request.POST.getlist('forWhom[]'))):
+		for c in u.student.CommentsIWrite:
+			if c["forWhom"]==request.POST.getlist('forWhom[]')[i]:#updating an already written message
+				c["comment"]=request.POST.getlist('val[]')[i]
+				u_new = User.objects.get(username=request.POST.getlist('forWhom[]')[i])#add a not found check
+				for c_new in u_new.student.CommentsIGet:
+					if c_new["fromWhom"]==u.username:
+						c_new["comment"]=request.POST.getlist('val[]')[i]
+						break
+				u_new.student.save()
+				break
+		else:
+			u.student.CommentsIWrite.append({"comment":request.POST.getlist('val[]')[i],"forWhom":request.POST.getlist('forWhom[]')[i]})
+			u_new = User.objects.get(username=request.POST.getlist('forWhom[]')[i])#add a not found check
+			u_new.student.CommentsIGet.append({"comment":request.POST.getlist('val[]')[i],"fromWhom":u.username,"displayInPdf":"True"})
 			u_new.student.save()
-			break
-	else:
-		u.student.CommentsIWrite.append({"comment":request.POST["val"],"forWhom":request.POST["forWhom"]})
-		u_new = User.objects.get(username=request.POST["forWhom"])#add a not found check
-		u_new.student.CommentsIGet.append({"comment":request.POST["val"],"fromWhom":u.username,"displayInPdf":"True"})
-		u_new.student.save()
-	u.student.save()
+		u.student.save()
 	return redirect('/yearbook/comment')
 
 @login_required()
@@ -132,13 +138,14 @@ def otherComment(request):
 		for c in CommentsIGet:
 			gen_comments.append([c["comment"],c["fromWhom"],c["displayInPdf"]])
 		context={"comments":gen_comments}
-		print gen_comments
 		return render(request, 'myapp/otherComment.html',context)
-	for c in u.student.CommentsIGet:
-		if c["fromWhom"]==request.POST["fromWhom"]:
-			c["displayInPdf"]=request.POST["val"]
-			break
-	u.student.save()
+	# print request.POST.getlist('val[]')
+	for i in range(len(request.POST.getlist('fromWhom[]'))):
+		for c in u.student.CommentsIGet:
+			if c["fromWhom"]==request.POST.getlist('fromWhom[]')[i]:
+				c["displayInPdf"]=request.POST.getlist('val[]')[i]
+				break
+		u.student.save()
 	return redirect('/yearbook/otherComment')
 
 

@@ -8,36 +8,34 @@
 	<a href="/yearbook/changePassword">Change Password</a>
 	<hr>
 	<h2>All Polls</h2>
-	{% for id,poll,val in allPolls %}
-		<p>Title : {{ poll }}</p>
-		<form method="POST" enctype="multipart/form-data">
-			{% csrf_token %}
-			<label>Id: </label>
-			<input type="text" name="id" value="{{ id }}" readonly="readonly">
-			<br>
-			<label>Vote for: </label>
-			<input type="text" name="entrynumber" value="{{ val }}">
-			<br>
-			<button>Vote</button>
-		</form>
-	{% endfor %}
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{% for id,poll,val in allPolls %}
+			<p>Title : {{ poll }}</p>
+				<label>Id: </label>
+				<input type="text" name="id[]" value="{{ id }}" readonly="readonly">
+				<br>
+				<label>Vote for: </label>
+				<input type="text" name="entrynumber[]" value="{{ val }}">
+				<br>
+		{% endfor %}
+		<button>Vote</button>
+	</form>
 	<hr>
 	<h2>Department Polls</h2>
-	{% for id,poll,val in deptPolls %}
-		<p>Title : {{ poll }}</p>
-		<form method="POST" enctype="multipart/form-data">
-			{% csrf_token %}
-			<label>Id: </label>
-			<input type="text" name="id" value="{{ id }}" readonly="readonly">
-			<br>
-			<label>Vote for: </label>
-			<input type="text" name="entrynumber" value="{{ val }}">
-			<br>
-			<button>Vote</button>
-		</form>
-	{% endfor %}
-
-
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{% for id,poll,val in deptPolls %}
+			<p>Title : {{ poll }}</p>
+				<label>Id: </label>
+				<input type="text" name="id[]" value="{{ id }}" readonly="readonly">
+				<br>
+				<label>Vote for: </label>
+				<input type="text" name="entrynumber[]" value="{{ val }}">
+				<br>
+		{% endfor %}
+		<button>Vote</button>
+	</form>
 {% endblock %}
 </body>
 </html>

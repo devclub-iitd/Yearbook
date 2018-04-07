@@ -8,19 +8,20 @@
 	<a href="/yearbook/poll">Poll</a>
 	<a href="/yearbook/changePassword">Change Password</a>
 	<hr>
-	{% for id,question,val in genQuestions %}
-		<p>Title : {{ question }}</p>
-		<form method="POST" enctype="multipart/form-data">
-			{% csrf_token %}
-			<label>Id: </label>
-			<input type="text" name="id" value="{{ id }}" readonly="readonly">
-			<br>
-			<label>Answer for: </label>
-			<input type="text" name="answer" value="{{ val }}">
-			<br>
-			<button>Answer</button>
-		</form>
-	{% endfor %}
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{% for id,question,val in genQuestions %}
+			<p>Title : {{ question }}</p>
+				<label>Id: </label>
+				<input type="text" name="id[]" value="{{ id }}" readonly="readonly">
+				<br>
+				<label>Answer for: </label>
+				<input type="text" name="answer[]" value="{{ val }}">
+				<br>
+		{% endfor %}
+		<button>Answer</button>
+	</form>
+
 
 
 {% endblock %}

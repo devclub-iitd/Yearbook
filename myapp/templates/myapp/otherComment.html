@@ -8,26 +8,31 @@
 	<a href="/yearbook/otherComment">Other Comment</a>
 	<a href="/yearbook/changePassword">Change Password</a>
 	<hr>
-	{% for comment,fromWhom,displayInPdf in comments %}
-		<p>Comment : {{ comment }}</p>
-		<form method="POST" enctype="multipart/form-data">
-			{% csrf_token %}
-			<label>From whom: </label>
-			<input type="text" name="fromWhom" value="{{ fromWhom }}" readonly="readonly">
-			<br>
-			<label>Display in pdf: </label>
-			{% if displayInPdf == 'True' %}
-				<input type="radio" name="val" value="True" checked> Yes<br>
-				<input type="radio" name="val" value="False" > No<br>
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{% for comment,fromWhom,displayInPdf in comments %}
+			<p>Comment : {{ comment }}</p>
+				<label>From whom: </label>
+				<input type="text" name="fromWhom[]" value="{{ fromWhom }}" readonly="readonly">
 				<br>
-			{% else %}
-				<input type="radio" name="val" value="True" > Yes<br>
-				<input type="radio" name="val" value="False" checked> No<br>
-				<br>
-			{% endif %}
-			<button>Answer</button>
-		</form>
-	{% endfor %}
+				<label>Display in pdf: </label>
+				{% if displayInPdf == 'True' %}
+					<select name = "val[]" >
+						<option value="True">Yes</option>
+						<option value="False">No</option>
+					</select>
+					<br>
+				{% else %}
+					<select name = "val[]" >
+						<option value="False">No</option>
+						<option value="True">Yes</option>
+					</select>
+					<br>
+				{% endif %}
+		{% endfor %}
+		<button>Answer</button>
+	</form>
+
 
 
 {% endblock %}

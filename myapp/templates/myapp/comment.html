@@ -9,26 +9,28 @@
 	<a href="/yearbook/comment">Comment</a>
 	<a href="/yearbook/changePassword">Change Password</a>
 	<hr>
-	{% for comment,forWhom in comments %}
 		<form method="POST" enctype="multipart/form-data">
 			{% csrf_token %}
-			<label>For whom: </label>
-			<input type="text" name="forWhom" value="{{ forWhom }}" readonly="readonly">
-			<br>
-			<label>Comment: </label>
-			<input type="text" name="val" value="{{ comment }}">
+			{% for comment,forWhom in comments %}
+				<label>For whom: </label>
+				<input type="text" name="forWhom[]" value="{{ forWhom }}" readonly="readonly">
+				<br>
+				<label>Comment: </label>
+				<input type="text" name="val[]" value="{{ comment }}">
+				<br>
+				<hr>
+			{% endfor %}
 			<button>Comment</button>
 		</form>
-	{% endfor %}
 	<hr>
 	<h3>New comment</h3>
 	<form method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 		<label>For whom: </label>
-		<input type="text" name="forWhom" >
+		<input type="text" name="forWhom[]" >
 		<br>
 		<label>Comment: </label>
-		<input type="text" name="val" >
+		<input type="text" name="val[]" >
 		<button>Comment</button>
 	</form>
 
