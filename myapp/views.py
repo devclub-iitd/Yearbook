@@ -69,7 +69,7 @@ def answerMyself(request):
 def poll(request):
 	u = request.user
 	if request.method=='GET':
-		users_all = User.objects.filter(is_superuser=False,username="2016cs50394").order_by('username')
+		users_all = User.objects.filter(is_superuser=False).order_by('username')
 		allPolls = Poll.objects.filter(department="all")
 		deptPolls = Poll.objects.filter(department=u.student.department)
 		VotesDisplay = u.student.VotesIHaveGiven

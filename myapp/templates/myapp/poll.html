@@ -12,7 +12,13 @@
 					<h5>{{ poll }}</h5>
 					<input style="display: none" type="text" name="id[]" value="{{ id }}" readonly="readonly">
 					<div class="wrap-input100 validate-input m-b-20">
-						<input class="input100" type="text" name="entrynumber[]" value="{{ val }}" placeholder="Vote for someone">
+						<!-- <input class="input100" type="text" name="entrynumber[]" value="{{ val }}" placeholder="Vote for someone"> -->
+						<input class="input100" list="students" name="entrynumber[]" value="{{ val }}" placeholder="Vote for someone" autocomplete="off">
+						<datalist id="students" scrollable>
+							{% for user in users %}
+								<option value="{{user.username}}" >{{user.student.name}}</option>
+							{% endfor %}
+						</datalist>
 						<span class="focus-input100"></span>
 					</div>
 					<hr>
