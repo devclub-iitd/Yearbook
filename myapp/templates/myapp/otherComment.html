@@ -9,7 +9,9 @@
 				Others' comments
 			</span>
 			{% for comment,fromWhom,displayInPdf in comments %}
-				<h5>{{ comment }} from {{ fromWhom }}</h5>
+			{% if comment %}
+				<h5>{{ comment }}</h5>
+				<h6> from {{ fromWhom }}</h6>
 				<input style="display:none" type="text" name="fromWhom[]" value="{{ fromWhom }}" readonly="readonly">
 				<label>Display in pdf: </label>
 				{% if displayInPdf == 'True' %}
@@ -24,6 +26,7 @@
 					</select>
 				{% endif %}
 				<hr>
+			{% endif %}
 			{% endfor %}
 			<div class="container-login100-form-btn">
 				<button class="login100-form-btn">

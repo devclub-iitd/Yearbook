@@ -102,11 +102,14 @@ def poll(request):
 		lowerEntry = (request.POST.getlist('entrynumber[]')[i]).lower()
 
 		if(fetchPoll.votes.has_key(lowerEntry)):
-			fetchPoll.votes[lowerEntry] = fetchPoll.votes[lowerEntry] + 1	
+			if ((lowerEntry != u.username.lower())):
+				fetchPoll.votes[lowerEntry] = fetchPoll.votes[lowerEntry] + 1	
+			else:
+				return redirect("/yearbook/poll")
 		else:
-			toVoteDepartment = (User.objects.get(username=lowerEntry)).student.department
 			# A not found check for poll and Cannot vote oneself
 			if (User.objects.filter(username = lowerEntry).exists() and (lowerEntry != u.username.lower())):
+				toVoteDepartment = (User.objects.get(username=lowerEntry)).student.department
 				if ((fetchPoll.department.lower() == "all") or (fetchPoll.department.lower() == toVoteDepartment.lower())):		
 					fetchPoll.votes[lowerEntry] = 1
 				else:
@@ -129,7 +132,6 @@ def comment(request):
 			gen_comments.append([c["comment"],c["forWhom"]])
 		context={"comments":gen_comments,"users":users_all}
 		return render(request, 'myapp/comment.html',context)
-	print (request.POST.getlist('forWhom[]'))
 	for i in range(len(request.POST.getlist('forWhom[]'))):
 		lowerEntry = (request.POST.getlist('forWhom[]')[i]).lower()
 		for c in u.student.CommentsIWrite:
