@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-
+from django.views.generic import RedirectView
 
 urlpatterns = [
+    # url(r'^$', RedirectView.as_view(url='/yearbook/profile')),
     url(r'^admin/', admin.site.urls),
-    url(r'^yearbook/', include('myapp.urls')),
+    url('', include('myapp.urls')),
 ]
 from django.conf import settings
 from django.conf.urls.static import static

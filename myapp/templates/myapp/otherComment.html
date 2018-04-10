@@ -8,19 +8,19 @@
 			<span class="login100-form-title p-b-37">
 				Others' comments
 			</span>
-			{% for comment,fromWhom,displayInPdf in comments %}
+			{% for comment,fromWhom,name,displayInPdf in comments %}
 			{% if comment %}
 				<h5>{{ comment }}</h5>
-				<h6> from {{ fromWhom }}</h6>
+				<h6> from {{ name }} ({{ fromWhom }})</h6>
 				<input style="display:none" type="text" name="fromWhom[]" value="{{ fromWhom }}" readonly="readonly">
-				<label>Display in pdf: </label>
+				<label style="padding-top: 5px">Display in pdf: </label>
 				{% if displayInPdf == 'True' %}
-					<select name = "val[]" >
+					<select style="float:right;width: 30%" class="form-control" name = "val[]" >
 						<option value="True">Yes</option>
 						<option value="False">No</option>
 					</select>
 				{% else %}
-					<select name = "val[]" >
+					<select style="float:right;width: 30%" class="form-control" name = "val[]" >
 						<option value="False">No</option>
 						<option value="True">Yes</option>
 					</select>

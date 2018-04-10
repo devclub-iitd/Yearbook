@@ -18,25 +18,25 @@
 	  <!-- Links -->
 	  <ul style="color:white !important;" class="navbar-nav">
 	    <li class="nav-item">
-			<a class="nav-link" href="/yearbook/profile">Profile</a>
+			<a class="nav-link" href="/profile">Profile</a>
 	    </li>
 	    <li class="nav-item">
-			<a class="nav-link" href="/yearbook/otherComment">View others' comments</a>
+			<a class="nav-link" href="/otherComment">View others' comments</a>
 	    </li>
 	    <li class="nav-item">
-			<a class="nav-link" href="/yearbook/comment">Comment</a>
+			<a class="nav-link" href="/comment">Comment</a>
 	    </li>
 	    <li class="nav-item">
-			<a class="nav-link" href="/yearbook/answer">Answer</a>
+			<a class="nav-link" href="/answer">Answer</a>
 	    </li>
 	    <li class="nav-item">
-			<a class="nav-link" href="/yearbook/poll">Poll</a>
+			<a class="nav-link" href="/poll">Poll</a>
 	    </li>
 	    <li style="position:absolute; right: 11%"  class="nav-item">
-			<a class="nav-link"href="/yearbook/changePassword">Change Password</a>
+			<a class="nav-link"href="/changePassword">Change Password</a>
 	    </li>
 	    <li style="position:absolute; right: 5%" class="nav-item">
-		 	<a class="nav-link" href="/yearbook/logout">Logout</a>
+		 	<a class="nav-link" href="/logout">Logout</a>
 	    </li>
 	  </ul>
 	</nav>
@@ -68,7 +68,7 @@
 						<span class="focus-input100"></span>
 					</div>
 					<div class="wrap-input100 validate-input m-b-20">
-						<label style="color: #adabab;padding-left: 20px">DP: </label>
+						<label style="color: #adabab;padding-left: 20px">DP: (max size 5MB) </label>
 						<input style="color: #adabab;"class="input100" type="file" name="dp">
 						<span class="focus-input100"></span>
 					</div>
@@ -89,12 +89,12 @@
 						<span class="focus-input100"></span>
 					</div>
 					<div class="wrap-input100 validate-input m-b-20">
-						<label style="color: #adabab;padding-left: 20px">Optional Picture 1: </label>
+						<label style="color: #adabab;padding-left: 20px">Optional Picture 1: (max size 5MB)</label>
 						<input style="color: #adabab;"class="input100" type="file" name="genPic1">
 						<span class="focus-input100"></span>
 					</div>
 					<div class="wrap-input100 validate-input m-b-20">
-						<label style="color: #adabab;padding-left: 20px">Optional Picture 2: </label>
+						<label style="color: #adabab;padding-left: 20px">Optional Picture 2: (max size 5MB) </label>
 						<input style="color: #adabab;"class="input100" type="file" name="genPic2">
 						<span class="focus-input100"></span>
 					</div>
@@ -121,6 +121,21 @@
 
 		{% endblock %}
 	</div>
-
 </body>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <script type="text/javascript">
+  	$('input[type=file]').bind('change', function() {
+
+	  //this.files[0].size gets the size of your file.
+	  	if(parseInt(this.files[0].size) > 6000000){
+	  		alert("Please upload smaller images")
+	  		$('input[type=file]').val("")
+	  		// this.files=""
+	  		// this.val("")
+	  	}
+		});
+  </script>
 </html>

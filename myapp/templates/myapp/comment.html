@@ -8,8 +8,8 @@
 			<span class="login100-form-title p-b-37">
 				Comments already written
 			</span>
-			{% for comment,forWhom in comments %}
-				<label>For : {{ forWhom }}</label>
+			{% for comment,forWhom,name in comments %}
+				<label>For : {{ name }} ({{ forWhom }})</label>
 				<input style="display:none" type="text" name="forWhom[]" value="{{ forWhom }}" readonly="readonly">
 				<br>
 				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">

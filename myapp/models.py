@@ -13,17 +13,39 @@ class GenQuestion(models.Model):
 		return self.question
 
 class Poll(models.Model):
+	departments = [
+	    ("biotechnology", "biotechnology"),
+	    ("chemical", "chemical"),
+	    ("civil", "civil"),
+	    ("computer", "computer"),
+	    ("electrical", "electrical"),
+	    ("mathematics", "mathematics"),
+	    ("mechanical", "mechanical"),
+	    ("physics", "physics"),
+	    ("textile", "textile"),
+	]
 	poll = models.CharField(max_length=200)
-	department = models.CharField(max_length=200)
+	department = models.CharField(max_length=200,choices=departments)
 	votes = JSONField(blank=True,default=dict)
 	def __str__(self):
 		return self.poll
 
 class Student(models.Model):
+	departments = [
+	    ("biotechnology", "biotechnology"),
+	    ("chemical", "chemical"),
+	    ("civil", "civil"),
+	    ("computer", "computer"),
+	    ("electrical", "electrical"),
+	    ("mathematics", "mathematics"),
+	    ("mechanical", "mechanical"),
+	    ("physics", "physics"),
+	    ("textile", "textile"),
+	]
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	name = models.CharField(max_length=100,blank=True)
-	department = models.CharField(max_length=100)
-	DP = models.ImageField(upload_to="DP",blank=True)
+	department = models.CharField(max_length=100,choices=departments)
+	DP = models.ImageField(upload_to="DP",blank=True,default="DP/anonymous.png")
 	genPic1 = models.ImageField(upload_to=user_directory_path,blank=True)
 	genPic2 = models.ImageField(upload_to=user_directory_path,blank=True)
 	phone = models.CharField(max_length=10,blank=True)
