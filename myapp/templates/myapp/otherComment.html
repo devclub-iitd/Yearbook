@@ -1,7 +1,7 @@
 {% extends 'myapp/profile.html' %}
 {% block title %}Other comments{% endblock %}
 {% block body %}
-	{% if comments  %}f
+	{% if comments  %}
 	<div class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
 		<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
 			{% csrf_token %}
