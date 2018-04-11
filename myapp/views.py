@@ -18,7 +18,8 @@ def index(request):
 			login(request,user)
 			return redirect('/profile')
 		else:
-			return render(request, 'myapp/index.html')
+
+			return render(request, 'myapp/index.html', {"auth": "Wrong Password"})
 	return render(request, 'myapp/index.html')
 
 @login_required()
