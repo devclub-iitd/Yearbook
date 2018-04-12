@@ -87,7 +87,8 @@ def answerMyself(request):
 		else:
 			return redirect('/answer')
 		u.student.save()
-	return redirect('/answer')	
+	return redirect('/answer')
+	
 @login_required()
 def poll(request):
 	u = request.user
@@ -152,16 +153,17 @@ def poll(request):
 @login_required()
 def comment(request):
 	u = request.user
+	users_all = User.objects.filter(is_superuser=False).order_by('username') 
+		#we pass this to display options, remove self user
+	myComments = u.student.CommentsIWrite
+	gen_comments = []
+	for c in myComments:
+		tmpName=c["forWhom"]
+		if User.objects.filter(username = c["forWhom"]).exists():
+			tmpName=User.objects.get(username=c["forWhom"]).student.name
+		gen_comments.append([c["comment"],c["forWhom"],tmpName])
+	context={"comments":gen_comments,"users":users_all}
 	if request.method=='GET':
-		users_all = User.objects.filter(is_superuser=False).order_by('username') #we pass this to display options, remove self user
-		myComments = u.student.CommentsIWrite
-		gen_comments = []
-		for c in myComments:
-			tmpName=c["forWhom"]
-			if User.objects.filter(username = c["forWhom"]).exists():
-				tmpName=User.objects.get(username=c["forWhom"]).student.name
-			gen_comments.append([c["comment"],c["forWhom"],tmpName])
-		context={"comments":gen_comments,"users":users_all}
 		return render(request, 'myapp/comment.html',context)
 	for i in range(len(request.POST.getlist('forWhom[]'))):
 		lowerEntry = (request.POST.getlist('forWhom[]')[i]).lower()
@@ -182,7 +184,9 @@ def comment(request):
 		else:
 			u.student.CommentsIWrite.append({"comment":request.POST.getlist('val[]')[i],"forWhom":lowerEntry})
 			# A not found check of user and I cant comment for myself
-			if (User.objects.filter(username = lowerEntry).exists() and (u.username.lower() != lowerEntry)):
+			if (u.username.lower() == lowerEntry):
+				return render(request, 'myapp/comment.html', {"comments":gen_comments,"users":users_all, "comment": "You can't comment for yourself :)"})
+			if (User.objects.filter(username = lowerEntry).exists()):
 				u_new = User.objects.get(username=lowerEntry)
 			else:
 				print User.objects.filter(username = lowerEntry).exists()
