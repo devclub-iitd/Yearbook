@@ -13,7 +13,6 @@ from .models import *
 import urllib3.contrib.pyopenssl
 urllib3.contrib.pyopenssl.inject_into_urllib3()
 
-
 # Create your views here.
 def index(request):
 	if request.method=='POST':
@@ -117,7 +116,7 @@ def poll(request):
 		return render(request, 'myapp/poll.html',context)
 
 	# if POST request 
-	print request.POST.getlist('entrynumber[]')
+	# print request.POST.getlist('entrynumber[]')
 	for i in range(len(request.POST.getlist('entrynumber[]'))):
 		fetchPoll = ""
 		if Poll.objects.filter(id = request.POST.getlist('id[]')[i]).exists():
@@ -139,7 +138,7 @@ def poll(request):
 			# A not found check for poll and Cannot vote oneself
 			if (User.objects.filter(username = lowerEntry).exists() and (lowerEntry != u.username.lower())):
 				toVoteDepartment = (User.objects.get(username=lowerEntry)).student.department
-				if ((fetchPoll.department.lower() == "all") or (fetchPoll.department.lower() == toVoteDepartment.lower())):		
+				if (((fetchPoll.department.lower() == "all") or (fetchPoll.department.lower() == toVoteDepartment.lower())) and (lowerEntry[0:4] == u.username[0:4])):		
 					fetchPoll.votes[lowerEntry] = 1
 				else:
 					return redirect("/poll")		
