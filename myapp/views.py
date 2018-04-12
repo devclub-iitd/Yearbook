@@ -26,10 +26,10 @@ def index(request):
 def profile(request):
 	# add image field edit
 	u = request.user
-	if request.method=='GET':
-		UsrObj = Student(name=u.student.name, department=u.student.department,
+	UsrObj = Student(name=u.student.name, department=u.student.department,
 			DP=u.student.DP,phone=u.student.phone,email=u.student.email,
 			oneliner=u.student.oneliner,genPic1=u.student.genPic1,genPic2=u.student.genPic2)
+	if request.method=='GET':
 		context={"user":UsrObj}
 		return render(request, 'myapp/profile.html',context)
 	# print int(request.FILES.get('dp').size)<6000000
@@ -38,20 +38,24 @@ def profile(request):
 		picture = request.FILES.get('dp')
 		# check extension
 		if not (picture.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
-			return render(request , 'myapp/profile.html', {"image": "Image should be in .png, .jpg or .jpeg format"})
+			return render(request , 'myapp/profile.html', {"user":UsrObj ,"image": "Image should be in .png, .jpg or .jpeg format"})
 		u.student.DP = picture 
 
 	if(request.FILES.get('genPic1')!=None and int(request.FILES.get('genPic1').size)<6000000):
 		u.student.genPic1 = request.FILES.get('genPic1')
 		if not (u.student.genPic1.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
-			return render(request , 'myapp/profile.html', {"image": "Image should be in .png, .jpg or .jpeg format"})
+			return render(request , 'myapp/profile.html', {"user":UsrObj ,"image": "Image should be in .png, .jpg or .jpeg format"})
 		
 	if(request.FILES.get('genPic2')!=None and int(request.FILES.get('genPic2').size)<6000000):
 		u.student.genPic2 = request.FILES.get('genPic2')
 		if not (u.student.genPic2.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
-			return render(request , 'myapp/profile.html', {"image": "Image should be in .png, .jpg or .jpeg format"})
+			return render(request , 'myapp/profile.html', {"user":UsrObj ,"image": "Image should be in .png, .jpg or .jpeg format"})
 	
 	u.student.name = request.POST.get('name')
+	if len(u.student.name) == 0:
+		return render(request , 'myapp/profile.html', {"user":UsrObj ,"name": "Name cannot be empty"})
+		
+	# Phone email and oneliner can be empty if the user does not wish to specify.
 	u.student.phone = request.POST.get('phone')
 	u.student.email = request.POST.get('email')
 	u.student.oneliner = request.POST.get('oneliner')
