@@ -205,7 +205,9 @@ iframe {
   width: 45%;
   background: #fff;
   border-radius: 10px;
-  overflow: hidden;
+  /*overflow: hidden;*/
+  /*overflow-wrap: break-word;*/
+  word-wrap: break-word;
 
   box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);

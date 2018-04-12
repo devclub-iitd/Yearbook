@@ -1,26 +1,46 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import Config as config
 
+import requests
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .models import *
-#if superuser visits the site, don't let him
+
+import urllib3.contrib.pyopenssl
+urllib3.contrib.pyopenssl.inject_into_urllib3()
+
 
 # Create your views here.
 def index(request):
 	if request.method=='POST':
-		lowerUsername = (request.POST.get('username')).lower()
-		user = authenticate(request,username=lowerUsername,password=request.POST.get('password'))
-		if (user is not None) and (user.is_superuser==False):
-			login(request,user)
-			return redirect('/profile')
-		else:
-
-			return render(request, 'myapp/index.html', {"auth": "Wrong Password"})
+		return redirect(config.authLinkPart1 + config.CLIENT_ID + config.authLinkPart2)
 	return render(request, 'myapp/index.html')
+
+def authenticate(request):
+	PostData = {'client_id':config.CLIENT_ID,
+	'client_secret':config.CLIENT_SECRET,
+	'grant_type':config.AUTHORIZATION_CODE,
+	'code':request.GET.get('code')}
+
+	r = requests.post(config.OauthTokenURL, PostData,verify=config.certiPath)
+	a = r.json()
+	access_token = a['access_token']
+	PostData2 = {
+		'access_token':access_token
+	}
+	r1 = requests.post(config.ResourceURL, PostData2,verify=config.certiPath)
+	b = r1.json()
+
+	if User.objects.filter(username = (b['uniqueiitdid']).lower()).exists():
+		myUser = User.objects.get(username = (b['uniqueiitdid']).lower())
+		login(request, myUser)
+		return redirect('/profile')
+	else:
+		return redirect('/')	   
 
 @login_required()
 def profile(request):

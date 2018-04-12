@@ -13,16 +13,12 @@
 				<input style="display:none" type="text" name="forWhom[]" value="{{ forWhom }}" readonly="readonly">
 				<br>
 				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
-					<input class="input100" type="text" name="val[]" value="{{ comment }}" placeholder="Comment">
-					<span class="focus-input100"></span>
+					<p style="word-wrap: break-word">
+						{{ comment }}
+					</p>	
 				</div>
 				<hr>
 			{% endfor %}
-			<div class="container-login100-form-btn">
-				<button class="login100-form-btn">
-					Edit my comments
-				</button>
-			</div>
 		</form>			
 	</div>
 	{% endif %}
@@ -30,11 +26,11 @@
 		<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
 			{% csrf_token %}
 			<span class="login100-form-title p-b-37">
-				New Comment
+				New/Modify Comment
 			</span>
 			<div class="wrap-input100 validate-input m-b-20">
 				<!-- <input class="input100" type="text" name="forWhom[]" placeholder="for whom"> -->
-				<input class="input100" list="students" name="forWhom[]" placeholder="for whom" autocomplete="off">
+				<input class="input100" list="students" name="forWhom[]" placeholder="For whom" autocomplete="off">
 				<datalist id="students" scrollable>
 					{% for user in users %}
 						<option value="{{user.username}}" >{{user.student.name}}</option>
@@ -48,7 +44,7 @@
 			</div>
 			<div class="container-login100-form-btn">
 				<button class="login100-form-btn">
-					New comment
+					Comment
 				</button>
 			</div>
 		</form>			

@@ -12,6 +12,5 @@ urlpatterns = [
     url(r'^poll/$', views.poll, name='poll'),
     url(r'^comment/$', views.comment, name='comment'),
     url(r'^otherComment/$', views.otherComment, name='otherComment'),
-
-
+    url(r'^auth/$', views.authenticate, name='otherComment'),
 ]
