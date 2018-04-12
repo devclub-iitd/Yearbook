@@ -221,16 +221,16 @@ def userlogout(request):
 	logout(request)
 	return redirect("/")
 
-@login_required()
-def changePassword(request):
-	if request.method=='POST':
-		if (request.POST.get('password1')!=request.POST.get('password2')):
-			return redirect("/changePassword")
-		else:
-			u = User.objects.get(id = request.user.id)
-			u.set_password(request.POST.get('password1'))
-			u.save()
-			return redirect("/profile")
-	return render(request, 'myapp/changePassword.html')
+# @login_required()
+# def changePassword(request):
+# 	if request.method=='POST':
+# 		if (request.POST.get('password1')!=request.POST.get('password2')):
+# 			return redirect("/changePassword")
+# 		else:
+# 			u = User.objects.get(id = request.user.id)
+# 			u.set_password(request.POST.get('password1'))
+# 			u.save()
+# 			return redirect("/profile")
+# 	return render(request, 'myapp/changePassword.html')
 
 	
