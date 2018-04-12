@@ -34,11 +34,23 @@ def profile(request):
 		return render(request, 'myapp/profile.html',context)
 	# print int(request.FILES.get('dp').size)<6000000
 	if(request.FILES.get('dp')!=None and int(request.FILES.get('dp').size)<6000000):
-		u.student.DP = request.FILES.get('dp')
+		# Get the picture
+		picture = request.FILES.get('dp')
+		# check extension
+		if not (picture.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
+			return render(request , 'myapp/profile.html', {"image": "Image should be in .png, .jpg or .jpeg format"})
+		u.student.DP = picture 
+
 	if(request.FILES.get('genPic1')!=None and int(request.FILES.get('genPic1').size)<6000000):
 		u.student.genPic1 = request.FILES.get('genPic1')
+		if not (u.student.genPic1.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
+			return render(request , 'myapp/profile.html', {"image": "Image should be in .png, .jpg or .jpeg format"})
+		
 	if(request.FILES.get('genPic2')!=None and int(request.FILES.get('genPic2').size)<6000000):
 		u.student.genPic2 = request.FILES.get('genPic2')
+		if not (u.student.genPic2.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
+			return render(request , 'myapp/profile.html', {"image": "Image should be in .png, .jpg or .jpeg format"})
+	
 	u.student.name = request.POST.get('name')
 	u.student.phone = request.POST.get('phone')
 	u.student.email = request.POST.get('email')
