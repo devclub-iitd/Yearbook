@@ -9,6 +9,9 @@ from django.contrib.auth.models import User
 from .models import *
 #if superuser visits the site, don't let him
 
+def kerberos_to_entry_number(kerberos):
+	return "20" + kerberos[3:5] + kerberos[:3].upper() + kerberos[5:]
+
 # Create your views here.
 def index(request):
 	if request.method=='POST':
@@ -18,27 +21,44 @@ def index(request):
 			login(request,user)
 			return redirect('/profile')
 		else:
-			return render(request, 'myapp/index.html')
+
+			return render(request, 'myapp/index.html', {"auth": "Wrong Password"})
 	return render(request, 'myapp/index.html')
 
 @login_required()
 def profile(request):
 	# add image field edit
 	u = request.user
-	if request.method=='GET':
-		UsrObj = Student(name=u.student.name, department=u.student.department,
+	UsrObj = Student(name=u.student.name, department=u.student.department,
 			DP=u.student.DP,phone=u.student.phone,email=u.student.email,
 			oneliner=u.student.oneliner,genPic1=u.student.genPic1,genPic2=u.student.genPic2)
+	if request.method=='GET':
 		context={"user":UsrObj}
 		return render(request, 'myapp/profile.html',context)
 	# print int(request.FILES.get('dp').size)<6000000
 	if(request.FILES.get('dp')!=None and int(request.FILES.get('dp').size)<6000000):
-		u.student.DP = request.FILES.get('dp')
+		# Get the picture
+		picture = request.FILES.get('dp')
+		# check extension
+		if not (picture.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
+			return render(request , 'myapp/profile.html', {"user":UsrObj ,"image": "Image should be in .png, .jpg or .jpeg format"})
+		u.student.DP = picture 
+
 	if(request.FILES.get('genPic1')!=None and int(request.FILES.get('genPic1').size)<6000000):
 		u.student.genPic1 = request.FILES.get('genPic1')
+		if not (u.student.genPic1.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
+			return render(request , 'myapp/profile.html', {"user":UsrObj ,"image": "Image should be in .png, .jpg or .jpeg format"})
+		
 	if(request.FILES.get('genPic2')!=None and int(request.FILES.get('genPic2').size)<6000000):
 		u.student.genPic2 = request.FILES.get('genPic2')
+		if not (u.student.genPic2.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
+			return render(request , 'myapp/profile.html', {"user":UsrObj ,"image": "Image should be in .png, .jpg or .jpeg format"})
+	
 	u.student.name = request.POST.get('name')
+	if len(u.student.name) == 0:
+		return render(request , 'myapp/profile.html', {"user":UsrObj ,"name": "Name cannot be empty"})
+		
+	# Phone email and oneliner can be empty if the user does not wish to specify.
 	u.student.phone = request.POST.get('phone')
 	u.student.email = request.POST.get('email')
 	u.student.oneliner = request.POST.get('oneliner')
@@ -67,7 +87,8 @@ def answerMyself(request):
 		else:
 			return redirect('/answer')
 		u.student.save()
-	return redirect('/answer')	
+	return redirect('/answer')
+	
 @login_required()
 def poll(request):
 	u = request.user
@@ -132,16 +153,17 @@ def poll(request):
 @login_required()
 def comment(request):
 	u = request.user
+	users_all = User.objects.filter(is_superuser=False).order_by('username') 
+		#we pass this to display options, remove self user
+	myComments = u.student.CommentsIWrite
+	gen_comments = []
+	for c in myComments:
+		tmpName=c["forWhom"]
+		if User.objects.filter(username = c["forWhom"]).exists():
+			tmpName=User.objects.get(username=c["forWhom"]).student.name
+		gen_comments.append([c["comment"],c["forWhom"],tmpName])
+	context={"comments":gen_comments,"users":users_all}
 	if request.method=='GET':
-		users_all = User.objects.filter(is_superuser=False).order_by('username') #we pass this to display options, remove self user
-		myComments = u.student.CommentsIWrite
-		gen_comments = []
-		for c in myComments:
-			tmpName=c["forWhom"]
-			if User.objects.filter(username = c["forWhom"]).exists():
-				tmpName=User.objects.get(username=c["forWhom"]).student.name
-			gen_comments.append([c["comment"],c["forWhom"],tmpName])
-		context={"comments":gen_comments,"users":users_all}
 		return render(request, 'myapp/comment.html',context)
 	for i in range(len(request.POST.getlist('forWhom[]'))):
 		lowerEntry = (request.POST.getlist('forWhom[]')[i]).lower()
@@ -162,7 +184,9 @@ def comment(request):
 		else:
 			u.student.CommentsIWrite.append({"comment":request.POST.getlist('val[]')[i],"forWhom":lowerEntry})
 			# A not found check of user and I cant comment for myself
-			if (User.objects.filter(username = lowerEntry).exists() and (u.username.lower() != lowerEntry)):
+			if (u.username.lower() == lowerEntry):
+				return render(request, 'myapp/comment.html', {"comments":gen_comments,"users":users_all, "comment": "You can't comment for yourself :)"})
+			if (User.objects.filter(username = lowerEntry).exists()):
 				u_new = User.objects.get(username=lowerEntry)
 			else:
 				print User.objects.filter(username = lowerEntry).exists()
