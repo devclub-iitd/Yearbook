@@ -9,6 +9,9 @@ from django.contrib.auth.models import User
 from .models import *
 #if superuser visits the site, don't let him
 
+def kerberos_to_entry_number(kerberos):
+	return "20" + kerberos[3:5] + kerberos[:3].upper() + kerberos[5:]
+
 # Create your views here.
 def index(request):
 	if request.method=='POST':
