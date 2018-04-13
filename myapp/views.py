@@ -58,6 +58,7 @@ def profile(request):
 	if(request.FILES.get('dp')!=None and int(request.FILES.get('dp').size)<6000000):
 		# Get the picture
 		picture = request.FILES.get('dp')
+		picture.name = u.username
 		# check extension
 		if not (picture.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
 			return render(request , 'myapp/profile.html', {"user":UsrObj ,"image": "Image should be in .png, .jpg or .jpeg format"})
@@ -65,11 +66,13 @@ def profile(request):
 
 	if(request.FILES.get('genPic1')!=None and int(request.FILES.get('genPic1').size)<6000000):
 		u.student.genPic1 = request.FILES.get('genPic1')
+		u.student.genPic1.name = u.username + "1"
 		if not (u.student.genPic1.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
 			return render(request , 'myapp/profile.html', {"user":UsrObj ,"image": "Image should be in .png, .jpg or .jpeg format"})
 		
 	if(request.FILES.get('genPic2')!=None and int(request.FILES.get('genPic2').size)<6000000):
 		u.student.genPic2 = request.FILES.get('genPic2')
+		u.student.genPic2.name = u.username + "2"
 		if not (u.student.genPic2.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
 			return render(request , 'myapp/profile.html', {"user":UsrObj ,"image": "Image should be in .png, .jpg or .jpeg format"})
 	
@@ -228,7 +231,6 @@ def otherComment(request):
 			gen_comments.append([c["comment"],c["fromWhom"],tmpName,c["displayInPdf"]])
 		context={"comments":gen_comments}
 		return render(request, 'myapp/otherComment.html',context)
-	# print request.POST.getlist('val[]')
 	for i in range(len(request.POST.getlist('fromWhom[]'))):
 		lowerEntry = (request.POST.getlist('fromWhom[]')[i]).lower()
 		for c in u.student.CommentsIGet:
@@ -243,17 +245,4 @@ def otherComment(request):
 def userlogout(request):
 	logout(request)
 	return redirect("/")
-
-# @login_required()
-# def changePassword(request):
-# 	if request.method=='POST':
-# 		if (request.POST.get('password1')!=request.POST.get('password2')):
-# 			return redirect("/changePassword")
-# 		else:
-# 			u = User.objects.get(id = request.user.id)
-# 			u.set_password(request.POST.get('password1'))
-# 			u.save()
-# 			return redirect("/profile")
-# 	return render(request, 'myapp/changePassword.html')
-
 	
