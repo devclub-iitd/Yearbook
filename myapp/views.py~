@@ -68,13 +68,13 @@ def profile(request):
 		u.student.genPic1 = request.FILES.get('genPic1')
 		if not (u.student.genPic1.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
 			return render(request , 'myapp/profile.html', {"user":UsrObj ,"image": "Image should be in .png, .jpg or .jpeg format"})
-		u.student.genPic1.name = u.username + "_1.jpg"
+		u.student.genPic1.name = u.username + "1.jpg"
 		
 	if(request.FILES.get('genPic2')!=None and int(request.FILES.get('genPic2').size)<6000000):
 		u.student.genPic2 = request.FILES.get('genPic2')
 		if not (u.student.genPic2.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
 			return render(request , 'myapp/profile.html', {"user":UsrObj ,"image": "Image should be in .png, .jpg or .jpeg format"})
-		u.student.genPic2.name = u.username + "_2.jpg"
+		u.student.genPic2.name = u.username + "2.jpg"
 	
 	u.student.name = request.POST.get('name')
 	if len(u.student.name) == 0:
