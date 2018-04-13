@@ -48,7 +48,7 @@ body, html {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  background-image: url("../images/bg-01.jpg") !important;
+  /*background-image: url("../images/bg-01.jpg") !important;*/
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -175,7 +175,7 @@ iframe {
   justify-content: center;
   align-items: center;
   padding: 15px;
-  background-image: url("../images/bg-01.jpg") !important;
+  /*background-image: url("../images/bg-01.jpg") !important;*/
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -202,10 +202,12 @@ iframe {
 }
 
 .wrap-login100 {
-  width: 390px;
+  width: 45%;
   background: #fff;
   border-radius: 10px;
-  overflow: hidden;
+  /*overflow: hidden;*/
+  /*overflow-wrap: break-word;*/
+  word-wrap: break-word;
 
   box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
@@ -251,6 +253,7 @@ iframe {
   height: 62px;
   background: transparent;
   padding: 0 20px 0 23px;
+  word-wrap: break-word;
 }
 
 

@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import Config as config
 
+import requests
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .models import *
-#if superuser visits the site, don't let him
+
+import urllib3.contrib.pyopenssl
+urllib3.contrib.pyopenssl.inject_into_urllib3()
 
 def kerberos_to_entry_number(kerberos):
 	return "20" + kerberos[3:5] + kerberos[:3].upper() + kerberos[5:]
@@ -15,15 +19,30 @@ def kerberos_to_entry_number(kerberos):
 # Create your views here.
 def index(request):
 	if request.method=='POST':
-		lowerUsername = (request.POST.get('username')).lower()
-		user = authenticate(request,username=lowerUsername,password=request.POST.get('password'))
-		if (user is not None) and (user.is_superuser==False):
-			login(request,user)
-			return redirect('/profile')
-		else:
-
-			return render(request, 'myapp/index.html', {"auth": "Wrong Password"})
+		return redirect(config.authLinkPart1 + config.CLIENT_ID + config.authLinkPart2)
 	return render(request, 'myapp/index.html')
+
+def authenticate(request):
+	PostData = {'client_id':config.CLIENT_ID,
+	'client_secret':config.CLIENT_SECRET,
+	'grant_type':config.AUTHORIZATION_CODE,
+	'code':request.GET.get('code')}
+
+	r = requests.post(config.OauthTokenURL, PostData,verify=config.certiPath)
+	a = r.json()
+	access_token = a['access_token']
+	PostData2 = {
+		'access_token':access_token
+	}
+	r1 = requests.post(config.ResourceURL, PostData2,verify=config.certiPath)
+	b = r1.json()
+
+	if User.objects.filter(username = (b['uniqueiitdid']).lower()).exists():
+		myUser = User.objects.get(username = (b['uniqueiitdid']).lower())
+		login(request, myUser)
+		return redirect('/profile')
+	else:
+		return redirect('/')	   
 
 @login_required()
 def profile(request):
@@ -117,7 +136,7 @@ def poll(request):
 		return render(request, 'myapp/poll.html',context)
 
 	# if POST request 
-	print request.POST.getlist('entrynumber[]')
+	# print request.POST.getlist('entrynumber[]')
 	for i in range(len(request.POST.getlist('entrynumber[]'))):
 		fetchPoll = ""
 		if Poll.objects.filter(id = request.POST.getlist('id[]')[i]).exists():
@@ -139,7 +158,7 @@ def poll(request):
 			# A not found check for poll and Cannot vote oneself
 			if (User.objects.filter(username = lowerEntry).exists() and (lowerEntry != u.username.lower())):
 				toVoteDepartment = (User.objects.get(username=lowerEntry)).student.department
-				if ((fetchPoll.department.lower() == "all") or (fetchPoll.department.lower() == toVoteDepartment.lower())):		
+				if (((fetchPoll.department.lower() == "all") or (fetchPoll.department.lower() == toVoteDepartment.lower())) and (lowerEntry[0:4] == u.username[0:4])):		
 					fetchPoll.votes[lowerEntry] = 1
 				else:
 					return redirect("/poll")		
@@ -225,16 +244,16 @@ def userlogout(request):
 	logout(request)
 	return redirect("/")
 
-@login_required()
-def changePassword(request):
-	if request.method=='POST':
-		if (request.POST.get('password1')!=request.POST.get('password2')):
-			return redirect("/changePassword")
-		else:
-			u = User.objects.get(id = request.user.id)
-			u.set_password(request.POST.get('password1'))
-			u.save()
-			return redirect("/profile")
-	return render(request, 'myapp/changePassword.html')
+# @login_required()
+# def changePassword(request):
+# 	if request.method=='POST':
+# 		if (request.POST.get('password1')!=request.POST.get('password2')):
+# 			return redirect("/changePassword")
+# 		else:
+# 			u = User.objects.get(id = request.user.id)
+# 			u.set_password(request.POST.get('password1'))
+# 			u.save()
+# 			return redirect("/profile")
+# 	return render(request, 'myapp/changePassword.html')
 
 	
