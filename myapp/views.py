@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import Config as config
+import config
 
 import requests
 from django.shortcuts import render, redirect
