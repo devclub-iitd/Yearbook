@@ -129,8 +129,8 @@ def poll(request):
                             #also add an year check
                                 dept_users.append(i)
 
-		print dept_users
-		allPolls = Poll.objects.filter(department="all")
+		print enum_to_name
+                allPolls = Poll.objects.filter(department="all")
 		deptPolls = Poll.objects.filter(department=u.student.department)
                 
 		VotesDisplay = u.student.VotesIHaveGiven
@@ -146,8 +146,11 @@ def poll(request):
 				gen_deptPolls[-1][-1]=VotesDisplay[str(p.id)]
                # add a name field to display I dont know how to get name
                # straight away
+                print gen_deptPolls
                 for i in range(len(gen_deptPolls)):
-                    gen_deptPolls[i].append(enum_to_name[gen_deptPolls[i][-1]])
+                    name = enum_to_name.get(gen_deptPolls[i][-1], "")
+                    #if name != -1:
+                    gen_deptPolls[i].append(name)
                 
                 context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users_all,"deptUsers":dept_users}
                 return render(request, 'myapp/poll.html',context)

@@ -33,16 +33,16 @@ class Poll(models.Model):
 
 class Student(models.Model):
 	departments = [
-	    ("biotech", "biotech"),
+	    ("biotechnology", "biotechnology"),
 	    ("chemical", "chemical"),
 	    ("civil", "civil"),
-	    ("cse", "cse"),
-	    ("ee", "ee"),
-	    ("maths", "maths"),
-	    ("mech", "mech"),
+	    ("computer", "computer"),
+	    ("electrical", "electrical"),
+	    ("mathematics", "mathematics"),
+	    ("mechanical", "mechanical"),
 	    ("physics", "physics"),
 	    ("textile", "textile"),
-	    ("all", "all"),
+	    ("all", "all"),	
 	]
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	name = models.CharField(max_length=100,blank=True)
