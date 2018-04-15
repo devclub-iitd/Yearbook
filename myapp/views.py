@@ -115,8 +115,6 @@ def answerMyself(request):
 @login_required()
 def poll(request):
 	u = request.user
-
-    # department user should be from same year
 	if request.method=='GET':
 		users_all = User.objects.filter(is_superuser=False).order_by('username')
 		dept_users=[]
@@ -146,10 +144,10 @@ def poll(request):
 		# add a name field to display I dont know how to get name
 		# straight away
     	# print gen_deptPolls
-		for i in range(len(gen_deptPolls)):
-			name = enum_to_name.get(gen_deptPolls[i][-1], "")
+#		for i in range(len(gen_deptPolls)):
+#			name = enum_to_name.get(gen_deptPolls[i][-1], "")
 			#if name != -1:
-			gen_deptPolls[i].append(name)
+#			gen_deptPolls[i].append(name)
 
 		context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users_all,"deptUsers":dept_users}
 		return render(request, 'myapp/poll.html',context)
@@ -167,6 +165,7 @@ def poll(request):
 			fetchPoll.votes[OldVotePresent] = fetchPoll.votes[OldVotePresent] - 1	
 		
 		lowerEntry = (request.POST.getlist('entrynumber[]')[i]).lower()
+                print lowerEntry
 		if(fetchPoll.votes.has_key(lowerEntry)):
 			if ((lowerEntry != u.username.lower())):
 				fetchPoll.votes[lowerEntry] = fetchPoll.votes[lowerEntry] + 1	

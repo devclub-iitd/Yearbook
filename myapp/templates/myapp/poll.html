@@ -9,15 +9,15 @@
 					All polls
 				</span>
 				{% for id,poll,val in allPolls %}
-					<h5>{{ poll }}</h5>
+        <h5>{{ poll }} </h5>
 					<input style="display: none" type="text" name="id[]" value="{{ id }}" readonly="readonly">
 					<div class="wrap-input100 validate-input m-b-20">
 						<!-- <input class="input100" type="text" name="entrynumber[]" value="{{ val }}" placeholder="Vote for someone"> -->
 						<input class="input100" list="students2" name="entrynumber[]"
-            value="abs:" placeholder="Vote for someone" autocomplete="off">
+            value="{{ val }}" placeholder="Vote for someone" autocomplete="off">
 						<datalist id="students2" scrollable>
 							{% for user in users %}
-								<option value="{{user.student.name}}" >{{user.username}}</option>
+								<option value="{{user.username}}" >{{user.student.name}}</option>
 
 							{% endfor %}
 						</datalist>
@@ -40,15 +40,15 @@
 				<span class="login100-form-title p-b-37">
 					Department polls
 				</span>
-				{% for id,poll,val, name in deptPolls %}
-        <h5>{{ poll }} : {{name}} </h5>
+				{% for id,poll,val in deptPolls %}
+        <h5>{{ poll }} </h5>
 					<input style="display: none" type="text" name="id[]" value="{{ id }}" readonly="readonly">
 					<div class="wrap-input100 validate-input m-b-20">
 						<!-- <input class="input100" type="text" name="entrynumber[]" value="{{ val }}" placeholder="Vote for someone"> -->
             <input class="input100" list="students" name="entrynumber[]" value="{{ val }}" placeholder="Vote for someone" autocomplete="off">
 						<datalist id="students" scrollable>
 							{% for user in deptUsers %}
-								<option value="{{user.student.name}}" >{{user.username}}</option>
+								<option value="{{user.username}}" >{{user.student.name}}</option>
 							{% endfor %}
 						</datalist>
 						<span class="focus-input100"></span>
