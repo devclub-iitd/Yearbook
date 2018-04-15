@@ -115,15 +115,24 @@ def answerMyself(request):
 @login_required()
 def poll(request):
 	u = request.user
+        print u.username
+
+        # department user should be from same year
 	if request.method=='GET':
 		users_all = User.objects.filter(is_superuser=False).order_by('username')
 		dept_users=[]
+                enum_to_name = {}
 		for i in users_all:
+                        enum_to_name[i.username] = i.student.name
 			if i.student.department==u.student.department:
-				dept_users.append(i)
+                            if i.username[:4] == u.username[:4]:
+                            #also add an year check
+                                dept_users.append(i)
+
 		print dept_users
 		allPolls = Poll.objects.filter(department="all")
 		deptPolls = Poll.objects.filter(department=u.student.department)
+                
 		VotesDisplay = u.student.VotesIHaveGiven
 		gen_allPolls=[]
 		gen_deptPolls=[]
@@ -135,9 +144,11 @@ def poll(request):
 			gen_deptPolls.append([p.id,p.poll,""])
 			if (VotesDisplay.has_key(str(p.id))):
 				gen_deptPolls[-1][-1]=VotesDisplay[str(p.id)]
-              #  p:w
-               # rint "##############"
-                #print gen_allPolls
+               # add a name field to display I dont know how to get name
+               # straight away
+                for i in range(len(gen_deptPolls)):
+                    gen_deptPolls[i].append(enum_to_name[gen_deptPolls[i][-1]])
+                
                 context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users_all,"deptUsers":dept_users}
                 return render(request, 'myapp/poll.html',context)
 
