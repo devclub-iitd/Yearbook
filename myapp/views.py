@@ -42,8 +42,7 @@ def authenticate(request):
 		login(request, myUser)
 		return redirect('/profile')
 	else:
-            return redirect('/')
-            #return render(request, 'myapp/index.html', {"auth":"User cannot be logged in"})	   
+		return redirect('/')	   
 
 @login_required()
 def profile(request):
@@ -69,13 +68,13 @@ def profile(request):
 		u.student.genPic1 = request.FILES.get('genPic1')
 		if not (u.student.genPic1.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
 			return render(request , 'myapp/profile.html', {"user":UsrObj ,"image": "Image should be in .png, .jpg or .jpeg format"})
-		u.student.genPic1.name = u.username + "_1.jpg"
+		u.student.genPic1.name = u.username + "1.jpg"
 		
 	if(request.FILES.get('genPic2')!=None and int(request.FILES.get('genPic2').size)<6000000):
 		u.student.genPic2 = request.FILES.get('genPic2')
 		if not (u.student.genPic2.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
 			return render(request , 'myapp/profile.html', {"user":UsrObj ,"image": "Image should be in .png, .jpg or .jpeg format"})
-		u.student.genPic2.name = u.username + "_2.jpg"
+		u.student.genPic2.name = u.username + "2.jpg"
 	
 	u.student.name = request.POST.get('name')
 	if len(u.student.name) == 0:
@@ -118,18 +117,12 @@ def poll(request):
 	if request.method=='GET':
 		users_all = User.objects.filter(is_superuser=False).order_by('username')
 		dept_users=[]
-		enum_to_name = {}
 		for i in users_all:
-			enum_to_name[i.username] = i.student.name
 			if i.student.department==u.student.department:
-				if i.username[:4] == u.username[:4]:
-					#also add an year check
-					dept_users.append(i)
-
-		#print enum_to_name
+				dept_users.append(i)
+		print dept_users
 		allPolls = Poll.objects.filter(department="all")
 		deptPolls = Poll.objects.filter(department=u.student.department)
-                
 		VotesDisplay = u.student.VotesIHaveGiven
 		gen_allPolls=[]
 		gen_deptPolls=[]
@@ -141,14 +134,6 @@ def poll(request):
 			gen_deptPolls.append([p.id,p.poll,""])
 			if (VotesDisplay.has_key(str(p.id))):
 				gen_deptPolls[-1][-1]=VotesDisplay[str(p.id)]
-		# add a name field to display I dont know how to get name
-		# straight away
-    	# print gen_deptPolls
-#		for i in range(len(gen_deptPolls)):
-#			name = enum_to_name.get(gen_deptPolls[i][-1], "")
-			#if name != -1:
-#			gen_deptPolls[i].append(name)
-
 		context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users_all,"deptUsers":dept_users}
 		return render(request, 'myapp/poll.html',context)
 
@@ -165,7 +150,6 @@ def poll(request):
 			fetchPoll.votes[OldVotePresent] = fetchPoll.votes[OldVotePresent] - 1	
 		
 		lowerEntry = (request.POST.getlist('entrynumber[]')[i]).lower()
-                print lowerEntry
 		if(fetchPoll.votes.has_key(lowerEntry)):
 			if ((lowerEntry != u.username.lower())):
 				fetchPoll.votes[lowerEntry] = fetchPoll.votes[lowerEntry] + 1	
@@ -173,9 +157,6 @@ def poll(request):
 				return redirect("/poll")
 		else:
 			# A not found check for poll and Cannot vote oneself
-			print(lowerEntry)
-			print(User.objects.filter(username = lowerEntry).exists())
-			print(u.username.lower())
 			if (User.objects.filter(username = lowerEntry).exists() and (lowerEntry != u.username.lower())):
 				toVoteDepartment = (User.objects.get(username=lowerEntry)).student.department
 				if (((fetchPoll.department.lower() == "all") or (fetchPoll.department.lower() == toVoteDepartment.lower())) and (lowerEntry[0:4] == u.username[0:4])):		
@@ -260,6 +241,5 @@ def otherComment(request):
 
 
 def userlogout(request):
-	logout(request)
-	return redirect("/")
-	
+    logout(request)
+    return redirect("/")
