@@ -42,7 +42,8 @@ def authenticate(request):
 		login(request, myUser)
 		return redirect('/profile')
 	else:
-		return redirect('/')	   
+            return redirect('/')
+            #return render(request, 'myapp/index.html', {"auth":"User cannot be logged in"})	   
 
 @login_required()
 def profile(request):
@@ -134,9 +135,11 @@ def poll(request):
 			gen_deptPolls.append([p.id,p.poll,""])
 			if (VotesDisplay.has_key(str(p.id))):
 				gen_deptPolls[-1][-1]=VotesDisplay[str(p.id)]
-	
-		context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users_all,"deptUsers":dept_users}
-		return render(request, 'myapp/poll.html',context)
+              #  p:w
+               # rint "##############"
+                #print gen_allPolls
+                context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users_all,"deptUsers":dept_users}
+                return render(request, 'myapp/poll.html',context)
 
 	# if POST request 
 	# print request.POST.getlist('entrynumber[]')
