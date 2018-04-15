@@ -16,9 +16,14 @@
 	
 	{% block body %}
 	<div class="container-login100" style="background-image:
-    url('https://raw.githubusercontent.com/devclub-iitd/grades/master/static/images/bg.jpg');">
+    url('{% static 'myapp/images/bg.jpg' %}');">
 		<div class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
 			<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
+				
+				<span class="login100-form-logo">
+						<img src="{% static 'myapp/images/devclub.jpg' %}" style="border-radius:20px;" height="150" width="300"/>
+				</span>
+				<p style="display: block;font-family: SourceSansPro-Bold; font-size: 20px; color: #4b2354; line-height: 1.2;  text-align: center;">Presents</p>
 				{% csrf_token %}
 				<span class="login100-form-title p-b-37">
 					Yearbook
@@ -52,6 +57,7 @@
 			</form>			
 		</div>
 	</div>
+
 	{% endblock %}
 	
 <!--===============================================================================================-->
@@ -59,5 +65,7 @@
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
+
 </body>
+
 </html>

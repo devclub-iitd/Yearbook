@@ -203,7 +203,7 @@ iframe {
 }
 
 .wrap-login100 {
-  width: 45%;
+  width: 30%;
   background: #fff;
   border-radius: 10px;
   /*overflow: hidden;*/
@@ -232,6 +232,25 @@ iframe {
   color: #4b2354;
   line-height: 1.2;
   text-align: center;
+}
+
+.login100-form-logo {
+  font-size: 60px; 
+  color: #333333;
+
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #fff;
+  margin: 0 auto;
+  padding-bottom: 50px
 }
 
 /*------------------------------------------------------------------
