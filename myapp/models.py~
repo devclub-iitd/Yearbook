@@ -14,7 +14,6 @@ class GenQuestion(models.Model):
 
 class Poll(models.Model):
 	departments = [
-	    ("biotech", "biotech"),
 	    ("chemical", "chemical"),
 	    ("civil", "civil"),
 	    ("cse", "cse"),
@@ -23,6 +22,7 @@ class Poll(models.Model):
 	    ("mech", "mech"),
 	    ("physics", "physics"),
 	    ("textile", "textile"),
+	    ("dbeb", "dbeb"),
 	    ("all", "all"),
 	]
 	poll = models.CharField(max_length=200)
@@ -33,16 +33,16 @@ class Poll(models.Model):
 
 class Student(models.Model):
 	departments = [
-	    ("biotechnology", "biotechnology"),
 	    ("chemical", "chemical"),
 	    ("civil", "civil"),
-	    ("computer", "computer"),
-	    ("electrical", "electrical"),
-	    ("mathematics", "mathematics"),
-	    ("mechanical", "mechanical"),
+	    ("cse", "cse"),
+	    ("ee", "ee"),
+	    ("maths", "maths"),
+	    ("mech", "mech"),
 	    ("physics", "physics"),
 	    ("textile", "textile"),
-	    ("all", "all"),	
+	    ("dbeb", "dbeb"),
+	    ("all", "all"),
 	]
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	name = models.CharField(max_length=100,blank=True)

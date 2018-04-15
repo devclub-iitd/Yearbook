@@ -115,9 +115,8 @@ def answerMyself(request):
 @login_required()
 def poll(request):
 	u = request.user
-       # print u.username
 
-        # department user should be from same year
+    # department user should be from same year
 	if request.method=='GET':
 		users_all = User.objects.filter(is_superuser=False).order_by('username')
 		dept_users=[]
@@ -129,7 +128,7 @@ def poll(request):
 					#also add an year check
 					dept_users.append(i)
 
-		# print dept_users
+		#print enum_to_name
 		allPolls = Poll.objects.filter(department="all")
 		deptPolls = Poll.objects.filter(department=u.student.department)
                 
@@ -144,13 +143,16 @@ def poll(request):
 			gen_deptPolls.append([p.id,p.poll,""])
 			if (VotesDisplay.has_key(str(p.id))):
 				gen_deptPolls[-1][-1]=VotesDisplay[str(p.id)]
-       	       # add a name field to display I dont know how to get name
-       	       # straight away
-				for i in range(len(gen_deptPolls)):
-					gen_deptPolls[i].append(enum_to_name[gen_deptPolls[i][-1]])
+		# add a name field to display I dont know how to get name
+		# straight away
+    	# print gen_deptPolls
+		for i in range(len(gen_deptPolls)):
+			name = enum_to_name.get(gen_deptPolls[i][-1], "")
+			#if name != -1:
+			gen_deptPolls[i].append(name)
 
-				context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users_all,"deptUsers":dept_users}
-				return render(request, 'myapp/poll.html',context)
+		context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users_all,"deptUsers":dept_users}
+		return render(request, 'myapp/poll.html',context)
 
 	# if POST request 
 	# print request.POST.getlist('entrynumber[]')
@@ -165,7 +167,6 @@ def poll(request):
 			fetchPoll.votes[OldVotePresent] = fetchPoll.votes[OldVotePresent] - 1	
 		
 		lowerEntry = (request.POST.getlist('entrynumber[]')[i]).lower()
-
 		if(fetchPoll.votes.has_key(lowerEntry)):
 			if ((lowerEntry != u.username.lower())):
 				fetchPoll.votes[lowerEntry] = fetchPoll.votes[lowerEntry] + 1	
@@ -173,6 +174,7 @@ def poll(request):
 				return redirect("/poll")
 		else:
 			# A not found check for poll and Cannot vote oneself
+			print(lowerEntry)
 			if (User.objects.filter(username = lowerEntry).exists() and (lowerEntry != u.username.lower())):
 				toVoteDepartment = (User.objects.get(username=lowerEntry)).student.department
 				if (((fetchPoll.department.lower() == "all") or (fetchPoll.department.lower() == toVoteDepartment.lower())) and (lowerEntry[0:4] == u.username[0:4])):		
@@ -225,7 +227,7 @@ def comment(request):
 			if (User.objects.filter(username = lowerEntry).exists()):
 				u_new = User.objects.get(username=lowerEntry)
 			else:
-				#print User.objects.filter(username = lowerEntry).exists()
+				print User.objects.filter(username = lowerEntry).exists()
 				return redirect('/comment')
 			u_new.student.CommentsIGet.append({"comment":request.POST.getlist('val[]')[i],"fromWhom":u.username,"displayInPdf":"True"})
 			u_new.student.save()
