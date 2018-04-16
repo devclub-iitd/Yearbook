@@ -8,7 +8,7 @@
                 <span class="login100-form-title p-b-37">
                     All polls
                 </span>
-                {% for id, poll, val, name in allPolls %}
+                {% for id,poll,val,name in allPolls %}
         <h5>{{ poll }}  - {{name}}</h5>
                     <input style="display: none" type="text" name="id[]" value="{{ id }}" readonly="readonly">
                     <div class="wrap-input100 validate-input m-b-20">

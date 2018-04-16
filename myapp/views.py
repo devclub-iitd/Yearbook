@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import Config as config
 
@@ -125,7 +125,7 @@ def poll(request):
         users_all = User.objects.filter(is_superuser=False).order_by('username')
         
         dept_users = []
-        user = [] # made seperate for same year vote only
+        users = [] # made seperate for same year vote only
 
         for i in users_all:
             enum_to_name[i.username] = i.student.name
@@ -145,17 +145,19 @@ def poll(request):
         gen_deptPolls=[]
         
         for p in allPolls:
-            gen_allPolls.append([p.id,p.poll,""])
+            gen_allPolls.append([p.id,p.poll,"", ""])
             if (VotesDisplay.has_key(str(p.id))):
-                gen_allPolls[-1][-1]=VotesDisplay[str(p.id)]
-                gen_allPolls[-1].append(enum_to_name.get(VotesDisplay[str(p.id)], ""))
+                gen_allPolls[-1][2]=VotesDisplay[str(p.id)]
+                gen_allPolls[-1][3]=enum_to_name.get(VotesDisplay[str(p.id)], "")
                 
         for p in deptPolls:
-            gen_deptPolls.append([p.id,p.poll,""])
+            gen_deptPolls.append([p.id,p.poll,"", ""])
             if (VotesDisplay.has_key(str(p.id))):
-                gen_deptPolls[-1][-1]=VotesDisplay[str(p.id)]
-                gen_deptPolls[-1].append(enum_to_name.get(VotesDisplay[str(p.id)], ""))
+                gen_deptPolls[-1][2]=VotesDisplay[str(p.id)]
+                gen_deptPolls[-1][3]=(enum_to_name.get(VotesDisplay[str(p.id)], ""))
         context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users,"deptUsers":dept_users}
+        print "####"
+        print context
         return render(request, 'myapp/poll.html',context)
 
     # if POST request 
