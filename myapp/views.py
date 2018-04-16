@@ -115,12 +115,15 @@ def answerMyself(request):
 def poll(request):
 	u = request.user
 	if request.method=='GET':
+                enum_to_name = {}
 		users_all = User.objects.filter(is_superuser=False).order_by('username')
 		dept_users=[]
 		for i in users_all:
-			if i.student.department==u.student.department:
-				dept_users.append(i)
-		print dept_users
+                    enum_to_name[i.username] = i.student.name
+		    if i.student.department==u.student.department:
+                        if i.username[:4] == u.username[:4]:
+                            dept_users.append(i)
+		print enum_to_name
 		allPolls = Poll.objects.filter(department="all")
 		deptPolls = Poll.objects.filter(department=u.student.department)
 		VotesDisplay = u.student.VotesIHaveGiven
@@ -131,9 +134,10 @@ def poll(request):
 			if (VotesDisplay.has_key(str(p.id))):
 				gen_allPolls[-1][-1]=VotesDisplay[str(p.id)]
 		for p in deptPolls:
-			gen_deptPolls.append([p.id,p.poll,""])
-			if (VotesDisplay.has_key(str(p.id))):
-				gen_deptPolls[-1][-1]=VotesDisplay[str(p.id)]
+                        gen_deptPolls.append([p.id,p.poll,""])
+		        if (VotesDisplay.has_key(str(p.id))):
+			    gen_deptPolls[-1][-1]=VotesDisplay[str(p.id)]
+                            gen_deptPolls[-1].append(enum_to_name.get(VotesDisplay[str(p.id)], ""))
 		context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users_all,"deptUsers":dept_users}
 		return render(request, 'myapp/poll.html',context)
 
