@@ -12,9 +12,7 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href='{% static "vendor/bootstrap/css/bootstrap.min.css" %}'>
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href='{% static "fonts/font-awesome-4.7.0/css/font-awesome.min.css" %}'>
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href='{% static "fonts/iconic/css/material-design-iconic-font.min.css" %}'>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href='{% static "vendor/animate/animate.css" %}'>
 <!--===============================================================================================-->	
@@ -42,7 +40,7 @@
 			<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
 				
 				<span class="login100-form-logo">
-						<img src="{% static 'myapp/images/devclub.jpg' %}" style="border-radius:20px;" height="150" width="300"/>
+						<img  class="img-responsive" src="{% static 'myapp/images/devclub.jpg' %}" style="box-sizing: border-box; border-radius:20px;" height="150" width="300"/>
 				</span>
 				<p style="display: block;font-family: SourceSansPro-Bold; font-size: 20px; color: #4b2354; line-height: 1.2;  text-align: center;">Presents</p>
 				{% csrf_token %}
