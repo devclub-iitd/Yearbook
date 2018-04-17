@@ -261,10 +261,25 @@ def otherComment(request):
         u.student.save()
     return redirect('/otherComment')
 def yearbook(request):
-
+    departmentDic={
+        "chemical": "chemical",
+        "civil": "civil",
+        "cse": "computer science",
+        "ee": "electrical",
+        "maths": "mathematics",
+        "mech": "mechanical",
+        "physics": "engineering physics",
+        "textile": "textile engineering",
+        "dbeb": "biotechnology",
+        "all": "all"
+    }
     dep = request.GET.get('department')
+    departmentN=""
+    if departmentDic.has_key(dep):
+        departmentN = departmentDic[dep]
     GenQuestions = GenQuestion.objects.all()
     students_dep = Student.objects.filter(department=dep)
+    print students_dep[0].department
     for i in students_dep:
         gen_GenQuestions=list([])
         for q in GenQuestions:
@@ -305,7 +320,7 @@ def yearbook(request):
         if ind!=0:
             dep_polls.append([p.poll,tmpVotes[0:ind]])
 
-    context={"students":students_dep,"department":dep,"allPolls":all_polls,"deptPolls":dep_polls}
+    context={"students":students_dep,"department":departmentN,"allPolls":all_polls,"deptPolls":dep_polls}
     return render(request, 'myapp/yearbook.html',context)
 
 

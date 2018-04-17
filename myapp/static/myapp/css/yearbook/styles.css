@@ -18,6 +18,7 @@
   padding-top: 10px;
   padding-bottom: 3px;
   border-radius: 5px;
+  margin-bottom: 7px;
 
 }
 .experiences-section:nth-of-type(2) .item:nth-child(odd) {
@@ -38,6 +39,7 @@
   background-image: url("../../images/bg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: 70%;
   opacity: 0.7;
   z-index: -1;
   color: white;
@@ -114,8 +116,8 @@ p {
 .wrapper {
   page-break-before: always;
   background: #42A8C0;
-  max-width: 960px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin: 0;
   position: relative;
   -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
@@ -137,6 +139,7 @@ p {
 }
 .sidebar-wrapper .profile-container {
   padding: 30px;
+  padding-top: 100px;
   background: rgba(0, 0, 0, 0.2);
   text-align: center;
   color: #fff;
@@ -226,7 +229,10 @@ p {
 }
 .main-wrapper {
   background: #fff;
+  /*margin-left: 0px;*/
   padding: 60px;
+  padding-top: 100px;
+  padding-bottom: 100px;
   padding-right: 300px;
   min-height: 100vh !important;
 }

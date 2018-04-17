@@ -16,13 +16,13 @@ class Poll(models.Model):
 	departments = [
 		("chemical", "chemical"),
 		("civil", "civil"),
-		("cse", "cse"),
-		("ee", "ee"),
-		("maths", "maths"),
-		("mech", "mech"),
-		("physics", "physics"),
-		("textile", "textile"),
-		("dbeb", "dbeb"),
+		("cse", "computer science"),
+		("ee", "electrical"),
+		("maths", "mathematics"),
+		("mech", "mechanical"),
+		("physics", "engineering physics"),
+		("textile", "textile engineering"),
+		("dbeb", "biotechnology"),
 		("all", "all"),
 	]
 	poll = models.CharField(max_length=200)
@@ -35,14 +35,14 @@ class Student(models.Model):
 	departments = [
 		("chemical", "chemical"),
 		("civil", "civil"),
-		("cse", "cse"),
-		("ee", "ee"),
-		("maths", "maths"),
-		("mech", "mech"),
-		("physics", "physics"),
-		("textile", "textile"),
-		("dbeb", "dbeb"),
-		("all", "all"),
+		("cse", "computer science"),
+		("ee", "electrical"),
+		("maths", "mathematics"),
+		("mech", "mechanical"),
+		("physics", "engineering physics"),
+		("textile", "textile engineering"),
+		("dbeb", "biotechnology"),
+		("all", "all")
 	]
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	name = models.CharField(max_length=100,blank=True)
