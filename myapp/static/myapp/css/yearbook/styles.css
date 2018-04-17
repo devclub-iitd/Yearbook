@@ -12,21 +12,76 @@
      margin: 0;
      padding: 0;
  }
+.item{
+  padding-left:20px;
+  padding-right:20px;
+  padding-top: 10px;
+  padding-bottom: 3px;
+  border-radius: 5px;
+
+}
+.experiences-section:nth-of-type(2) .item:nth-child(odd) {
+  background-color: #43e09b;
+}
+.experiences-section:nth-of-type(2) .item:nth-child(even) {
+  background-color: #80bfd6;
+}
+.experiences-section:nth-of-type(1) .item:nth-child(even) {
+  background-color: #ef8694;
+}
+.experiences-section:nth-of-type(1) .item:nth-child(even) {
+  background-color: #ffee05;
+}
+
 #heading{
-  height:100vh;
+  min-height:100vh ;
+  background-image: url("../../images/bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.7;
+  z-index: -1;
+  color: white;
+  text-align: center;
+  padding-top: 40vh;
+  font-family: Gaegu;
+  /*font-size: 3em !important;*/
+}
+#heading h1{
+  width: 30%;
+  padding:20px;
+  margin-left: 35%;
+  background-color: rgba(0,0,0,0.8);
+  -webkit-box-shadow: 3px 3px 5px 6px #000;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 3px 5px 6px #000;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 3px 5px 6px #000;  /* Opera 10.5, IE 9, Firefox 4+, Chrome */
+}
+#looney{
+  min-height: 100vh;
+  font-family: Gaegu;
+  text-align: center;
+  padding-top: 40vh;
+}
+#departmentIntro{
+  min-height: 100vh;
+  font-family: Gaegu;
+  text-align: center;
+  padding-top: 40vh;
 }
 #polls{
-  height:95vh;
+  min-height:100vh;
+  margin-left: 5%;
+  margin-right: 5%;
+  padding-top: 5%;
 }
 #groupPics{
-  height:100vh;
+  min-height:100vh;
 }
 body {
   font-family: 'Roboto', sans-serif;
   color: #545E6C;
   background: #f5f5f5;
   font-size: 14px;
-  padding: 30px;
+  /*padding: 30px;*/
   padding-top: 0px; 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -132,7 +187,7 @@ p {
   margin-bottom: 5px;
 }
 .sidebar-wrapper .education-container .item {
-  margin-bottom: 15px;
+  /*margin-bottom: 15px;*/
 }
 .sidebar-wrapper .education-container .item:last-child {
   margin-bottom: 0;
@@ -209,7 +264,7 @@ p {
   margin-bottom: 60px;
 }
 .main-wrapper .experiences-section .item {
-  margin-bottom: 30px;
+  /*margin-bottom: 30px;*/
 }
 .main-wrapper .upper-row {
   position: relative;
@@ -243,10 +298,10 @@ p {
   margin-bottom: 30px;
 }
 .main-wrapper .projects-section .item {
-  margin-bottom: 15px;
+  /*margin-bottom: 15px;*/
 }
 .skillset .item {
-  margin-bottom: 15px;
+  /*margin-bottom: 15px;*/
   overflow: hidden;
 }
 .skillset .level-title {
