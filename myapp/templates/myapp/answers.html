@@ -1,19 +1,20 @@
 {% extends 'myapp/profile.html' %}
-{% block title %}Answers{% endblock %}
+{% block title %}YearBook - Answers{% endblock %}
 {% block body %}
 	{% if genQuestions  %}
 		<div class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
 			<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
 				{% csrf_token %}
 				<span class="login100-form-title p-b-37">
-					Answers
+					Answers  <p style="text-align:center; color: #4b2354;"> Type in the input box and press [return] when done. </p>
+
 				</span>
-				{% for id,question,val in genQuestions %}
+       				{% for id,question,val in genQuestions %}
 					<h4>{{ question }} </h4>
-          <h5 style="color: #bd59d4"> {{ val|wordwrap:50|linebreaksbr }} </h5>
+          <h5 style="color: #4b2354"> {{ val|linebreaksbr }} </h5>
 					<input style="display:none" type="text" name="id[]" value="{{ id }}" readonly="readonly">
 					<div class="wrap-input100 validate-input m-b-20">
-						<input class="input100" type="text" name="answer[]"  value="{{ val }}"placeholder="Answer">
+						<input class="input100" type="text" name="answer[]"  value="" placeholder="Answer">
 						<span class="focus-input100"></span>
 					</div>
 					<hr>
