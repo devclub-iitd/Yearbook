@@ -108,11 +108,11 @@ def answerMyself(request):
         return render(request, 'myapp/answers.html', context)
     # print request.POST.getlist('answer[]')
     for i in range(len(request.POST.getlist('answer[]'))):
-        if GenQuestion.objects.filter(id=request.POST.getlist('id[]')[i]).exists():
+	if GenQuestion.objects.filter(id=request.POST.getlist('id[]')[i]).exists() and len(str(request.POST.getlist('answer[]')[i]).strip())>0:
             u.student.AnswersAboutMyself[request.POST.getlist(
                 'id[]')[i]] = request.POST.getlist('answer[]')[i]
         else:
-            return redirect('/answer')
+            continue
         u.student.save()
     return redirect('/answer')
 
@@ -133,10 +133,6 @@ def poll(request):
                 users.append(i)
                 if i.student.department==u.student.department:
                     dept_users.append(i)
-        
-        print "users"
-        print users
-        print dept_users
 
         allPolls = Poll.objects.filter(department="all")
         deptPolls = Poll.objects.filter(department=u.student.department)
@@ -156,8 +152,6 @@ def poll(request):
                 gen_deptPolls[-1][2]=VotesDisplay[str(p.id)]
                 gen_deptPolls[-1][3]=(enum_to_name.get(VotesDisplay[str(p.id)], ""))
         context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users,"deptUsers":dept_users}
-        print "####"
-        print context
         return render(request, 'myapp/poll.html',context)
 
     # if POST request 
@@ -170,7 +164,8 @@ def poll(request):
             return redirect("/poll")
         if (u.student.VotesIHaveGiven.has_key(request.POST.getlist('id[]')[i])):
             OldVotePresent = u.student.VotesIHaveGiven[request.POST.getlist('id[]')[i]]
-            fetchPoll.votes[OldVotePresent] = fetchPoll.votes[OldVotePresent] - 1   
+            if(OldVotePresent in fetchPoll.votes):
+                fetchPoll.votes[OldVotePresent] = fetchPoll.votes[OldVotePresent] - 1   
         
         lowerEntry = (request.POST.getlist('entrynumber[]')[i]).lower()
         if(fetchPoll.votes.has_key(lowerEntry)):
@@ -186,9 +181,10 @@ def poll(request):
                     fetchPoll.votes[lowerEntry] = 1
                 else:
                     return redirect("/poll")        
-            else:
-                return redirect("/poll")
-        u.student.VotesIHaveGiven[request.POST.getlist('id[]')[i]] = lowerEntry     
+            #else:
+            #    return redirect("/poll")
+        if(lowerEntry != u.username.lower()):
+            u.student.VotesIHaveGiven[request.POST.getlist('id[]')[i]] = lowerEntry     
         fetchPoll.save()
         u.student.save()
     return redirect("/poll")

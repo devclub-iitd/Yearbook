@@ -92,3 +92,4 @@ venv/
 media/
 Config.py
 myapp/migrations/
+*~

@@ -1,6 +1,7 @@
 {% extends 'myapp/profile.html' %}
 {% block title %}YearBook - My comments{% endblock %}
 {% block body %}
+
 	{% if comments  %}
 	<div class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
 		<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
@@ -31,11 +32,13 @@
 			<p style="text-align: center; color: red">{{comment}}</p>
 			<div class="wrap-input100 validate-input m-b-20">
 				<!-- <input class="input100" type="text" name="forWhom[]" placeholder="for whom"> -->
-				<input class="input100" list="students" name="forWhom[]" placeholder="For whom" autocomplete="off">
-				<datalist id="students" scrollable>
+				<template id="students">
 					{% for user in users %}
 						<option value="{{user.username}}" >{{user.student.name}}</option>
 					{% endfor %}
+				</template>
+				<input class="input100" type="text" list="searchresults" name="forWhom[]" placeholder="For whom" autocomplete="off">
+				<datalist id="searchresults">
 				</datalist>
 				<span class="focus-input100"></span>
 			</div>
@@ -50,6 +53,8 @@
 			</div>
 		</form>			
 	</div>
+<script type="text/javascript" src="/myapp/static/myapp/commentList.js"></script>
 {% endblock %}
 </body>
 </html>
+
