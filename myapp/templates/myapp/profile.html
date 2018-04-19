@@ -32,10 +32,6 @@
 	    <li class="nav-item">
 			<a class="nav-link" href="/poll" style="color:white">Poll</a>
 	    </li>
-<!-- 	    <li style="position:absolute; right: 11%"  class="nav-item">
-			<a class="nav-link"href="/changePassword" style="color:white">Change Password</a>
-	    </li>
- -->
  	    <li style="position:absolute; right: 5%" class="nav-item">
 		 	<a class="nav-link" href="/logout" style="color:white">Logout</a>
 	    </li>
@@ -45,16 +41,14 @@
 	<div class="container-login100">
 		{% block body %}
 			<div class="container">
-					
-				{% if user.DP %}
-					<img style="margin:20px;height: 300px;width: auto;max-width: 30%;" class="img-thumbnail" src={{user.DP.url}}>
-				{% endif %}
+					<center>
 				{% if user.genPic1 %}
 					<img style="margin:20px;height: 300px;width: auto;max-width: 30%;" class="img-thumbnail" src={{user.genPic1.url}}>
 				{% endif %}
 				{% if user.genPic2 %}
 					<img style="margin:20px;height: 300px;width: auto;max-width: 30%;" class="img-thumbnail" src={{user.genPic2.url}}>
 				{% endif %}
+					</center>
 			</div>
 
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
@@ -63,6 +57,10 @@
 					<span class="login100-form-title p-b-37">
 						Profile
 					</span>
+					{% if user.DP %}
+						<center><img style="margin:auto;height: auto;width: auto;max-width: 30%;" class="img-thumbnail" src={{user.DP.url}}></center>
+					{% endif %}
+
 					<p style="text-align: center; color: red">{{image}}</p>
 					<p style="text-align: center; color: red">{{name}}</p>
 

@@ -2,11 +2,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>{% block title %}Index{% endblock %}</title>
+	<title>YearBook{% block title %}{% endblock %}</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
 	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<!--===============================================================================================-->
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href='{% static "vendor/bootstrap/css/bootstrap.min.css" %}'>
+<!--===============================================================================================-->
+<!--===============================================================================================-->
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href='{% static "vendor/animate/animate.css" %}'>
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href='{% static "vendor/css-hamburgers/hamburgers.min.css" %}'>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href='{% static "vendor/animsition/css/animsition.min.css" %}'>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href='{% static "vendor/select2/select2.min.css" %}'>
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href='{% static "vendor/daterangepicker/daterangepicker.css" %}'>
+<!--===============================================================================================-->
+
+
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'myapp/css/main.css'%}">
 	<link rel="stylesheet" type="text/css" href="{% static 'myapp/css/util.css'%}">
@@ -15,9 +34,15 @@
 <body>
 	
 	{% block body %}
-	<div class="container-login100">
+	<div class="container-login100" style="background-image:
+    url('{% static 'myapp/images/bg.jpg' %}');">
 		<div class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
 			<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
+				
+				<span class="login100-form-logo">
+						<img  class="img-responsive" src="{% static 'myapp/images/devclub.jpg' %}" style="box-sizing: border-box; border-radius:20px;" height="150" width="300"/>
+				</span>
+				<p style="display: block;font-family: SourceSansPro-Bold; font-size: 20px; color: #4b2354; line-height: 1.2;  text-align: center;">Presents</p>
 				{% csrf_token %}
 				<span class="login100-form-title p-b-37">
 					Yearbook
@@ -51,6 +76,7 @@
 			</form>			
 		</div>
 	</div>
+
 	{% endblock %}
 	
 <!--===============================================================================================-->
@@ -58,5 +84,7 @@
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
+
 </body>
+
 </html>
