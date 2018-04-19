@@ -260,69 +260,71 @@ def otherComment(request):
                 break
         u.student.save()
     return redirect('/otherComment')
+@login_required()
 def yearbook(request):
-    departmentDic={
-        "chemical": "chemical",
-        "civil": "civil",
-        "cse": "computer science",
-        "ee": "electrical",
-        "maths": "mathematics",
-        "mech": "mechanical",
-        "physics": "engineering physics",
-        "textile": "textile engineering",
-        "dbeb": "biotechnology",
-        "all": "all"
-    }
-    dep = request.GET.get('department')
-    departmentN=""
-    if departmentDic.has_key(dep):
-        departmentN = departmentDic[dep]
-    GenQuestions = GenQuestion.objects.all()
-    students_dep = Student.objects.filter(department=dep)
-    print students_dep[0].department
-    for i in students_dep:
-        gen_GenQuestions=list([])
-        for q in GenQuestions:
-            if (i.AnswersAboutMyself.has_key(str(q.id)) and i.AnswersAboutMyself[str(q.id)]!=""):
-                gen_GenQuestions.append([])
-                gen_GenQuestions[-1] = [q.question,i.AnswersAboutMyself[str(q.id)]]
-        i.AnswersAboutMyself=list(gen_GenQuestions)
+    if request.user.is_superuser:
+        departmentDic={
+            "chemical": "chemical",
+            "civil": "civil",
+            "cse": "computer science",
+            "ee": "electrical",
+            "maths": "mathematics",
+            "mech": "mechanical",
+            "physics": "engineering physics",
+            "textile": "textile engineering",
+            "dbeb": "biotechnology",
+            "all": "all"
+        }
+        dep = request.GET.get('department')
+        departmentN=""
+        if departmentDic.has_key(dep):
+            departmentN = departmentDic[dep]
+        GenQuestions = GenQuestion.objects.all()
+        students_dep = Student.objects.filter(department=dep)
+        for i in students_dep:
+            gen_GenQuestions=list([])
+            for q in GenQuestions:
+                if (i.AnswersAboutMyself.has_key(str(q.id)) and i.AnswersAboutMyself[str(q.id)]!=""):
+                    gen_GenQuestions.append([])
+                    gen_GenQuestions[-1] = [q.question,i.AnswersAboutMyself[str(q.id)]]
+            i.AnswersAboutMyself=list(gen_GenQuestions)
 
-        gen_commentsIGet=list([])
-        for a in i.CommentsIGet:
-            if(User.objects.filter(username=a['fromWhom']).exists() and a['comment']!="" and a['displayInPdf']=="True"):
-                gen_commentsIGet.append([])
-                gen_commentsIGet[-1] = [a['comment'],User.objects.filter(username=a['fromWhom'])[0].student.name]
-        i.CommentsIGet=list(gen_commentsIGet)
+            gen_commentsIGet=list([])
+            for a in i.CommentsIGet:
+                if(User.objects.filter(username=a['fromWhom']).exists() and a['comment']!="" and a['displayInPdf']=="True"):
+                    gen_commentsIGet.append([])
+                    gen_commentsIGet[-1] = [a['comment'],User.objects.filter(username=a['fromWhom'])[0].student.name]
+            i.CommentsIGet=list(gen_commentsIGet)
 
-    all_polls=[]
-    for p in Poll.objects.filter(department="all"):
-        tmpVotes = []
-        for (person,count) in p.votes.iteritems():
-            Person=""
-            if(User.objects.filter(username=person).exists()):
-                Person=User.objects.filter(username=person)[0].student.name
-            tmpVotes.append([count,Person])
-        tmpVotes.sort()
-        ind = min(5,len(tmpVotes))
-        if ind!=0:
-            all_polls.append([p.poll,tmpVotes[0:ind]])
-    dep_polls=[]
-    for p in Poll.objects.filter(department=dep):
-        tmpVotes = []
-        for (person,count) in p.votes.iteritems():
-            Person=""
-            if(User.objects.filter(username=person).exists()):
-                Person=User.objects.filter(username=person)[0].student.name
-            tmpVotes.append([count,Person])
-        tmpVotes.sort()
-        ind = min(5,len(tmpVotes))
-        if ind!=0:
-            dep_polls.append([p.poll,tmpVotes[0:ind]])
+        all_polls=[]
+        for p in Poll.objects.filter(department="all"):
+            tmpVotes = []
+            for (person,count) in p.votes.iteritems():
+                Person=""
+                if(User.objects.filter(username=person).exists()):
+                    Person=User.objects.filter(username=person)[0].student.name
+                tmpVotes.append([count,Person])
+            tmpVotes.sort()
+            ind = min(5,len(tmpVotes))
+            if ind!=0:
+                all_polls.append([p.poll,tmpVotes[0:ind]])
+        dep_polls=[]
+        for p in Poll.objects.filter(department=dep):
+            tmpVotes = []
+            for (person,count) in p.votes.iteritems():
+                Person=""
+                if(User.objects.filter(username=person).exists()):
+                    Person=User.objects.filter(username=person)[0].student.name
+                tmpVotes.append([count,Person])
+            tmpVotes.sort()
+            ind = min(5,len(tmpVotes))
+            if ind!=0:
+                dep_polls.append([p.poll,tmpVotes[0:ind]])
 
-    context={"students":students_dep,"department":departmentN,"allPolls":all_polls,"deptPolls":dep_polls}
-    return render(request, 'myapp/yearbook.html',context)
-
+        context={"students":students_dep,"department":departmentN,"allPolls":all_polls,"deptPolls":dep_polls}
+        return render(request, 'myapp/yearbook.html',context)
+    else:
+        return redirect('/')
 
 
 def userlogout(request):
