@@ -44,13 +44,9 @@ for url in listOfUrls:
 	html = response.content
 	soup = BeautifulSoup(html, "html.parser")
 
-	# print(soup)	
 	table_body = soup.find('table')
 
-	# print(table_body)
-
 	rows = table_body.find_all('tr')
-	# print(rows)
 	print(url)
 		
 	for row in rows:

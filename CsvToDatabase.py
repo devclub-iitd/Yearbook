@@ -11,7 +11,8 @@ with open("./Scrape/fileName.csv", "rU") as file:
 	for col in reader:	
 		ind = ind+1
 		print(ind)
-		u = User(username=col[0].lower(), password=pswd)
+                user_passwd = pswd + col[0].lower()[3:5]
+                u = User(username=col[0].lower(), password=user_passwd)
 		s = Student(name=col[1], department=col[2])
 		u.save()
 		u.student = s

@@ -31,7 +31,7 @@
 			<p style="text-align: center; color: red">{{comment}}</p>
 			<div class="wrap-input100 validate-input m-b-20">
 				<!-- <input class="input100" type="text" name="forWhom[]" placeholder="for whom"> -->
-				<input class="input100" list="students" name="forWhom[]" placeholder="Type Name/Entry Number" autocomplete="off">
+				<input class="input100" list="students" name="forWhom[]" placeholder="For whom" autocomplete="off">
 				<datalist id="students" scrollable>
 					{% for user in users %}
 						<option value="{{user.username}}" >{{user.student.name}}</option>
