@@ -279,6 +279,8 @@ def yearbook(request):
     departmentN=""
     if departmentDic.has_key(dep):
         departmentN = departmentDic[dep]
+    else:
+        departmentN = "all"
     GenQuestions = GenQuestion.objects.all()
     students_dep = Student.objects.filter(department=dep)
     for i in students_dep:
