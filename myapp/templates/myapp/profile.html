@@ -32,6 +32,10 @@
 	    <li class="nav-item">
 			<a class="nav-link" href="/poll" style="color:white">Poll</a>
 	    </li>
+			<a class="nav-link" href="/yearbook" style="color:white">Yearbook</a>
+	    </li>
+
+
  	    <li style="position:absolute; right: 5%" class="nav-item">
 		 	<a class="nav-link" href="/logout" style="color:white">Logout</a>
 	    </li>
@@ -52,7 +56,8 @@
 			</div>
 
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
-				<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
+				<a class="nav-link" href="/yearbook" style="color:white">Yearbook</a>
+	    <form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
 					{% csrf_token %}
 					<span class="login100-form-title p-b-37">
 						Profile
@@ -67,6 +72,9 @@
 					<div class="wrap-input100 validate-input m-b-20">
 						<input style="color: black;background-color: #e0e0e0" class="input100" type="text" name="name" placeholder="Name"  value="{{ user.name }}" readonly="readonly">
 						<span class="focus-input100"></span>
+	<p style="text-align: center; color: #4b2354">
+					 For 2014 Entry Only
+				</p>
 					</div>
 					<div class="wrap-input100 validate-input m-b-20">
 						<label style="color: #adabab;padding-left: 20px">Profile Picture: (max size 5MB) </label>

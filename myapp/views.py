@@ -259,8 +259,7 @@ def otherComment(request):
 @login_required()
 def yearbook(request):
     dep=""
-    if request.user.is_superuser:
-        departmentDic={
+    departmentDic={
             "chemical": "chemical",
             "civil": "civil",
             "cse": "computer science",
@@ -272,6 +271,7 @@ def yearbook(request):
             "dbeb": "biotechnology",
             "all": "all"
         }
+    if request.user.is_superuser:
         dep = request.GET.get('department')
     else:
         dep = request.user.student.department

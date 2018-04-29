@@ -65,7 +65,8 @@
         {% endif %}   
         <hr> 
         <!-- Use this for polls -->
-        
+        {% if request.user.is_superuser %}
+
         {% if deptPolls %}
             <section class="skills-section section">
                 <h2 class="section-title"><i class="fa fa-comments"></i> Department Polls</h2>
@@ -86,7 +87,13 @@
                   </div>
                 </div>  
             </section>
-        {% endif %}     
+        {% endif %}   
+
+        {% else %}
+         <h2 class="section-title"><i class="fa fa-comments"></i> Department
+           Polls (TBD) </h2>
+              
+        {% endif %}
     </div>
     {% for student in students %}
     <div class="wrapper">
