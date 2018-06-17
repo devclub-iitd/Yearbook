@@ -6,6 +6,7 @@ This webapp is used to generate the yearbook every year for the final year stude
 
 ### Database struncture
 * Student:
+  * id
   * one-one link with django inbuilt user(for auth purposes)
   * name
   * department
@@ -16,19 +17,100 @@ This webapp is used to generate the yearbook every year for the final year stude
   * email
   * oneliner (something that describes them)
   * AnswersAboutMyself (json of some answers they write about themselves)
+  ```
+  {
+   "id of question":"answer"
+  }
+  example
+  {
+   "1":".",
+   "3":"sample answer",
+   "2":"another sample answer"
+  }
+  ```
   * VotesIHaveGiven (json of votes that this user has given)
-  * CommentsIWrite (json of comments that this user has given)
-  * CommentsIGet (json of comments that this user gets)
+  ```
+  {
+   "id of poll":"entry number of a user"
+  }
+  example
+  {
+    "283":"2014ee10444",
+    "202":"2014ee10655",
+    "265":"2014ee30544",
+    "157":"2014ee30152",
+    "211":"2014ee30531",
+    "301":"2014ee10871",
+    "310":"2014ee30527"
+  }
+  ```
+  * CommentsIWrite (array of json of comments that this user has given)
+  ```
+  [
+   {
+    "comment":string of comment,
+    "forWhom": "entry number of user"
+   },...
+  ]
+  example
+  [
+   {
+     "comment":"hello how are you.",
+     "forWhom":"2014ch70049"
+   },
+   {
+     "comment":"all the best for your future!",
+     "forWhom":"2014ee30766"
+   },
+  ]
+  ```
+  * CommentsIGet (array of json of comments that this user gets)
+  ```
+  [
+   {
+    "comment":string of comment,
+    "fromWhom": "entry number of user",
+    "displayInPdf":"True or False"(based on whether the user wants this displayed in the pdf)
+   },...
+  ]
+  example
+  [
+   {
+     "comment":"I got this comment",
+     "fromWhom":"2014ee30539",
+     "displayInPdf":"True"
+   },
+   {
+     "comment":"I got another comment ",
+     "fromWhom":"2014ee10134",
+     "displayInPdf":"True"
+   },
+   {
+     "comment":"Ye lo ek aur",
+     "fromWhom":"2014ee10496",
+     "displayInPdf":"True"
+   },
+  ```
 * GenQuestion (this consists of some general questions that admins have to publish before the portal is set up):
+  * id
   * question 
 * Poll (this consists of some poll questions)
+  * id
   * poll (the poll title)
   * department
   * votes (json field which stores data about the votes given)
-
-```
-I'll add example of database once I reach IIT
-```
+  ```
+  {
+   "entry number of some user":votes he/she gets,
+   ...
+  }
+  example
+  {
+  "2014bb10048":4,
+  "2014bb10021":3,
+  "2014bb10028":6
+  }
+  ```
 
 ### How is this supposed to work?
 ### Prior work to be done by admins
@@ -45,7 +127,8 @@ I'll add example of database once I reach IIT
 2. The first thing which someone would want to do is to edit their profile page - add details about themselves.
 3. Next, they would want to answer questions about themselves.
 4. They can write comments about their friends(inter-department commenting is allowed)
-5. They can vote in polls(If a poll is department specific, only students from that departments can vote for students in their department. If a poll has department - 'all', anyone one vote for anyone)
+5. They can vote in polls(If a poll is department specific, only students from that departments can vote for students in their department. If a poll has department - 'all', anyone one can vote for anyone)
+6. If they don't want a comment written by someone for them, to be displayed in the yearbook, they can set displayInPdf for that comment to be False.
 
 ### Post work to be done by admins
 1. Uncomment this line in urls.py: url(r'^yearbook/$', views.yearbook, name='yearbook'),
@@ -65,14 +148,17 @@ textile - textile engineering
 dbeb - biotechnology
 ```
 4. At this point of time, there are no pictures in yearbooks.
-5. Admin must download all the yearbooks, by hitting Ctrl + P once they have opened their yearbooks. Use the following settings to download the yearbooks in Chrome browser. @Arshdeep, add the settings you used on your vision computer, they would be saved in the browser.
+5. Admin must download all the yearbooks, by hitting Ctrl + P once they have opened the yearbooks. Use the following settings to download the yearbooks in a chrome browser:
+ * Set the zoom to 125% (yeah, that changes the print of the yearbook)
+ * Enable background graphics
+ * Set margins to none, if that doesn't look good, let it be default
 6. Now we need to optimize the size of the yearbooks using ps2pdf command. To do that run this for each book:
   * ps2pdf <file_input> <file_output>
 
   Alternatively,
   * Create a new folder and put all the downloaded yearbooks inside it. 
   * Create a new folder inside this folder with the name "optimized".
-  * Create a new file with the name optimize.sh and copy-paste the following inside it,
+  * Create a new file with the name "optimize.sh" and copy-paste the following inside it,
     ```
     for VAR in $(ls)
     do
@@ -89,7 +175,7 @@ dbeb - biotechnology
 * [**Atishya Jain**](https://github.com/atishya-jain)
 
 
-See also the list of [members](https://github.com/orgs/devclub-iitd/people) of DevClub.
+Also see the list of Devclub's [members](https://github.com/orgs/devclub-iitd/people).
 
 ## Acknowledgments
 
