@@ -90,6 +90,7 @@ This webapp is used to generate the yearbook every year for the final year stude
      "fromWhom":"2014ee10496",
      "displayInPdf":"True"
    },
+  ]
   ```
 * GenQuestion (this consists of some general questions that admins have to publish before the portal is set up):
   * id
