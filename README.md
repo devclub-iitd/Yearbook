@@ -180,6 +180,6 @@ Also see the list of Devclub's [members](https://github.com/orgs/devclub-iitd/pe
 
 ## Acknowledgments
 
-* [**Aman Aggarwal**](https://github.com/aman71197) for your guidance
+* [**Aman Agrawal**](https://github.com/aman71197) for your guidance
 * [**Udit Jain**](https://github.com/udit01) for helping with the collage
 
