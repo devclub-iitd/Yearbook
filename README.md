@@ -115,11 +115,42 @@ This webapp is used to generate the yearbook every year for the final year stude
 
 ### How is this supposed to work?
 ### Prior work to be done by admins
-1. @Atishya add here, how can we get started with the yearbook.
-2. @Atishya Do mention about the changes to do for each year, and remember the Config files are not present on the github, so add information about that too.
-3. @Atishya, add about the scripts using which we create accounts for people
-4. @Atishya, add details about setting up genQuestions
-5. @Atishya, add details about setting up the polls
+1. To get started with the yearbook follow the steps:
+   * Clone the repository
+   * Activate the virtalenv if you don't want python to interfere with your global packages
+   * pip install -r requirements.txt
+   * python manage.py makemigrations
+   * python manage.py migrate
+   * python manage.py createsuperuser
+        * This will ask you for username, password and other details of the superuser you are creating. Remember the credentials. This             super user will allow you to handle django database.
+   * python manage.py runserver
+        * This starts the Django server at port 8000
+        * visit http://localhost:8000/admin on your browser
+        * Enter the credentials of the superuser you created
+        * Now you can see various tables like user, GenQuestions and Polls.
+        * You can add or delete GenQuestions manually as their are only handful of them.
+        * Rest of the polls and user entries will be done by the scripts.
+        * This portal will be used to setup and verify the database entries.
+2. Now, to populate the users table first we need to fetch all the users from IIT's internal site and populate the students in a file called filename.csv inside Scrape folder.
+   * Follow the steps to populate users in the database.
+        * Open your terminal inside the Scrape folder or navigate to the folder using cd Scrape. Let the django server running in one             terminal
+        * Edit the urls inside Scrape.py to the site from you will pull the student records.
+        * After desired editing run python Scrape.py 
+        * This populates the filename.csv
+        * After this copy and paste the following line in your terminal
+            * export DJANGO_SETTINGS_MODULE=yearbook.settings
+        * This exported the settings to connect with django. Now, navigate back to root folder of the project and type:
+            * First navigate to myapp/ and edit Config.py to contain a seed value in the pswd variable.
+            * Then navigate back to root folder and type python CsvToDatabase.py
+            * This populates the scraped users in filename.csv in the database. Check if all the users are populated using the django                 admin portal.
+3. For polls, edit polls.csv inside Scrape folder keeping the structure same as in the sample file already present.
+     * all;xyz means that xyz poll needs to be created for all departments.
+     * Now navigate back to root folder of project.
+     * Remember, your django server must be running on the other terminal and export the django settings env variable if not already            done.
+     * Then type: python addPolls.py
+     * This populates the polls in the database. Again verify the polls in database using the admin portal
+4. Now, for redirection to authorization by kerberos system of IIT, you need to edit the Client ID and Client secret inside Config.py      present inside myapp/ provided to you by IIT and the again run the server.
+5. Now, when you navigate to localhost:8000 or if you have deployed on IIT's server proceed to login and Enter your credentials. Your      credentials are not saved by us as authorization is done by an API (internal to IIT authorities) to which we redirect and verify by      your kerberos. 
 6. Comment this line in urls.py: url(r'^yearbook/$', views.yearbook, name='yearbook'),
 
 

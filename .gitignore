@@ -90,6 +90,5 @@ db.sqlite3
 
 venv/
 media/
-Config.py
 myapp/migrations/
 *~
