@@ -144,15 +144,17 @@ This webapp is used to generate the yearbook every year for the final year stude
             * Then navigate back to root folder and type python CsvToDatabase.py
             * This populates the scraped users in filename.csv in the database. Check if all the users are populated using the django                 admin portal.
 3. For polls, edit polls.csv inside Scrape folder keeping the structure same as in the sample file already present.
-     * all;xyz means that xyz poll needs to be created for all departments.
+     * all; xyz means that xyz poll needs to be created for all departments.
      * Now navigate back to root folder of project.
-     * Remember, your django server must be running on the other terminal and export the django settings env variable if not already            done.
+     * Remember, your django server must be running on the other terminal and export the django settings env variable if not already done.
      * Then type: python addPolls.py
      * This populates the polls in the database. Again verify the polls in database using the admin portal
 4. Now, for redirection to authorization by kerberos system of IIT, you need to edit the Client ID and Client secret inside Config.py      present inside myapp/ provided to you by IIT and the again run the server.
 5. Now, when you navigate to localhost:8000 or if you have deployed on IIT's server proceed to login and Enter your credentials. Your      credentials are not saved by us as authorization is done by an API (internal to IIT authorities) to which we redirect and verify by      your kerberos. 
-6. Comment this line in urls.py: url(r'^yearbook/$', views.yearbook, name='yearbook'),
-
+6. Comment this line in urls.py:
+```python
+ url(r'^yearbook/$', views.yearbook, name='yearbook'),
+```
 
 ### How does the general public use this?
 1. On opening the website, you would be greeted with the welcome page, where you'd have to sign in with your Kerberos ID
@@ -185,13 +187,14 @@ dbeb - biotechnology
  * Enable background graphics
  * Set margins to none, if that doesn't look good, let it be default
 6. Now we need to optimize the size of the yearbooks using ps2pdf command. To do that run this for each book:
-  * ps2pdf <file_input> <file_output>
-
+```
+  $ ps2pdf <file_input> <file_output>
+```
   Alternatively,
   * Create a new folder and put all the downloaded yearbooks inside it. 
   * Create a new folder inside this folder with the name "optimized".
   * Create a new file with the name "optimize.sh" and copy-paste the following inside it,
-    ```
+    ```python
     for VAR in $(ls)
     do
             echo $VAR
@@ -199,7 +202,7 @@ dbeb - biotechnology
     done
     ```
   * Run this script
-7. @Udit/@Aman, add about the collage stuff
+7. For Collage Generation details, see the `README` inside 'collage' folder.
 
 ## Authors
 
