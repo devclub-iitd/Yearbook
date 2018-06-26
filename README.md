@@ -194,7 +194,7 @@ dbeb - biotechnology
   * Create a new folder and put all the downloaded yearbooks inside it. 
   * Create a new folder inside this folder with the name "optimized".
   * Create a new file with the name "optimize.sh" and copy-paste the following inside it,
-    ```python
+    ```
     for VAR in $(ls)
     do
             echo $VAR
