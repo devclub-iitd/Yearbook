@@ -93,3 +93,4 @@ media/
 myapp/migrations/
 Config.py
 *~
+.gitsecret/keys/random_seed

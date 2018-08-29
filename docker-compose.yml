@@ -1,0 +1,26 @@
+version: "3.4"
+services:
+  yearbook:
+    build: .
+    image: "devclubiitd/yearbook:0.1"
+    env_file:
+    - ./.env
+    ports:
+      - "5060:8000"
+    volumes:
+      - type: volume
+        source: sqliteData
+        target: /data
+    networks:
+      - "internal"
+      # - "reverseproxy"
+
+volumes:
+  sqliteData:
+    labels:
+      - "in.devclub=Yearbook sqlite data volume"
+networks:
+  # reverseproxy:
+  #   external:
+  #     name: "reverseproxy"
+  internal:
