@@ -208,6 +208,7 @@ dbeb - biotechnology
 
 * [**Mayank Singh Chauhan**](https://github.com/mayanksingh2298)
 * [**Atishya Jain**](https://github.com/atishya-jain)
+* [**Arshdeep Singh**](https://github.com/4rshdeep)
 
 
 Also see the list of Devclub's [members](https://github.com/orgs/devclub-iitd/people).
