@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import Config as config
+from myapp import Config as config
 
 import requests
 from django.shortcuts import render, redirect
@@ -21,9 +21,13 @@ def kerberos_to_entry_number(kerberos):
 
 
 def index(request):
-    if request.method == 'POST':
-        return redirect(config.authLinkPart1 + config.CLIENT_ID + config.authLinkPart2)
-    return render(request, 'myapp/index.html')
+    # if request.method == 'POST':
+        # return redirect(config.authLinkPart1 + config.CLIENT_ID + config.authLinkPart2)
+    myUser = User.objects.get(username=('atishya').lower())
+    print (myUser)
+    login(request, myUser)
+    return redirect('/profile')
+    # return render(request, 'myapp/index.html')
 
 
 def authenticate(request):
@@ -31,6 +35,7 @@ def authenticate(request):
     'client_secret': config.CLIENT_SECRET,
     'grant_type': config.AUTHORIZATION_CODE,
     'code': request.GET.get('code')}
+    print("###")
 
     r = requests.post(config.OauthTokenURL, PostData, verify=config.certiPath)
     a = r.json()
@@ -41,13 +46,15 @@ def authenticate(request):
     r1 = requests.post(config.ResourceURL, PostData2, verify=config.certiPath)
     b = r1.json()
 
-    if User.objects.filter(username=(b['uniqueiitdid']).lower()).exists():
-        myUser = User.objects.get(username=(b['uniqueiitdid']).lower())
-        login(request, myUser)
-        return redirect('/profile')
-    else:
-        return redirect('/')
-
+    # if User.objects.filter(username=(b['uniqueiitdid']).lower()).exists():
+    #     myUser = User.objects.get(username=(b['uniqueiitdid']).lower())
+    #     login(request, myUser)
+    #     return redirect('/profile')
+    # else:
+    #     return redirect('/')
+    myUser = User.objects.get(username=('mayank').lower())
+    login(request, myUser)
+    return redirect('/profile')
 
 @login_required()
 def profile(request):
@@ -108,7 +115,7 @@ def answerMyself(request):
         return render(request, 'myapp/answers.html', context)
     # print request.POST.getlist('answer[]')
     for i in range(len(request.POST.getlist('answer[]'))):
-	if GenQuestion.objects.filter(id=request.POST.getlist('id[]')[i]).exists() and len(str(request.POST.getlist('answer[]')[i]).strip())>0:
+        if GenQuestion.objects.filter(id=request.POST.getlist('id[]')[i]).exists() and len(str(request.POST.getlist('answer[]')[i]).strip())>0:
             u.student.AnswersAboutMyself[request.POST.getlist(
                 'id[]')[i]] = request.POST.getlist('answer[]')[i]
         else:
@@ -228,7 +235,7 @@ def comment(request):
             if (User.objects.filter(username = lowerEntry).exists()):
                 u_new = User.objects.get(username=lowerEntry)
             else:
-                print User.objects.filter(username = lowerEntry).exists()
+                print (User.objects.filter(username = lowerEntry).exists())
                 return redirect('/comment')
             u_new.student.CommentsIGet.append({"comment":request.POST.getlist('val[]')[i],"fromWhom":u.username,"displayInPdf":"True"})
             u_new.student.save()
