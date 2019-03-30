@@ -1,8 +1,9 @@
 #-*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from myapp import Config as config
+# from myapp import Config as config
 
 import requests
+import os
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -21,6 +22,7 @@ def kerberos_to_entry_number(kerberos):
 
 
 def index(request):
+    print(os.environ["OauthTokenURL"])
     # if request.method == 'POST':
         # return redirect(config.authLinkPart1 + config.CLIENT_ID + config.authLinkPart2)
     myUser = User.objects.get(username=('atishya').lower())
@@ -31,19 +33,23 @@ def index(request):
 
 
 def authenticate(request):
-    PostData = {'client_id': config.CLIENT_ID,
-    'client_secret': config.CLIENT_SECRET,
-    'grant_type': config.AUTHORIZATION_CODE,
+    # PostData = {'client_id': config.CLIENT_ID,
+    # 'client_secret': config.CLIENT_SECRET,
+    # 'grant_type': config.AUTHORIZATION_CODE,
+    # 'code': request.GET.get('code')}
+    PostData = {'client_id': os.environ["CLIENT_ID"],
+    'client_secret': os.environ["CLIENT_SECRET"],
+    'grant_type': os.environ["AUTHORIZATION_CODE"],
     'code': request.GET.get('code')}
     print("###")
 
-    r = requests.post(config.OauthTokenURL, PostData, verify=config.certiPath)
+    r = requests.post(os.environ["OauthTokenURL"], PostData, verify=os.environ["certiPath"])
     a = r.json()
     access_token = a['access_token']
     PostData2 = {
         'access_token': access_token
     }
-    r1 = requests.post(config.ResourceURL, PostData2, verify=config.certiPath)
+    r1 = requests.post(os.environ["ResourceURL"], PostData2, verify=os.environ["certiPath"])
     b = r1.json()
 
     # if User.objects.filter(username=(b['uniqueiitdid']).lower()).exists():
@@ -73,20 +79,24 @@ def profile(request):
         # check extension
         if not (picture.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
             return render(request, 'myapp/profile.html', {"user": UsrObj, "image": "Image should be in .png, .jpg or .jpeg format"})
-        picture.name = u.username + ".jpg"
+        extension = picture.name.lower()[picture.name.lower().rfind("."):] 
+        picture.name = u.username + extension
         u.student.DP = picture
 
     if(request.FILES.get('genPic1') != None and int(request.FILES.get('genPic1').size) < 6000000):
         u.student.genPic1 = request.FILES.get('genPic1')
         if not (u.student.genPic1.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
             return render(request, 'myapp/profile.html', {"user": UsrObj, "image": "Image should be in .png, .jpg or .jpeg format"})
-        u.student.genPic1.name = u.username + "1.jpg"
+        extension = u.student.genPic1.name.lower()[u.student.genPic1.name.lower().rfind("."):] 
+
+        u.student.genPic1.name = u.username + extension
 
     if(request.FILES.get('genPic2') != None and int(request.FILES.get('genPic2').size) < 6000000):
         u.student.genPic2 = request.FILES.get('genPic2')
         if not (u.student.genPic2.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
             return render(request, 'myapp/profile.html', {"user": UsrObj, "image": "Image should be in .png, .jpg or .jpeg format"})
-        u.student.genPic2.name = u.username + "2.jpg"
+        extension = u.student.genPic2.name.lower()[u.student.genPic2.name.lower().rfind("."):] 
+        u.student.genPic2.name = u.username + extension
 
     u.student.name = request.POST.get('name')
     if len(u.student.name) == 0:
@@ -237,7 +247,7 @@ def comment(request):
             else:
                 print (User.objects.filter(username = lowerEntry).exists())
                 return redirect('/comment')
-            u_new.student.CommentsIGet.append({"comment":request.POST.getlist('val[]')[i],"fromWhom":u.username,"displayInPdf":"True"})
+            u_new.student.CommentsIGet.append({"comment":request.POST.getlist('val[]')[i],"fromWhom":u.username,"displayInPdf":"False"})
             u_new.student.save()
         u.student.save()
     return redirect('/comment')
