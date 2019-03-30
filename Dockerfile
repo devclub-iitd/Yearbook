@@ -1,17 +1,21 @@
-# Use an official Python runtime as a parent image
-FROM python:2.7-slim
+# Start with a Python image.
+FROM python:3.6
 
-# Set the working directory to /yearbook
-WORKDIR /yearbook
+RUN apt-get update && apt-get install -y postgresql-client cron
 
-# Copy the current directory contents into the container at /app
-ADD . /yearbook
+# Some stuff that everyone has been copy-pasting
+# since the dawn of time.
+ENV PYTHONUNBUFFERED 1
 
-# Install any needed packages specified in requirements.txt
-RUN pip install -r requirements.txt
+# Copy all our files into the image.
+RUN mkdir /Yearbook
+WORKDIR /Yearbook
+COPY . /Yearbook/
 
-# Make port 8000 available to the world outside this container
-EXPOSE 8000
+# Install our requirements.
 
-# Run app.py when the container launches
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+WORKDIR /Yearbook
+
+RUN apt install -y python3-pip
+RUN pip3 install -Ur requirements.txt
+WORKDIR /Yearbook/myapp

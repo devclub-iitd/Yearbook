@@ -88,11 +88,11 @@ WSGI_APPLICATION = 'yearbook.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'myproject',
-        'USER': 'mayank',
-        'PASSWORD': 'mayank123',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.environ["database"],
+        'USER': os.environ["user"],
+        'PASSWORD': os.environ["YEARBOOK_ADMIN_PASS"],
+        'HOST': os.environ["db_host"],
+        'PORT': os.environ["db_port"],
     }
 }
 

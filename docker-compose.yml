@@ -1,26 +1,49 @@
-version: "3.4"
+version: '3.4'
+
 services:
-  yearbook:
-    build: .
-    image: "devclubiitd/yearbook:0.1"
-    env_file:
-    - ./.env
-    ports:
-      - "5060:8000"
+  db:
+    image: "${REGISTRY_NAME}postgres:10.1-alpine"
     volumes:
-      - type: volume
-        source: sqliteData
-        target: /data
+      - postgres_data:/var/lib/postgresql/data/
     networks:
       - "internal"
-      # - "reverseproxy"
+    env_file:
+      - ./.env
+    restart: always
+  web:
+    build: .
+    working_dir: /Yearbook
+    image: "${REGISTRY_NAME}devclubiitd/yearbook:0.1"
+    command: ./docker_entry_point.sh
+    volumes:
+      - yearbook_media:/media/myapp/static/myapp
+    ports:
+      - 7000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7000"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: always 
+    networks:
+      - "reverseproxy"
+      - "internal"
+    env_file:
+      - ./.env
+    environment:
+      - PORT=7000
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
+      - VIRTUAL_HOST=${VIRTUAL_HOST}
+    depends_on:
+      - db
 
 volumes:
-  sqliteData:
-    labels:
-      - "in.devclub=Yearbook sqlite data volume"
+  postgres_data:
+  yearbook_media:
+
 networks:
-  # reverseproxy:
-  #   external:
-  #     name: "reverseproxy"
+  reverseproxy:
+    external:
+      name: "reverseproxy"
   internal:
