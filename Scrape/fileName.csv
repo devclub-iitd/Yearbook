@@ -1,69 +1,122 @@
-2015CH10002;Aditi Mahajan;chemical
-2015CH10071;Abhay Kumar Sarothia;chemical
-2015CH10072;Abhijeet R Ghodaki;chemical
-2015CH10073;Abhiprai Misra;chemical
-2015CH10074;Abhishek Garg;chemical
-2015CH10075;Abhishek Singh;chemical
-2015CH10076;Abhishree Arora;chemical
-2015CH10077;Adarsh Saini;chemical
-2015CH10078;Aditya Jagrat;chemical
-2015CH10079;Agambeer Singh Brar;chemical
-2015CH10081;Aman Verma;chemical
-2015CH10082;Amitesh Rathi;chemical
-2015CH10083;Aniket Kumar;chemical
-2015CH10084;Anish Kujur;chemical
-2015CH10085;Anshil Chandra;chemical
-2015CH10086;Anurag Deedwaniya;chemical
-2015CH10087;Arnab Mandal;chemical
-2015CH10088;Arsh Singh Chauhan;chemical
-2015CH10089;Aryaman Bansal;chemical
-2015CH10090;Atul Yadav;chemical
-2015CH10091;Bandish Parikh;chemical
-2015CH10092;Bhavya Dhuria;chemical
-2015CH10093;Chanchal Meena;chemical
-2015CH10094;Devandra Godara;chemical
-2015CH10095;Dhananjay Meena;chemical
-2015CH10096;Dharam Raj Meena;chemical
-2015CH10097;Dikshant Makhija;chemical
-2015CH10098;Divya Singh;chemical
-2015CH10099;Divyank Mittal;chemical
-2015CH10100;Harneet Singh;chemical
-2015CH10103;Jatin Sharma;chemical
-2015CH10104;Kritika Sharma;chemical
-2015CH10105;Kshitij Goel;chemical
-2015CH10106;Kumar Utkarsh;chemical
-2015CH10107;Lalit Swami;chemical
-2015CH10109;Milind Dhanraj Zode;chemical
-2015CH10115;Neelanshu;chemical
-2015CH10116;Nikhil Kumar Meena;chemical
-2015CH10117;Nisha Singh;chemical
-2015CH10118;Paidi Krishna Pradeep;chemical
-2015CH10119;Parth Rajora;chemical
-2015CH10120;Prabhat Kumar;chemical
-2015CH10122;Pulkit Srivastava;chemical
-2015CH10123;Pulkit Langan;chemical
-2015CH10124;Ritik Chawla;chemical
-2015CH10125;Saksham Gupta;chemical
-2015CH10126;Shalini Gupta;chemical
-2015CH10127;Shashank Gupta;chemical
-2015CH10128;Shashwat Singh;chemical
-2015CH10129;Shraban Das;chemical
-2015CH10130;Shubham;chemical
-2015CH10131;Siddharth Sachan;chemical
-2015CH10132;Simran Malik;chemical
-2015CH10133;Smarth Veer Sidana;chemical
-2015CH10134;Soumya Prakash Behera;chemical
-2015CH10135;Subhankar Dash;chemical
-2015CH10136;Sunaje Bhushan;chemical
-2015CH10137;Sunint Singh Khurana;chemical
-2015CH10138;Sushree Jagriti Sahoo;chemical
-2015CH10139;Udaiveer;chemical
-2015CH10140;Ujjwal Narwal;chemical
-2015CH10141;Urvashi Gupta;chemical
-2015CH10142;Vatsal Sharma;chemical
-2015CH10143;Vikas Singh;chemical
-2015CH10144;Vinayak Gupta;chemical
-2015CH10145;Vishesh Goyal;chemical
-2015CH10190;Sukant Koul;chemical
-2015CH10385;Shubhika Jain;chemical
-2015CH10945;Surbhi Jain;chemical
+2016CS50084;Sukriti Gupta;cse
+2016CS50386;Jayant Jain;cse
+2016CS50387;Prakhar Agrawal;cse
+2016CS50388;Riya Singh;cse
+2016CS50389;Avaljot Singh;cse
+2016CS50390;Singamsetty Sanjeeva Krishna Sai Di;cse
+2016CS50391;Mankaran Singh;cse
+2016CS50392;Ansh Sapra;cse
+2016CS50393;Atishya Jain;cse
+2016CS50394;Mayank Singh Chauhan;cse
+2016CS50397;Aniket Kumar;cse
+2016CS50398;Aniket Kumar;cse
+2016CS50399;Abhishek Maderana;cse
+2016CS50400;Sumit Kumar Ghosh;cse
+2016CS50401;Ankit Solanki;cse
+2016CS50402;Hire Sanket Sanjaypant;cse
+2016CS50403;Yash Malviya;cse
+2016CS50404;Hardik Khichi;cse
+2016CS50405;Mukesh Bhagat;cse
+2016CS50414;Vrittika Bagadia;cse
+2016CS50433;Mohit Gupta;cse
+2016CS50615;Chinmay Rai;cse
+2016CS50625;Arshdeep Singh;cse
+2016CS50789;Prabhat Kanaujia;cse
+2016CS10087;Ujjwal Gupta;cse
+2016CS10294;Kartik Kumar;cse
+2016CS10310;Shingi Siddhant Navin;cse
+2016CS10311;Soumya Sharma;cse
+2016CS10312;Deepanshu Jindal;cse
+2016CS10313;Sarvagya Vinayak Sharma;cse
+2016CS10314;Sunil Kumar;cse
+2016CS10315;Akshat Khare;cse
+2016CS10316;Divyanshu Saxena;cse
+2016CS10317;Shubham Jain;cse
+2016CS10318;Varada Pavan Sai;cse
+2016CS10319;Harshit Goel;cse
+2016CS10320;Rayala Harichandan;cse
+2016CS10321;Arpan Mangal;cse
+2016CS10322;Srijan Sinha;cse
+2016CS10323;Akshay Neema;cse
+2016CS10324;R Jayanth Reddy;cse
+2016CS10325;Anugu Sai Kiran Reddy;cse
+2016CS10326;Saransh Verma;cse
+2016CS10327;Udit Jain;cse
+2016CS10328;Shashwat Shivam;cse
+2016CS10329;Rathi Sushant Shyam;cse
+2016CS10330;Konuganti Sai Kumar Reddy;cse
+2016CS10331;Aditya Jetha;cse
+2016CS10332;Shashank Goel;cse
+2016CS10333;Parth Shah;cse
+2016CS10335;Aditya Jain;cse
+2016CS10336;Sarthak R Vishnoi;cse
+2016CS10337;Yash Raj Gupta;cse
+2016CS10338;G S M Rishikesh Reddy;cse
+2016CS10339;Donapati Hardhik;cse
+2016CS10340;Kulkarni Nikhil Dilip;cse
+2016CS10341;Pulkit Gaur;cse
+2016CS10342;Ankit Akash Jha;cse
+2016CS10343;Chetan Mittal;cse
+2016CS10344;Rahul Bansal;cse
+2016CS10345;Vinayak Rastogi;cse
+2016CS10347;Pushpam Anand;cse
+2016CS10348;Himanshu;cse
+2016CS10349;Golla Venkata Sai Dheeraj;cse
+2016CS10350;Shashwat Banchhor;cse
+2016CS10351;Adigopula Sai Teja;cse
+2016CS10352;Pranav Bhagat;cse
+2016CS10353;Korakoppula Suresh;cse
+2016CS10354;Minhaj Shakeel;cse
+2016CS10355;Sachin Kumar Prajapati;cse
+2016CS10356;Jay Kumar Modi;cse
+2016CS10357;Abhinash Kumar;cse
+2016CS10358;Kurmapu Venkata Vijaya Sai Prasanth;cse
+2016CS10359;Tarun Kumar Yadav;cse
+2016CS10360;Dangeti Bharadwaj;cse
+2016CS10361;Avinash Kumar;cse
+2016CS10362;Khammampati Anirudh;cse
+2016CS10363;Manish Tanwar;cse
+2016CS10364;Danam Harshith Chandra;cse
+2016CS10365;Vaddadi Sai Rohan;cse
+2016CS10366;Sampat Khinchi;cse
+2016CS10367;Ansh Prakash;cse
+2016CS10368;Anubhav Palway;cse
+2016CS10369;Pranav Baurasia;cse
+2016CS10370;Rahul V;cse
+2016CS10371;Shubham;cse
+2016CS10372;Ravinder Singh;cse
+2016CS10373;Shantanu Verma;cse
+2016CS10374;Ayush Verma;cse
+2016CS10375;Pradyumna Meena;cse
+2016CS10376;Brajmohan;cse
+2016CS10377;Adithya Anand;cse
+2016CS10378;J Sri Harsha Vardhan Sai;cse
+2016CS10379;Manas Meena;cse
+2016CS10385;Rajas Bansal;cse
+2016CS10395;Samarth Aggarwal;cse
+2016CS10396;Ayush Patel;cse
+2016CS10406;Animesh Singh;cse
+2016CS10412;Pratyush Maini;cse
+2016CS10513;Ankush Shaw;cse
+2016CS10523;Manav Rao;cse
+2016CS10680;Shreshth Tuli;cse
+2016CS10701;Sankalan Pal Chowdhury;cse
+2016CS19016;Vaibhav Supta;cse
+2016CS19017;Pramod Yadav;cse
+2016CS19018;Sahibdeep Singh Sodhi;cse
+2016CS19030;Divya Sharma;cse
+2016CS19031;Neha Upadhyay;cse
+2016CS19034;Lipika Garg;cse
+2016CS19040;Vivek Vigian;cse
+2016CS19041;Shailendrapanwar;cse
+2016CS19042;Shubham Kumarjain;cse
+2016CS19043;Atul Agarwal;cse
+2016CS19045;Shiva Ganeshm;cse
+2016CS19046;S Kaushik;cse
+2016CS19047;Vigneshsairaj;cse
+2016CS19060;Akshay Goel;cse
+2016CS19061;Amanaggarwal;cse
+2016CS19068;Smriti Bhati;cse
+2016CS19075;Anubha Agrawal;cse
+2016CS19076;Divya Sinha;cse
+2016CS19077;Rohit Garg;cse

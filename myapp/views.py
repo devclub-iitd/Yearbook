@@ -22,13 +22,17 @@ def kerberos_to_entry_number(kerberos):
 
 
 def index(request):
-    print(os.environ["OauthTokenURL"])
-    # if request.method == 'POST':
-        # return redirect(config.authLinkPart1 + config.CLIENT_ID + config.authLinkPart2)
-    myUser = User.objects.get(username=('atishya').lower())
-    print (myUser)
-    login(request, myUser)
-    return redirect('/profile')
+    # print(os.environ["OauthTokenURL"])
+    # # if request.method == 'POST':
+    #     # return redirect(config.authLinkPart1 + config.CLIENT_ID + config.authLinkPart2)
+    # myUser = User.objects.get(username=('atishya').lower())
+    # print (myUser)
+    # login(request, myUser)
+    # return redirect('/profile')
+
+    if request.method == 'POST':
+        return redirect(os.environ["authLinkPart1"] + os.environ["CLIENT_ID"] + os.environ["authLinkPart2"])
+    return render(request, 'myapp/index.html')
     # return render(request, 'myapp/index.html')
 
 
@@ -52,15 +56,15 @@ def authenticate(request):
     r1 = requests.post(os.environ["ResourceURL"], PostData2, verify=os.environ["certiPath"])
     b = r1.json()
 
-    # if User.objects.filter(username=(b['uniqueiitdid']).lower()).exists():
-    #     myUser = User.objects.get(username=(b['uniqueiitdid']).lower())
-    #     login(request, myUser)
-    #     return redirect('/profile')
-    # else:
-    #     return redirect('/')
-    myUser = User.objects.get(username=('mayank').lower())
-    login(request, myUser)
-    return redirect('/profile')
+    if User.objects.filter(username=(b['uniqueiitdid']).lower()).exists():
+        myUser = User.objects.get(username=(b['uniqueiitdid']).lower())
+        login(request, myUser)
+        return redirect('/profile')
+    else:
+        return redirect('/')
+    # myUser = User.objects.get(username=('mayank').lower())
+    # login(request, myUser)
+    # return redirect('/profile')
 
 @login_required()
 def profile(request):
@@ -247,7 +251,7 @@ def comment(request):
             else:
                 print (User.objects.filter(username = lowerEntry).exists())
                 return redirect('/comment')
-            u_new.student.CommentsIGet.append({"comment":request.POST.getlist('val[]')[i],"fromWhom":u.username,"displayInPdf":"False"})
+            u_new.student.CommentsIGet.append({"comment":request.POST.getlist('val[]')[i],"fromWhom":u.username,"displayInPdf":"True"})
             u_new.student.save()
         u.student.save()
     return redirect('/comment')

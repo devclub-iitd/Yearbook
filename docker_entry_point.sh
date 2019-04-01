@@ -2,7 +2,7 @@
 
 echo "Script starts"
 
-until psql -p $db_port -h 0.0.0.0 -c '\l' -d $database -U $user; do
+until psql $DATABASE_URL -c '\l'; do
 	>&2 echo "Postgres is unavailable - sleeping"
 	sleep 1
 done
