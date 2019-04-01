@@ -3,7 +3,9 @@ from bs4 import BeautifulSoup
 import json
 
 listOfUrls=[
-"http://ldap1.iitd.ernet.in/LDAP/chemical/ch115.shtml",
+# "http://ldap1.iitd.ernet.in/LDAP/chemical/ch115.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/cse/cs516.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/cse/cs116.shtml",
 # "http://ldap1.iitd.ernet.in/LDAP/chemical/ch715.shtml",
 # "http://ldap1.iitd.ernet.in/LDAP/civil/ce115.shtml",
 # "http://ldap1.iitd.ernet.in/LDAP/cse/cs115.shtml",
