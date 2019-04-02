@@ -123,7 +123,7 @@ def answerMyself(request):
         gen_GenQuestions = []
         for q in GenQuestions:
             gen_GenQuestions.append([q.id, q.question, ""])
-            if (AnswersDisplay.has_key(str(q.id))):
+            if (str(q.id) in AnswersDisplay):
                 gen_GenQuestions[-1][-1] = AnswersDisplay[str(q.id)]
         context = {"genQuestions": gen_GenQuestions}
         return render(request, 'myapp/answers.html', context)
@@ -163,13 +163,13 @@ def poll(request):
         
         for p in allPolls:
             gen_allPolls.append([p.id,p.poll,"", ""])
-            if (VotesDisplay.has_key(str(p.id))):
+            if (str(p.id) in VotesDisplay):
                 gen_allPolls[-1][2]=VotesDisplay[str(p.id)]
                 gen_allPolls[-1][3]=enum_to_name.get(VotesDisplay[str(p.id)], "")
                 
         for p in deptPolls:
             gen_deptPolls.append([p.id,p.poll,"", ""])
-            if (VotesDisplay.has_key(str(p.id))):
+            if (str(p.id) in VotesDisplay):
                 gen_deptPolls[-1][2]=VotesDisplay[str(p.id)]
                 gen_deptPolls[-1][3]=(enum_to_name.get(VotesDisplay[str(p.id)], ""))
         context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users,"deptUsers":dept_users}
@@ -183,13 +183,13 @@ def poll(request):
             fetchPoll = Poll.objects.get(id = request.POST.getlist('id[]')[i])
         else:
             return redirect("/poll")
-        if (u.student.VotesIHaveGiven.has_key(request.POST.getlist('id[]')[i])):
+        if (request.POST.getlist('id[]')[i] in u.student.VotesIHaveGiven):
             OldVotePresent = u.student.VotesIHaveGiven[request.POST.getlist('id[]')[i]]
             if(OldVotePresent in fetchPoll.votes):
                 fetchPoll.votes[OldVotePresent] = fetchPoll.votes[OldVotePresent] - 1   
         
         lowerEntry = (request.POST.getlist('entrynumber[]')[i]).lower()
-        if(fetchPoll.votes.has_key(lowerEntry)):
+        if(lowerEntry in fetchPoll.votes):
             if ((lowerEntry != u.username.lower())):
                 fetchPoll.votes[lowerEntry] = fetchPoll.votes[lowerEntry] + 1   
             else:
@@ -298,7 +298,7 @@ def yearbook(request):
         dep = request.user.student.department
         
     departmentN=""
-    if departmentDic.has_key(dep):
+    if dep in departmentDic:
         departmentN = departmentDic[dep]
     else:
         departmentN = "all"
@@ -307,7 +307,7 @@ def yearbook(request):
     for i in students_dep:
         gen_GenQuestions=list([])
         for q in GenQuestions:
-            if (i.AnswersAboutMyself.has_key(str(q.id)) and i.AnswersAboutMyself[str(q.id)]!=""):
+            if ((str(q.id) in i.AnswersAboutMyself) and i.AnswersAboutMyself[str(q.id)]!=""):
                 gen_GenQuestions.append([])
                 gen_GenQuestions[-1] = [q.question,i.AnswersAboutMyself[str(q.id)]]
         i.AnswersAboutMyself=list(gen_GenQuestions)
