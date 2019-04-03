@@ -105,7 +105,7 @@
             </div><!--//profile-container-->
             
             <div class="contact-container container-block">
-                <ul class="list-unstyled contact-list">
+                <ul class="list-unstyled contact-list" style="word-wrap: break-word;">
                     <li class="email"><i class="fa fa-envelope"></i>{{student.email}}</li>
                     <li class="phone"><i class="fa fa-phone"></i>{{student.phone}}</li>
                     <li class="email"><i class="fa fa-briefcase"></i>{{student.department}}</li>
@@ -118,7 +118,7 @@
              <section class="section experiences-section">
                 <h2 class="section-title"><i class="fa fa-archive"></i>Answers about yourself</h2>
                 {% for ques,ans in student.AnswersAboutMyself %}
-                    <div class="item">
+                    <div class="item" style="word-wrap: break-word; page-break-inside: avoid;">
                         <span class="job-title">{{ques}}</span> <br> <span class="project-tagline">{{ans}}</span>
                         
                     </div><!--//item-->
@@ -129,7 +129,7 @@
                 <h2 class="section-title"><i class="fa fa-list-ol"></i>What others have written for you</h2>
                 
                 {% for comment,fromWhom in student.CommentsIGet %}
-                    <div class="item">
+                    <div class="item" style="word-wrap: break-word; page-break-inside: avoid;">
                         <div class="meta">
                             <div class="upper-row">
                                 <h3 class="job-title">{{fromWhom}}</h3>
