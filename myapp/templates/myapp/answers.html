@@ -12,9 +12,13 @@
        				{% for id,question,val in genQuestions %}
 					<h4>{{ question }} </h4>
           <h5 style="color: #4b2354"> {{ val|linebreaksbr }} </h5>
-					<textarea style="display:none" type="text" name="id[]" value="{{ id }}" readonly="readonly"></textarea>
+					<input style="display:none" type="text" name="id[]" value="{{ id }}" readonly="readonly">
+						
+					<!-- </input> -->
 					<div class="wrap-input100 validate-input m-b-20 m-t-10">
-						<textarea class="input100" type="text" name="answer[]"  value="" placeholder="Answer"></textarea>
+						<input class="input100" type="text" name="answer[]"  value="" placeholder="Answer">
+							
+						<!-- </input> -->
 						<span class="focus-input100"></span>
 					</div>
 					<hr>

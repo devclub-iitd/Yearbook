@@ -13,6 +13,5 @@ urlpatterns = [
     url(r'^comment/$', views.comment, name='comment'),
     url(r'^otherComment/$', views.otherComment, name='otherComment'),
     url(r'^auth/$', views.authenticate, name='otherComment'),
-    url(r'^yearbook/$', views.yearbook, name='yearbook'),
-    
+    url(r'^yearbook/$', views.yearbook, name='yearbook'),    
 ]

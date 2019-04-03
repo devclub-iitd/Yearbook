@@ -322,7 +322,7 @@ def yearbook(request):
     all_polls=[]
     for p in Poll.objects.filter(department="all"):
         tmpVotes = []
-        for (person,count) in p.votes.iteritems():
+        for (person,count) in p.votes.items():
             Person=""
             if(User.objects.filter(username=person).exists()):
                 Person=User.objects.filter(username=person)[0].student.name
@@ -334,7 +334,7 @@ def yearbook(request):
     dep_polls=[]
     for p in Poll.objects.filter(department=dep):
         tmpVotes = []
-        for (person,count) in p.votes.iteritems():
+        for (person,count) in p.votes.items():
             Person=""
             if(User.objects.filter(username=person).exists()):
                 Person=User.objects.filter(username=person)[0].student.name
