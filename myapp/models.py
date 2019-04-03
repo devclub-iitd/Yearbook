@@ -47,7 +47,7 @@ class Student(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	name = models.CharField(max_length=100,blank=True)
 	department = models.CharField(max_length=100,choices=departments)
-	DP = models.ImageField(upload_to="DP",blank=True,default="DP/anonymous.png")
+	DP = models.ImageField(upload_to="DP",blank=True,default="DP/anonymous.jpg")
 	genPic1 = models.ImageField(upload_to=user_directory_path,blank=True)
 	genPic2 = models.ImageField(upload_to=user_directory_path,blank=True)
 	phone = models.CharField(max_length=10,blank=True)

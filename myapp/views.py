@@ -354,5 +354,4 @@ def userlogout(request):
     return redirect("/")
 
 def comingsoon(request):
-    logout(request)
     return render(request, 'myapp/comingsoon.html')
