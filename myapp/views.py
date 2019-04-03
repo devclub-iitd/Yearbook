@@ -352,3 +352,7 @@ def yearbook(request):
 def userlogout(request):
     logout(request)
     return redirect("/")
+
+def comingsoon(request):
+    logout(request)
+    return render(request, 'myapp/comingsoon.html')
