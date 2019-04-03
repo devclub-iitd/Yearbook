@@ -268,6 +268,8 @@ def otherComment(request):
                 tmpName=User.objects.get(username=c["fromWhom"]).student.name
             gen_comments.append([c["comment"],c["fromWhom"],tmpName,c["displayInPdf"]])
         context={"comments":gen_comments}
+        if len(gen_comments)==0:
+            return render(request, 'myapp/no_comment.html')
         return render(request, 'myapp/otherComment.html',context)
     for i in range(len(request.POST.getlist('fromWhom[]'))):
         lowerEntry = (request.POST.getlist('fromWhom[]')[i]).lower()
