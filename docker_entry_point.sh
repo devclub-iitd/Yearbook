@@ -8,7 +8,7 @@ until psql $DATABASE_URL -c '\l'; do
 done
 
 python3 Scrape/Scrape.py
-python3 Scrape/CsvToDatabase.py
+python3 CsvToDatabase.py
 python3 manage.py makemigrations
 python3 manage.py migrate
 #move to .env
