@@ -21,13 +21,13 @@
 			<a class="nav-link" href="/profile" style="color:white">Profile</a>
 	    </li>
 	    <li class="nav-item">
-			<a class="nav-link" href="/otherComment" style="color:white">View others' comments</a>
+			<a class="nav-link" href="/otherComment" style="color:white">Received comments</a>
 	    </li>
 	    <li class="nav-item">
-			<a class="nav-link" href="/comment" style="color:white">Comment</a>
+			<a class="nav-link" href="/comment" style="color:white">Write Comments</a>
 	    </li>
 	    <li class="nav-item">
-			<a class="nav-link" href="/answer" style="color:white">Answer</a>
+			<a class="nav-link" href="/answer" style="color:white">About You</a>
 	    </li>
 	    <li class="nav-item">
 			<a class="nav-link" href="/poll" style="color:white">Poll</a>
@@ -90,6 +90,10 @@
 					</div>
 					<div class="wrap-input100 validate-input m-b-20">
 						<input class="input100" type="email" name="email" placeholder="Email"  value="{{ user.email }}">
+						<span class="focus-input100"></span>
+					</div>
+					<div class="wrap-input100 validate-input m-b-20">
+						<input class="input100" type="text" name="future" placeholder="Where are you headed next"  value="{{ user.future }}">
 						<span class="focus-input100"></span>
 					</div>
 					<div class="wrap-input100 validate-input m-b-20">

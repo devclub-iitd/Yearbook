@@ -72,7 +72,7 @@ def profile(request):
     u = request.user
     UsrObj = Student(name=u.student.name, department=u.student.department,
             DP=u.student.DP, phone=u.student.phone, email=u.student.email,
-            oneliner=u.student.oneliner, genPic1=u.student.genPic1, genPic2=u.student.genPic2)
+            oneliner=u.student.oneliner, future=u.student.future, genPic1=u.student.genPic1, genPic2=u.student.genPic2)
     if request.method == 'GET':
         context = {"user": UsrObj}
         return render(request, 'myapp/profile.html', context)
@@ -110,6 +110,7 @@ def profile(request):
     u.student.phone = request.POST.get('phone')
     u.student.email = request.POST.get('email')
     u.student.oneliner = request.POST.get('oneliner')
+    u.student.future = request.POST.get('future')
     u.student.save()
     return redirect('/profile')
 

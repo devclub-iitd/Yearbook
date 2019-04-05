@@ -53,6 +53,7 @@ class Student(models.Model):
 	phone = models.CharField(max_length=10,blank=True)
 	email = models.CharField(max_length=100,blank=True)
 	oneliner = models.CharField(max_length=100,blank=True)
+	future = models.CharField(max_length=100,blank=True)
 	AnswersAboutMyself = JSONField(blank=True,default=dict)
 	VotesIHaveGiven = JSONField(blank=True,default=dict)
 	CommentsIWrite = JSONField(blank=True,default=list)
