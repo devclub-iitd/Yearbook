@@ -86,22 +86,22 @@ WSGI_APPLICATION = 'yearbook.wsgi.application'
 # }
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': os.environ["database"],
-    #     'USER': os.environ["user"],
-    #     'PASSWORD': os.environ["YEARBOOK_ADMIN_PASS"],
-    #     'HOST': os.environ["db_host"],
-    #     'PORT': os.environ["db_port"],
-    # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '2016_temp',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'NAME': os.environ["POSTGRES_DB"],
+        'USER': os.environ["POSTGRES_USER"],
+        'PASSWORD': os.environ["POSTGRES_PASSWORD"],
         'HOST': 'db',
-        'PORT': 5432,
+        'PORT': os.environ["db_port"],
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': '2016_temp',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'postgres',
+    #     'HOST': 'db',
+    #     'PORT': 5432,
+    # }
 }
 
 
