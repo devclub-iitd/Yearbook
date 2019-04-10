@@ -16,7 +16,7 @@ with open("./Scrape/fileName.csv", "rU") as file:
 		s = Student(name=col[1], department=col[2])
 		try:
 			u.save()
+			u.student = s
+			u.student.save()
 		except:
 			print("EXCEPTION: User Already Exists. Continuing")
-		u.student = s
-		u.student.save()
