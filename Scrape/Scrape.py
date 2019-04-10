@@ -3,23 +3,21 @@ from bs4 import BeautifulSoup
 import json
 
 listOfUrls=[
-# "http://ldap1.iitd.ernet.in/LDAP/chemical/ch115.shtml",
-"http://ldap1.iitd.ernet.in/LDAP/cse/cs516.shtml",
-"http://ldap1.iitd.ernet.in/LDAP/cse/cs116.shtml",
-# "http://ldap1.iitd.ernet.in/LDAP/chemical/ch715.shtml",
-# "http://ldap1.iitd.ernet.in/LDAP/civil/ce115.shtml",
-# "http://ldap1.iitd.ernet.in/LDAP/cse/cs115.shtml",
-# "http://ldap1.iitd.ernet.in/LDAP/cse/cs515.shtml",
-# "http://ldap1.iitd.ernet.in/LDAP/dbeb/bb115.shtml",
-# "http://ldap1.iitd.ernet.in/LDAP/dbeb/bb515.shtml",
-# "http://ldap1.iitd.ernet.in/LDAP/ee/ee115.shtml",
-# "http://ldap1.iitd.ernet.in/LDAP/ee/ee315.shtml",
-# "http://ldap1.iitd.ernet.in/LDAP/maths/mt115.shtml",
-# "http://ldap1.iitd.ernet.in/LDAP/maths/mt615.shtml",
-# "http://ldap1.iitd.ernet.in/LDAP/mech/me115.shtml",
-# "http://ldap1.iitd.ernet.in/LDAP/mech/me215.shtml",
-# "http://ldap1.iitd.ernet.in/LDAP/physics/ph115.shtml",
-# "http://ldap1.iitd.ernet.in/LDAP/textile/tt115.shtml"
+"http://ldap1.iitd.ernet.in/LDAP/chemical/ch115.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/chemical/ch715.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/civil/ce115.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/cse/cs115.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/cse/cs515.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/dbeb/bb115.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/dbeb/bb515.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/ee/ee115.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/ee/ee315.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/maths/mt115.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/maths/mt615.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/mech/me115.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/mech/me215.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/physics/ph115.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/textile/tt115.shtml"
 ]
 
 def kerberos_to_entry_number(kerberos):
