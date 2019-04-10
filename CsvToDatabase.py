@@ -14,6 +14,9 @@ with open("./Scrape/fileName.csv", "rU") as file:
 		user_passwd = pswd + col[0].lower()[3:5]
 		u = User(username=col[0].lower(), password=user_passwd)
 		s = Student(name=col[1], department=col[2])
-		u.save()
+		try:
+			u.save()
+		except:
+			print("EXCEPTION: User Already Exists. Continuing")
 		u.student = s
 		u.student.save()

@@ -61,7 +61,9 @@ def authenticate(request):
         login(request, myUser)
         return redirect('/profile')
     else:
-        return redirect('/')
+        # return redirect('/')
+        return render(request, 'myapp/index.html', {"error_string": "You are unauthorized to access"})
+        # return HttpResponse('Unauthorized to access')
     # myUser = User.objects.get(username=('mayank').lower())
     # login(request, myUser)
     # return redirect('/profile')

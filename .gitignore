@@ -90,6 +90,7 @@ db.sqlite3
 
 venv/
 media/
+!media/myapp/static/myapp/DP/anonymous.jpg
 myapp/migrations/
 Config.py
 *~
