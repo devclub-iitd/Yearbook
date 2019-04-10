@@ -23,6 +23,7 @@ python3 manage.py migrate
 ## Add Users
 python3 Scrape/Scrape.py
 python3 CsvToDatabase.py
+python3 addPolls.py
 
 
 echo "Starting WEB Server"
