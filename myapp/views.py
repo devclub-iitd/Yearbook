@@ -309,7 +309,7 @@ def yearbook(request):
     else:
         departmentN = "all"
     GenQuestions = GenQuestion.objects.all()
-    students_dep = Student.objects.filter(department=dep)
+    students_dep = Student.objects.filter(department=dep).order_by('name')
     for i in students_dep:
         gen_GenQuestions=list([])
         for q in GenQuestions:
