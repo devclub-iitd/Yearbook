@@ -300,6 +300,7 @@ def yearbook(request):
     if request.user.is_superuser:
         dep = request.GET.get('department')
     else:
+        return comingsoon(request)
         dep = request.user.student.department
         
     departmentN=""
