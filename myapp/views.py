@@ -143,6 +143,9 @@ def answerMyself(request):
 
 @login_required()
 def poll(request):
+    ## Need it to turn it off after deadline
+    return deadlineover(request)
+
     u = request.user
     if request.method == 'GET':
         enum_to_name = {}
@@ -228,6 +231,10 @@ def comment(request):
     context={"comments":gen_comments,"users":users_all}
     if request.method=='GET':
         return render(request, 'myapp/comment.html',context)
+    
+    ## Need it to close based on deadline
+    return render(request, 'myapp/comment.html', {"comments":gen_comments,"users":users_all, "comment": "You can't comment after deadline :("})
+
     for i in range(len(request.POST.getlist('forWhom[]'))):
         lowerEntry = (request.POST.getlist('forWhom[]')[i]).lower()
         for c in u.student.CommentsIWrite:
@@ -361,3 +368,7 @@ def userlogout(request):
 
 def comingsoon(request):
     return render(request, 'myapp/comingsoon.html')
+
+
+def deadlineover(request):
+    return render(request, 'myapp/deadlineover.html')
