@@ -30,9 +30,6 @@ def index(request):
     # login(request, myUser)
     # return redirect('/profile')
 
-    ## Need it to trun off after deadline
-    return deadlineover(request)
-
     if request.method == 'POST':
         return redirect(os.environ["authLinkPart1"] + os.environ["CLIENT_ID"] + os.environ["authLinkPart2"])
     return render(request, 'myapp/index.html')
@@ -81,6 +78,10 @@ def profile(request):
     if request.method == 'GET':
         context = {"user": UsrObj}
         return render(request, 'myapp/profile.html', context)
+
+    ## Need it to stop people from uploading new pics
+    return deadlineover(request)
+
     # print int(request.FILES.get('dp').size)<6000000
     if(request.FILES.get('dp') != None and int(request.FILES.get('dp').size) < 6000000):
         # Get the picture
@@ -134,6 +135,11 @@ def answerMyself(request):
         context = {"genQuestions": gen_GenQuestions}
         return render(request, 'myapp/answers.html', context)
     # print request.POST.getlist('answer[]')
+
+    ## Need it to stop people from uploading new pics
+    return deadlineover(request)
+
+
     for i in range(len(request.POST.getlist('answer[]'))):
         if GenQuestion.objects.filter(id=request.POST.getlist('id[]')[i]).exists() and len(str(request.POST.getlist('answer[]')[i]).strip())>0:
             u.student.AnswersAboutMyself[request.POST.getlist(
