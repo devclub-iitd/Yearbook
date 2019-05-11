@@ -30,6 +30,9 @@ def index(request):
     # login(request, myUser)
     # return redirect('/profile')
 
+    ## Need it to trun off after deadline
+    return deadlineover(request)
+
     if request.method == 'POST':
         return redirect(os.environ["authLinkPart1"] + os.environ["CLIENT_ID"] + os.environ["authLinkPart2"])
     return render(request, 'myapp/index.html')
