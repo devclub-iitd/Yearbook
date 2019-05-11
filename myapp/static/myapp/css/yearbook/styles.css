@@ -133,6 +133,7 @@ p {
   color: #fff;
   min-height: 100vh !important;  
   -webkit-print-color-adjust: exact;
+  overflow-x: hidden;
 }
 .sidebar-wrapper a {
   color: #fff;
