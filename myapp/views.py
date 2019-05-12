@@ -316,7 +316,7 @@ def yearbook(request):
     if request.user.is_superuser:
         dep = request.GET.get('department')
     else:
-        return comingsoon(request)
+        return redirect("https://devclub.in/yearbooks/")
         dep = request.user.student.department
         
     departmentN=""
