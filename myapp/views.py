@@ -290,6 +290,10 @@ def otherComment(request):
         if len(gen_comments)==0:
             return render(request, 'myapp/no_comment.html')
         return render(request, 'myapp/otherComment.html',context)
+    
+    ## Need it to stop people from changing view of comments
+    return deadlineover(request)
+
     for i in range(len(request.POST.getlist('fromWhom[]'))):
         lowerEntry = (request.POST.getlist('fromWhom[]')[i]).lower()
         for c in u.student.CommentsIGet:
