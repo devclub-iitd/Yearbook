@@ -12,7 +12,7 @@ This repository contains the development code for the yearbook portal
  8. Run `python manage.py migrate`. If you face any errors, try `python manage.py migrate --fake`.
  9. Run `python manage.py createsuperuser`. You will be given prompts to enter credentials of your super user who can access the admin dashboard. Fill the details and keep pressing enter.
  10. Follow create database instructions ahead, to first create a postgres database. Then create .env with required credentials filling all the fields from .env_example.
- 11. Run `source ./.env`
+ 11. Run `source ./.env`. (If this doesn't work (like in windows subsystem), just copy paste the contents of your .env file into the active terminal session)
  12. Use `python manage.py runserver` to start the app!
 
 ## Error regarding psycopg2
