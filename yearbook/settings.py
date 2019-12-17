@@ -91,18 +91,20 @@ DATABASES = {
         'NAME': os.environ["POSTGRES_DB"],
         'USER': os.environ["POSTGRES_USER"],
         'PASSWORD': os.environ["POSTGRES_PASSWORD"],
-        'HOST': 'db',
+        'HOST': os.environ["POSTGRES_DEPLOYMENT_MODE"],  # 'db' for docker and 'localhost' for normal localhost working of the app
         'PORT': 5432,
     }
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': '2016_temp',
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'postgres',
-    #     'HOST': 'db',
+    #     'NAME': 'temp',
+    #     'USER': 'batman',
+    #     'PASSWORD': 'batman',
+    #     'HOST': 'localhost',
     #     'PORT': 5432,
     # }
 }
+
+# DATABASES = { 'default': { 'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'myproject', 'USER': 'mayank', 'PASSWORD': 'mayank123', 'HOST': 'localhost', 'PORT': '5432', } }
 
 
 # Password validation
