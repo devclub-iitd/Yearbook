@@ -25,14 +25,13 @@ def index(request):
     # print(os.environ["OauthTokenURL"])
     # # if request.method == 'POST':
     #     # return redirect(config.authLinkPart1 + config.CLIENT_ID + config.authLinkPart2)
-    # myUser = User.objects.get(username=('atishya').lower())
-    # print (myUser)
-    # login(request, myUser)
-    # return redirect('/profile')
+    myUser = User.objects.get(username=('2016cs50393').lower())
+    login(request, myUser)
+    return redirect('/profile')
 
-    if request.method == 'POST':
-        return redirect(os.environ["authLinkPart1"] + os.environ["CLIENT_ID"] + os.environ["authLinkPart2"])
-    return render(request, 'myapp/index.html')
+    # if request.method == 'POST':
+    #     return redirect(os.environ["authLinkPart1"] + os.environ["CLIENT_ID"] + os.environ["authLinkPart2"])
+    # return render(request, 'myapp/index.html')
     # return render(request, 'myapp/index.html')
 
 
@@ -41,6 +40,7 @@ def authenticate(request):
     # 'client_secret': config.CLIENT_SECRET,
     # 'grant_type': config.AUTHORIZATION_CODE,
     # 'code': request.GET.get('code')}
+
     PostData = {'client_id': os.environ["CLIENT_ID"],
     'client_secret': os.environ["CLIENT_SECRET"],
     'grant_type': os.environ["AUTHORIZATION_CODE"],
@@ -64,7 +64,7 @@ def authenticate(request):
         # return redirect('/')
         return render(request, 'myapp/index.html', {"error_string": "You are unauthorized to access"})
         # return HttpResponse('Unauthorized to access')
-    # myUser = User.objects.get(username=('mayank').lower())
+    # myUser = User.objects.get(username=('atishya').lower())
     # login(request, myUser)
     # return redirect('/profile')
 
