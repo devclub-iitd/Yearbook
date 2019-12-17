@@ -4,7 +4,7 @@ cffi==1.13.2
 chardet==3.0.4
 config==0.4.2
 cryptography==2.8
-Django==2.2.7
+Django==2.2.8
 django-cors-middleware==1.4.0
 django-oauth-toolkit==1.2.0
 enum34==1.1.6
