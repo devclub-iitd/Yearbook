@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .models import *
+from django.utils import timezone
 
 import urllib3.contrib.pyopenssl
 urllib3.contrib.pyopenssl.inject_into_urllib3()
@@ -80,7 +81,8 @@ def profile(request):
         return render(request, 'myapp/profile.html', context)
 
     ## Need it to stop people from uploading new pics
-    return deadlineover(request)
+    if is_deadline_over():
+        return deadlineover(request)
 
     # print int(request.FILES.get('dp').size)<6000000
     if(request.FILES.get('dp') != None and int(request.FILES.get('dp').size) < 6000000):
@@ -137,8 +139,8 @@ def answerMyself(request):
     # print request.POST.getlist('answer[]')
 
     ## Need it to stop people from uploading new pics
-    return deadlineover(request)
-
+    if is_deadline_over():
+        return deadlineover(request)
 
     for i in range(len(request.POST.getlist('answer[]'))):
         if GenQuestion.objects.filter(id=request.POST.getlist('id[]')[i]).exists() and len(str(request.POST.getlist('answer[]')[i]).strip())>0:
@@ -153,7 +155,8 @@ def answerMyself(request):
 @login_required()
 def poll(request):
     ## Need it to turn it off after deadline
-    return deadlineover(request)
+    if is_deadline_over():
+        return deadlineover(request)
 
     u = request.user
     if request.method == 'GET':
@@ -242,7 +245,8 @@ def comment(request):
         return render(request, 'myapp/comment.html',context)
     
     ## Need it to close based on deadline
-    return render(request, 'myapp/comment.html', {"comments":gen_comments,"users":users_all, "comment": "You can't comment after deadline :("})
+    if is_deadline_over():
+        return render(request, 'myapp/comment.html', {"comments":gen_comments,"users":users_all, "comment": "You can't comment after deadline :("})
 
     for i in range(len(request.POST.getlist('forWhom[]'))):
         lowerEntry = (request.POST.getlist('forWhom[]')[i]).lower()
@@ -292,7 +296,8 @@ def otherComment(request):
         return render(request, 'myapp/otherComment.html',context)
     
     ## Need it to stop people from changing view of comments
-    return deadlineover(request)
+    if is_deadline_over():
+        return deadlineover(request)
 
     for i in range(len(request.POST.getlist('fromWhom[]'))):
         lowerEntry = (request.POST.getlist('fromWhom[]')[i]).lower()
@@ -302,6 +307,7 @@ def otherComment(request):
                 break
         u.student.save()
     return redirect('/otherComment')
+
 @login_required()
 def yearbook(request):
     dep=""
@@ -374,6 +380,11 @@ def yearbook(request):
     return render(request, 'myapp/yearbook.html',context)
    
 
+def display_yearbook(request):
+    if Yearbook.objects.first().display:
+        return yearbook(request)
+    else:
+        return comingsoon(request)
 
 def userlogout(request):
     logout(request)
@@ -382,6 +393,11 @@ def userlogout(request):
 def comingsoon(request):
     return render(request, 'myapp/comingsoon.html')
 
+def is_deadline_over():
+    if timezone.now() > Yearbook.objects.first().deadline:
+        return True
+    else:
+        return False
 
 def deadlineover(request):
     return render(request, 'myapp/deadlineover.html')

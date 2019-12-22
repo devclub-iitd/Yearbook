@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 from jsonfield import JSONField
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 def user_directory_path(instance, filename):
 	return '{0}/{1}'.format(instance.department, filename)
@@ -61,6 +62,14 @@ class Student(models.Model):
 	def __str__(self):
 		return self.name 
 
+class Yearbook(models.Model):
+	display = models.BooleanField(default=False)
+	deadline = models.DateTimeField()
+
+	def save(self, *args, **kwargs):
+		if not self.pk and Yearbook.objects.exists():
+			raise ValidationError('Only one instance is allowed')
+		return super(Yearbook, self).save(*args, **kwargs)
 
 
 

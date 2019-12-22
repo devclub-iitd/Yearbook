@@ -20,6 +20,9 @@ python3 manage.py makemigrations
 python3 manage.py migrate
 ./yearbook_superuser.sh
 
+## Setting default properties for yearbook
+python3 SetYearbook.py
+
 ## Add Users
 python3 Scrape/Scrape.py
 python3 CsvToDatabase.py
