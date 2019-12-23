@@ -164,14 +164,11 @@ def poll(request):
         users_all = User.objects.filter(is_superuser=False).order_by('username')
         
         dept_users = []
-        users = [] # made seperate for same year vote only
 
         for i in users_all:
             enum_to_name[i.username] = i.student.name
-            if i.username[:4] == u.username[:4]:
-                users.append(i)
-                if i.student.department==u.student.department:
-                    dept_users.append(i)
+            if i.student.department==u.student.department:
+                dept_users.append(i)
 
         allPolls = Poll.objects.filter(department="all")
         deptPolls = Poll.objects.filter(department=u.student.department)
@@ -190,7 +187,7 @@ def poll(request):
             if (str(p.id) in VotesDisplay):
                 gen_deptPolls[-1][2]=VotesDisplay[str(p.id)]
                 gen_deptPolls[-1][3]=(enum_to_name.get(VotesDisplay[str(p.id)], ""))
-        context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users,"deptUsers":dept_users}
+        context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users_all,"deptUsers":dept_users}
         return render(request, 'myapp/poll.html',context)
 
     # if POST request 
