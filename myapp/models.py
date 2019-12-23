@@ -62,14 +62,14 @@ class Student(models.Model):
 	def __str__(self):
 		return self.name 
 
-class Yearbook(models.Model):
-	display = models.BooleanField(default=False)
+class AdminTable(models.Model):
+	displayYearbook = models.BooleanField(default=False)
 	deadline = models.DateTimeField()
 
 	def save(self, *args, **kwargs):
-		if not self.pk and Yearbook.objects.exists():
-			raise ValidationError('Only one instance is allowed')
-		return super(Yearbook, self).save(*args, **kwargs)
+		if not self.pk and AdminTable.objects.exists():
+			raise ValidationError('Only one instance of admin table is allowed. Please edit the existing admin table object.')
+		return super(AdminTable, self).save(*args, **kwargs)
 
 
 

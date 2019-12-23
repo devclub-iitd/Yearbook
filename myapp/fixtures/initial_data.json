@@ -1,0 +1,10 @@
+[
+    {
+        "model": "myapp.admintable",
+        "pk": 1,
+        "fields": {
+            "displayYearbook": false,
+            "deadline": "2019-12-18T17:01:30Z"
+        }
+    }
+]

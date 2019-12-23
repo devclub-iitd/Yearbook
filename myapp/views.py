@@ -381,7 +381,7 @@ def yearbook(request):
    
 
 def display_yearbook(request):
-    if Yearbook.objects.first().display:
+    if AdminTable.objects.first().display:
         return yearbook(request)
     else:
         return comingsoon(request)
@@ -394,7 +394,7 @@ def comingsoon(request):
     return render(request, 'myapp/comingsoon.html')
 
 def is_deadline_over():
-    if timezone.now() > Yearbook.objects.first().deadline:
+    if timezone.now() > AdminTable.objects.first().deadline:
         return True
     else:
         return False
