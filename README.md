@@ -121,6 +121,7 @@ This repository contains the development code for the yearbook portal
    * python manage.py createsuperuser
         * This will ask you for username, password and other details of the superuser you are creating. Remember the credentials. This             super user will allow you to handle django database.
    * Follow create database instructions ahead, to first create a postgres database. Then create .env with required credentials filling all the fields from .env_example.
+   * Run python3 setAdminTable.py to create an admin table object if it does not exists already.
    * Run `source ./.env`. (If this doesn't work (like in windows subsystem), just copy paste the contents of your .env file into the active terminal session)
    * python manage.py runserver
         * This starts the Django server at port 8000
