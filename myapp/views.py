@@ -378,7 +378,7 @@ def yearbook(request):
    
 
 def display_yearbook(request):
-    if AdminTable.objects.first().display:
+    if AdminTable.objects.first().displayYearbook:
         return yearbook(request)
     else:
         return comingsoon(request)
