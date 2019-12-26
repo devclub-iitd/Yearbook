@@ -20,6 +20,9 @@ python3 manage.py makemigrations
 python3 manage.py migrate
 ./yearbook_superuser.sh
 
+## Creating a default admin table object if it does not already exists
+python3 setAdminTable.py
+
 ## Add Users
 python3 Scrape/Scrape.py
 python3 CsvToDatabase.py

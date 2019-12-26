@@ -89,9 +89,13 @@ local_settings.py
 db.sqlite3
 
 venv/
+win_venv/
 media/
 !media/myapp/static/myapp/DP/anonymous.jpg
 myapp/migrations/
 Config.py
 *~
 .gitsecret/keys/random_seed
+
+# VS Code
+.vscode
