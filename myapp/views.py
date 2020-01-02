@@ -26,7 +26,7 @@ def index(request):
     # print(os.environ["OauthTokenURL"])
     # # if request.method == 'POST':
     #     # return redirect(config.authLinkPart1 + config.CLIENT_ID + config.authLinkPart2)
-    myUser = User.objects.get(username=('2016cs50393').lower())
+    myUser = User.objects.get(username=('2015ch10076').lower())
     login(request, myUser)
     return redirect('/profile')
 
@@ -130,6 +130,16 @@ def answerMyself(request):
         GenQuestions = GenQuestion.objects.all()
         AnswersDisplay = u.student.AnswersAboutMyself
         gen_GenQuestions = []
+
+        # print(u.student.AdjectivesIGive.first().forWhom.user)
+        # print("...........")
+
+        # for i in u.student.AdjectivesIGet.all():
+        #     print(i.adjective + " by ")
+        #     print(i.byWhom.count())
+        #     for p in i.byWhom.all():
+        #         print(" "+p.name)
+    
         for q in GenQuestions:
             gen_GenQuestions.append([q.id, q.question, ""])
             if (str(q.id) in AnswersDisplay):
@@ -231,28 +241,49 @@ def comment(request):
     users_all = User.objects.filter(is_superuser=False).order_by('username') 
         # we pass this to display options, remove self user
     myComments = u.student.CommentsIWrite
+    myAdjectives = u.student.AdjectivesIGive.filter().order_by('forWhom')
+    # myAdjectives = u.student.AdjectivesIGive.all()
     gen_comments = []
+    gen_adjectives = []
+
+    print(request.POST)
+
     for c in myComments:
         tmpName=c["forWhom"]
         if User.objects.filter(username = c["forWhom"]).exists():
             tmpName=User.objects.get(username=c["forWhom"]).student.name
         gen_comments.append([c["comment"],c["forWhom"],tmpName])
-    context={"comments":gen_comments,"users":users_all}
+
+    for a in myAdjectives:
+        gen_adjectives.append([a.adjective, a.forWhom.user, a.forWhom.name, a.byWhom.count()])
+
+    adjective_list = [adj[0] for adj in Adjective.adjective_list]
+
+    context={"comments":gen_comments, "adjectives":gen_adjectives, "users":users_all, "adjective_list": adjective_list}
+
     if request.method=='GET':
         return render(request, 'myapp/comment.html',context)
     
     ## Need it to close based on deadline
     if is_deadline_over():
-        return render(request, 'myapp/comment.html', {"comments":gen_comments,"users":users_all, "comment": "You can't comment after deadline :("})
+        return render(request, 'myapp/comment.html', {"comments":gen_comments, "adjectives":gen_adjectives, "users":users_all, "comment": "You can't comment after deadline :(", "adjective_list": adjective_list})
 
     for i in range(len(request.POST.getlist('forWhom[]'))):
         lowerEntry = (request.POST.getlist('forWhom[]')[i]).lower()
+
         for c in u.student.CommentsIWrite:
             if c["forWhom"]==lowerEntry: #updating an already written message
                 c["comment"]=request.POST.getlist('val[]')[i]
                 # A not found check for the user
                 if (User.objects.filter(username = lowerEntry).exists() and (u.username.lower() != lowerEntry)):
-                    u_new = User.objects.get(username=lowerEntry) 
+                    u_new = User.objects.get(username=lowerEntry)
+
+                    for a in request.POST.getlist('adjectivesSelected'):
+                        addAdjective(a,  User.objects.get(username=lowerEntry), u)
+
+                    for a in set(adjective_list)-set(request.POST.getlist('adjectivesSelected')):
+                        removeAdjective(a, User.objects.get(username=lowerEntry), u)
+                        
                 else:
                     return redirect('/comment')
                 for c_new in u_new.student.CommentsIGet:
@@ -262,19 +293,63 @@ def comment(request):
                 u_new.student.save()
                 break
         else:
-            u.student.CommentsIWrite.append({"comment":request.POST.getlist('val[]')[i],"forWhom":lowerEntry})
-            # A not found check of user and I cant comment for myself
+            if request.POST.getlist('val[]')[i] != '':
+                u.student.CommentsIWrite.append({"comment":request.POST.getlist('val[]')[i],"forWhom":lowerEntry})
+                # A not found check of user and I cant comment for myself
             if (u.username.lower() == lowerEntry):
-                return render(request, 'myapp/comment.html', {"comments":gen_comments,"users":users_all, "comment": "You can't comment for yourself :)"})
+                return render(request, 'myapp/comment.html', {"comments":gen_comments, "adjectives":gen_adjectives, "users":users_all, "comment": "You can't comment for yourself :)", "adjective_list": adjective_list})
             if (User.objects.filter(username = lowerEntry).exists()):
+
+                for a in request.POST.getlist('adjectivesSelected'):
+                    addAdjective(a,  User.objects.get(username=lowerEntry), u)
+
+                for a in set(adjective_list)-set(request.POST.getlist('adjectivesSelected')):
+                    removeAdjective(a, User.objects.get(username=lowerEntry), u)
+                    
                 u_new = User.objects.get(username=lowerEntry)
             else:
                 print (User.objects.filter(username = lowerEntry).exists())
                 return redirect('/comment')
-            u_new.student.CommentsIGet.append({"comment":request.POST.getlist('val[]')[i],"fromWhom":u.username,"displayInPdf":"True"})
+                
+            if request.POST.getlist('val[]')[i] != '':
+                u_new.student.CommentsIGet.append({"comment":request.POST.getlist('val[]')[i],"fromWhom":u.username,"displayInPdf":"True"})
             u_new.student.save()
         u.student.save()
     return redirect('/comment')
+
+
+def addAdjective(adjective_txt, forWhom, byWhom):
+    for adj in forWhom.student.AdjectivesIGet.all(): # if someone has already voted for this adjective
+        if adj.adjective == adjective_txt:
+            if adj.byWhom.filter(user=byWhom.student.user).exists():
+                # already voted for that adjective by byWhom
+                print("already voted for this adj")
+            else:
+                adj.byWhom.add(Student.objects.get(user=byWhom.student.user))
+                adj.save()
+            break
+    else:
+        # no one has voted for this adjective yet
+        a = Adjective(adjective=adjective_txt, forWhom=forWhom.student)
+        a.save()
+        a.byWhom.add(byWhom.student)
+        a.save()
+
+
+def removeAdjective(adjective_txt, forWhom, byWhom):
+    for adj in forWhom.student.AdjectivesIGet.all(): # if someone has already voted for this adjective
+        if adj.adjective == adjective_txt:
+            if adj.byWhom.filter(user=byWhom.student.user).exists():
+                # already voted for that adjective by byWhom
+                adj.byWhom.remove(byWhom.student)
+                adj.save()
+            else:
+                print("nothing to remove")
+            break
+    else:
+        # no one has voted for this adjective yet
+        print("nothing to remove")
+    
 
 @login_required()
 def otherComment(request):

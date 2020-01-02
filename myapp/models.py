@@ -62,6 +62,16 @@ class Student(models.Model):
 	def __str__(self):
 		return self.name 
 
+class Adjective(models.Model):
+	adjective_list = [
+		("happy", "happy"),
+		("angry", "angry"),
+		("smart", "smart")
+	]
+	adjective = models.CharField(max_length=100, choices=adjective_list)
+	forWhom = models.ForeignKey(Student, on_delete=models.CASCADE, related_name="AdjectivesIGet")
+	byWhom = models.ManyToManyField(Student, related_name="AdjectivesIGive")
+
 class AdminTable(models.Model):
 	displayYearbook = models.BooleanField(default=False)
 	deadline = models.DateTimeField()

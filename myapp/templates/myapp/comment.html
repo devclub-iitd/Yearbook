@@ -23,6 +23,29 @@
 		</form>			
 	</div>
 	{% endif %}
+
+	{% if adjectives  %}
+	<div class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
+		<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			<span class="login100-form-title p-b-37">
+				Adjectives already given
+			</span>
+			{% for adj, forWhom, name, votes in adjectives %}
+				<label>For : {{ name }} ({{ forWhom }})</label>
+				<input style="display:none" type="text" name="forWhom[]" value="{{ forWhom }}" readonly="readonly">
+				<br>
+				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
+					<p style="word-wrap: break-word">
+						{{ adj }} ({{ votes }})
+					</p>	
+				</div>
+				<hr>
+			{% endfor %}
+		</form>
+	</div>
+	{% endif %}
+
 	<div style="margin-left: 20px" class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
 		<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
 			{% csrf_token %}
@@ -45,6 +68,11 @@
 			<div class="wrap-input100 validate-input m-b-20">
 				<textarea class="input100" type="text" name="val[]" placeholder="Comment"></textarea>
 				<span class="focus-input100"></span>
+			</div>
+			<div>
+				{% for adj in adjective_list %}
+					<input type="checkbox" name="adjectivesSelected" value={{adj}}>{{ adj }}<br>
+				{% endfor %}
 			</div>
 			<div class="container-login100-form-btn">
 				<button class="login100-form-btn">
