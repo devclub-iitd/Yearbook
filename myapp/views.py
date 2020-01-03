@@ -12,6 +12,10 @@ from django.contrib.auth.models import User
 from .models import *
 from django.utils import timezone
 
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+import io
+from django.core.files.images import ImageFile
 import urllib3.contrib.pyopenssl
 urllib3.contrib.pyopenssl.inject_into_urllib3()
 
@@ -238,15 +242,11 @@ def poll(request):
 @login_required()
 def comment(request):
     u = request.user
-    users_all = User.objects.filter(is_superuser=False).order_by('username') 
+    users_all = User.objects.filter(is_superuser=False).order_by('username')
         # we pass this to display options, remove self user
     myComments = u.student.CommentsIWrite
     myAdjectives = u.student.AdjectivesIGive.filter().order_by('forWhom')
-    # myAdjectives = u.student.AdjectivesIGive.all()
     gen_comments = []
-    gen_adjectives = []
-
-    print(request.POST)
 
     for c in myComments:
         tmpName=c["forWhom"]
@@ -254,19 +254,16 @@ def comment(request):
             tmpName=User.objects.get(username=c["forWhom"]).student.name
         gen_comments.append([c["comment"],c["forWhom"],tmpName])
 
-    for a in myAdjectives:
-        gen_adjectives.append([a.adjective, a.forWhom.user, a.forWhom.name, a.byWhom.count()])
-
     adjective_list = [adj[0] for adj in Adjective.adjective_list]
 
-    context={"comments":gen_comments, "adjectives":gen_adjectives, "users":users_all, "adjective_list": adjective_list}
+    context={"comments":gen_comments, "adjectives":myAdjectives, "users":users_all, "adjective_list": adjective_list}
 
     if request.method=='GET':
         return render(request, 'myapp/comment.html',context)
     
     ## Need it to close based on deadline
     if is_deadline_over():
-        return render(request, 'myapp/comment.html', {"comments":gen_comments, "adjectives":gen_adjectives, "users":users_all, "comment": "You can't comment after deadline :(", "adjective_list": adjective_list})
+        return render(request, 'myapp/comment.html', {"comments":gen_comments, "adjectives":myAdjectives, "users":users_all, "comment": "You can't comment after deadline :(", "adjective_list": adjective_list})
 
     for i in range(len(request.POST.getlist('forWhom[]'))):
         lowerEntry = (request.POST.getlist('forWhom[]')[i]).lower()
@@ -297,7 +294,7 @@ def comment(request):
                 u.student.CommentsIWrite.append({"comment":request.POST.getlist('val[]')[i],"forWhom":lowerEntry})
                 # A not found check of user and I cant comment for myself
             if (u.username.lower() == lowerEntry):
-                return render(request, 'myapp/comment.html', {"comments":gen_comments, "adjectives":gen_adjectives, "users":users_all, "comment": "You can't comment for yourself :)", "adjective_list": adjective_list})
+                return render(request, 'myapp/comment.html', {"comments":gen_comments, "adjectives":myAdjectives, "users":users_all, "comment": "You can't comment for yourself :)", "adjective_list": adjective_list})
             if (User.objects.filter(username = lowerEntry).exists()):
 
                 for a in request.POST.getlist('adjectivesSelected'):
@@ -310,7 +307,7 @@ def comment(request):
             else:
                 print (User.objects.filter(username = lowerEntry).exists())
                 return redirect('/comment')
-                
+
             if request.POST.getlist('val[]')[i] != '':
                 u_new.student.CommentsIGet.append({"comment":request.POST.getlist('val[]')[i],"fromWhom":u.username,"displayInPdf":"True"})
             u_new.student.save()
@@ -319,10 +316,9 @@ def comment(request):
 
 
 def addAdjective(adjective_txt, forWhom, byWhom):
-    for adj in forWhom.student.AdjectivesIGet.all(): # if someone has already voted for this adjective
-        if adj.adjective == adjective_txt:
-            if adj.byWhom.filter(user=byWhom.student.user).exists():
-                # already voted for that adjective by byWhom
+    for adj in forWhom.student.AdjectivesIGet.all():
+        if adj.adjective == adjective_txt: # if someone has already voted for this adjective
+            if adj.byWhom.filter(user=byWhom.student.user).exists(): # already voted for that adjective by byWhom
                 print("already voted for this adj")
             else:
                 adj.byWhom.add(Student.objects.get(user=byWhom.student.user))
@@ -337,34 +333,44 @@ def addAdjective(adjective_txt, forWhom, byWhom):
 
 
 def removeAdjective(adjective_txt, forWhom, byWhom):
-    for adj in forWhom.student.AdjectivesIGet.all(): # if someone has already voted for this adjective
-        if adj.adjective == adjective_txt:
-            if adj.byWhom.filter(user=byWhom.student.user).exists():
-                # already voted for that adjective by byWhom
+    for adj in forWhom.student.AdjectivesIGet.all():
+        if adj.adjective == adjective_txt: # if someone has already voted for this adjective
+            if adj.byWhom.filter(user=byWhom.student.user).exists(): # already voted for that adjective by byWhom
                 adj.byWhom.remove(byWhom.student)
                 adj.save()
+                if adj.byWhom.count() == 0: # if byWhom was the only voter before
+                    adj.delete()
             else:
-                print("nothing to remove")
+                print("User has not voted for this adjective")
             break
     else:
         # no one has voted for this adjective yet
-        print("nothing to remove")
+        print("Student has no such adjective; Nothing to remove")
     
 
 @login_required()
 def otherComment(request):
     u = request.user
     if request.method=='GET':
-        CommentsIGet = u.student.CommentsIGet
+        myComments = u.student.CommentsIGet
         gen_comments=[]
-        for c in CommentsIGet:
+        for c in myComments:
             tmpName=c["fromWhom"]
             if User.objects.filter(username = c["fromWhom"]).exists():
                 tmpName=User.objects.get(username=c["fromWhom"]).student.name
             gen_comments.append([c["comment"],c["fromWhom"],tmpName,c["displayInPdf"]])
-        context={"comments":gen_comments}
-        if len(gen_comments)==0:
+        
+        if len(gen_comments) == 0 and not u.student.AdjectivesIGet:
             return render(request, 'myapp/no_comment.html')
+        
+        # ==================================================================
+        # Use when displaying adjectives recieved:
+        # myAdjectives = u.student.AdjectivesIGet.all()
+        # createWordCloud(u.student)
+        # context={"comments":gen_comments,"adjectives":myAdjectives, "wordcloud":u.student.WordCloud}
+        # ==================================================================
+
+        context={"comments":gen_comments}
         return render(request, 'myapp/otherComment.html',context)
     
     ## Need it to stop people from changing view of comments
@@ -398,7 +404,7 @@ def yearbook(request):
     if request.user.is_superuser:
         dep = request.GET.get('department')
     else:
-        return redirect("https://devclub.in/yearbooks/")
+        # return redirect("https://devclub.in/yearbooks/")
         dep = request.user.student.department
         
     departmentN=""
@@ -409,6 +415,8 @@ def yearbook(request):
     GenQuestions = GenQuestion.objects.all()
     students_dep = Student.objects.filter(department=dep).order_by('name')
     for i in students_dep:
+        if i.AdjectivesIGet.exists():
+            createWordCloud(i)
         gen_GenQuestions=list([])
         for q in GenQuestions:
             if ((str(q.id) in i.AnswersAboutMyself) and i.AnswersAboutMyself[str(q.id)]!=""):
@@ -451,6 +459,21 @@ def yearbook(request):
     context={"students":students_dep,"department":departmentN,"allPolls":all_polls,"deptPolls":dep_polls}
     return render(request, 'myapp/yearbook.html',context)
    
+def createWordCloud(student):
+    dictionary = {} # { adjective : vote }
+    for adj in student.AdjectivesIGet.all():
+        dictionary[adj.adjective] = adj.byWhom.count()
+    
+    wordcloud = WordCloud(width=1800,height=800,max_words=150,background_color="white").generate_from_frequencies(dictionary)
+    f = io.BytesIO()
+    plt.figure(figsize=(20,10))
+    plt.imshow(wordcloud, interpolation="bilinear")
+    plt.axis("off")
+    plt.tight_layout(pad=0)
+    plt.savefig(f, format="png")
+    content_file = ImageFile(f)
+    student.WordCloud.save('name',content_file)
+    student.save()
 
 def display_yearbook(request):
     if AdminTable.objects.first().displayYearbook:

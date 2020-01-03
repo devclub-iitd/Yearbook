@@ -31,13 +31,13 @@
 			<span class="login100-form-title p-b-37">
 				Adjectives already given
 			</span>
-			{% for adj, forWhom, name, votes in adjectives %}
-				<label>For : {{ name }} ({{ forWhom }})</label>
+			{% for adj in adjectives %}
+				<label>For : {{ adj.forWhom.name }} ({{ adj.forWhom.user }})</label>
 				<input style="display:none" type="text" name="forWhom[]" value="{{ forWhom }}" readonly="readonly">
 				<br>
 				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
 					<p style="word-wrap: break-word">
-						{{ adj }} ({{ votes }})
+						{{ adj.adjective }}
 					</p>	
 				</div>
 				<hr>

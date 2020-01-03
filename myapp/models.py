@@ -59,14 +59,24 @@ class Student(models.Model):
 	VotesIHaveGiven = JSONField(blank=True,default=dict)
 	CommentsIWrite = JSONField(blank=True,default=list)
 	CommentsIGet = JSONField(blank=True,default=list)
+	WordCloud = models.ImageField(upload_to="wordcloud",blank=True)
 	def __str__(self):
 		return self.name 
 
 class Adjective(models.Model):
 	adjective_list = [
 		("happy", "happy"),
-		("angry", "angry"),
-		("smart", "smart")
+		("short-tempered", "short-tempered"),
+		("genius", "genius"),
+		("adventurous", "adventurous"),
+		("creative", "creative"),
+		("friendly", "friendly"),
+		("gym-freak","gym-freak"),
+		("artistic", "artistic"),
+		("hard-working","hard-working"),
+		("comedian", "comedian"),
+		("geek", "geek"),
+		("leader", "leader")
 	]
 	adjective = models.CharField(max_length=100, choices=adjective_list)
 	forWhom = models.ForeignKey(Student, on_delete=models.CASCADE, related_name="AdjectivesIGet")
