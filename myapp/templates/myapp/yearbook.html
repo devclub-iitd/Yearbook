@@ -1,34 +1,25 @@
 {% load static %}
 <!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
-<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->  
+<html>
 <head>
-    <title>Yearbook</title>
-    <!-- Meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,400italic,300italic,300,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-    <!-- Global CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://use.fontawesome.com/eebe89cf8b.js"></script>
-    <!-- <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">    -->
-    
-    <!-- Theme CSS -->  
-    <!-- <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/main.css'%}"> -->
-    <link href="https://fonts.googleapis.com/css?family=Gaegu:700" rel="stylesheet">
-    <link id="theme-style" rel="stylesheet" href="{% static 'myapp/css/yearbook/styles.css'%}">
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+	<title>Yearbook</title>
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700|Zilla+Slab&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/f6a9b938ff.js" crossorigin="anonymous"></script>
+	<link id="theme-style" rel="stylesheet" href="{% static 'myapp/css/yearbook/styles.css'%}" type="text/css"
+	<meta charset="UTF-8">
+	<!-- <style type="text/css">
+		* {
+			margin: 0px;
+			padding: 0px;
+			border: 0px;
+			font-family: 'Roboto', sans-serif;
+			/*font-family: 'Zilla Slab', serif;*/
+		}
+		
+	</style> -->
 </head>
-
 <body>
-    <div id="heading">
+	<div id="heading">
         <h1  >Yearbook</h1>
         <!-- <h2>To the looney toons we sang here...</h2> -->
         <!-- <h3>Add a department pic</h3> -->
@@ -94,63 +85,82 @@
            Polls (TBD) </h2>
               
         {% endif %}
-    </div>
-    {% for student in students %}
-    <div class="wrapper">
-        <div class="sidebar-wrapper">
-            <div class="profile-container">
-                <img style="height:200px;width: auto;max-width: 100%;" class="profile" src="{{student.DP.url}}" alt="" />
-                <h1 class="name">{{student.name}}</h1>
-                <h3 class="tagline">{{student.oneliner}}</h3>
-            </div><!--//profile-container-->
-            
-            <div class="contact-container container-block">
-                <ul class="list-unstyled contact-list" style="word-wrap: break-word;">
-                    <li class="email"><i class="fa fa-envelope"></i>{{student.email}}</li>
-                    <li class="phone"><i class="fa fa-phone"></i>{{student.phone}}</li>
-                    <li class="email"><i class="fa fa-institution"></i>{{student.department}}</li>
-                    <li class="email"><i class="fa fa-briefcase"></i>{{student.future}}</li>
-                   
-                </ul>
-            </div><!--//contact-container-->
-            
-        </div><!--//sidebar-wrapper-->
-        <div class="main-wrapper">
-            {% if student.AdjectivesIGet.count %}
-            <div style="text-align: center; margin-bottom: 60px;" class="wordcloud-container">
-                <img style="height:400px;width: auto;max-width: 100%;" src="{{student.WordCloud.url}}" alt="" />
-            </div>
-            {% endif %}
+	</div>
+	
+	{% for student in students %}
+	<div class="wrapperCont">
+		<div class="upperCont">
+			<div class="upperContLeft">
+				<img style="height:240px;width: auto;max-width: 100%;" src="{{student.DP.url}}">
+			</div>
+			<div class="upperContRight">
+				<div class="upperContRightC1">
+					<div class="bio">
+						<span class="personName">{{student.name}} |</span>
+						<span class="personTagline">{{student.oneliner}}</span>
+					</div>
+					<div class="personInfo">
+						<i class="fas fa-envelope"></i>
+						{{student.email}}
+					</div>
+					<div class="personInfo">
+						<i class="fas fa-phone"></i>
+						{{student.phone}}
+					</div>
+					<div class="personInfo">
+						<i class="fas fa-university"></i>
+						{{student.department}}
+					</div>
+					<div class="personInfo">
+						<i class="fas fa-briefcase"></i>
+						{{student.future}}
+					</div>				
+				</div>
+				<div class="upperContRightC2">
+					{% if student.AdjectivesIGet.count %}
+						<div class="wordcloud-container">
+							<img style="height:200px;width: auto;max-width: 100%;" src="{{student.WordCloud.url}}" alt="" />
+						</div>
+            		{% endif %}
+				</div>
+			</div>
+		</div>
+		<div class="bottomCont">
+			<div class="qSec">
+				<div class="qSecTitle">
+					<i class="fa fa-archive"></i>
+					Answer's About Yourself -
+				</div>
+				<!-- <div class="qSeperator"></div> -->
+				{% for ques,ans in student.AnswersAboutMyself %}
+				<div class="qSecItem" style="word-wrap: break-word; page-break-inside: avoid;">
+					<div class="question">{{ques}}</div>
+					<div class="qSecSeperator"></div>
+					<div class="answer">
+						{{ans}}
+					</div>
+				</div>
+				{% endfor %}
+			</div>
 
-             <section class="section experiences-section">
-                <h2 class="section-title"><i class="fa fa-archive"></i>Answers about yourself</h2>
-                {% for ques,ans in student.AnswersAboutMyself %}
-                    <div class="item" style="word-wrap: break-word; page-break-inside: avoid;">
-                        <span class="job-title">{{ques}}</span> <br> <span class="project-tagline">{{ans}}</span>
-                        
-                    </div><!--//item-->
-                {% endfor %}
-            </section><!--//section-->
-
-            <section class="section experiences-section">
-                <h2 class="section-title"><i class="fa fa-list-ol"></i>What others have written for you</h2>
-                
-                {% for comment,fromWhom in student.CommentsIGet %}
-                    <div class="item" style="word-wrap: break-word; page-break-inside: avoid;">
-                        <div class="meta">
-                            <div class="upper-row">
-                                <h3 class="job-title">{{fromWhom}}</h3>
-                            </div><!--//upper-row-->
-                        </div><!--//meta-->
-                        <div class="details">
-                            <p>{{comment}}</p>
-                        </div><!--//details-->
-                    </div><!--//item-->
-                {% endfor %}
-        </div><!--//main-body-->
-    </div>
-    {% endfor %}
-          
+			<div class="qSec">
+				<div class="qSecTitle">
+					<i class="fa fa-list-ol"></i>
+					What other's have written about you -
+				</div>
+				{% for comment,fromWhom in student.CommentsIGet %}
+				<div class="qTileCont" style="word-wrap: break-word; page-break-inside: avoid;">
+					<div class="qTile">
+						<div class="qTileAuth">{{fromWhom}} ~</div>
+						<div class="qTileComment">
+							{{comment}}
+						</div>
+					</div>
+				{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
 </body>
-</html> 
-
+</html>

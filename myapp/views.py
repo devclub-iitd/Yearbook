@@ -12,11 +12,9 @@ from django.contrib.auth.models import User
 from .models import *
 from django.utils import timezone
 
-from wordcloud import WordCloud, get_single_color_func
+from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import io
-from PIL import Image
-import numpy as np
 from django.core.files.images import ImageFile
 import urllib3.contrib.pyopenssl
 urllib3.contrib.pyopenssl.inject_into_urllib3()
@@ -459,87 +457,15 @@ def yearbook(request):
             dep_polls.append([p.poll,tmpVotes[0:ind]])
 
     context={"students":students_dep,"department":departmentN,"allPolls":all_polls,"deptPolls":dep_polls}
-    return render(request, 'myapp/yearbook_new.html',context)
+    return render(request, 'myapp/yearbook.html',context)
    
-
-
-
-##########################
-
-class GroupedColorFunc(object):
-    """Create a color function object which assigns DIFFERENT SHADES of
-       specified colors to certain words based on the color to words mapping.
-
-       Uses wordcloud.get_single_color_func
-
-       Parameters
-       ----------
-       color_to_words : dict(str -> list(str))
-         A dictionary that maps a color to the list of words.
-
-       default_color : str
-         Color that will be assigned to a word that's not a member
-         of any value from color_to_words.
-    """
-
-    def __init__(self, color_to_words, default_color):
-        self.color_func_to_words = [
-            (get_single_color_func(color), set(words))
-            for (color, words) in color_to_words.items()]
-
-        self.default_color_func = get_single_color_func(default_color)
-
-    def get_color_func(self, word):
-        """Returns a single_color_func associated with the word"""
-        try:
-            color_func = next(
-                color_func for (color_func, words) in self.color_func_to_words
-                if word in words)
-        except StopIteration:
-            color_func = self.default_color_func
-
-        return color_func
-
-    def __call__(self, word, **kwargs):
-        return self.get_color_func(word)(word, **kwargs)
-
-
-color_to_words = {
-    # will be colored with a red single color function
-    '#80bfd6': ['adventurous', 'gym-freak', 'comedian', 'artistic', 'creative', 'friendly', 'leader', 'geek']
-}
-
-# Words that are not in any of the color_to_words values
-# will be colored with a grey single color function
-default_color = 'white'
-
-# Create a color function with single tone
-# grouped_color_func = SimpleGroupedColorFunc(color_to_words, default_color)
-
-# Create a color function with multiple tones
-grouped_color_func = GroupedColorFunc(color_to_words, default_color)
-
-################################################################
-
-
 
 def createWordCloud(student):
     dictionary = {} # { adjective : vote }
     for adj in student.AdjectivesIGet.all():
         dictionary[adj.adjective] = adj.byWhom.count()
-
-        for i in adj.byWhom.all():
-            dictionary[i.name] = 0.3
-
-    # for i in range(200):
-    #     dictionary["hello world" + str(i)] = 0.3
-
-    m = np.array(Image.open("/home/soham/Desktop/sphere-sky-wallpaper-blue-gradient-circle.jpg"))
     
-    wordcloud = WordCloud(width=800,height=500,margin=1,max_words=800,background_color="white",mask=m).generate_from_frequencies(dictionary)
-
-    # Apply our color function
-    wordcloud.recolor(color_func=grouped_color_func)
+    wordcloud = WordCloud(width=600,height=500,margin=1,max_words=300,background_color="white").generate_from_frequencies(dictionary)
 
     f = io.BytesIO()
     plt.imshow(wordcloud, interpolation="bilinear")
@@ -547,7 +473,7 @@ def createWordCloud(student):
     plt.tight_layout(pad=0)
     plt.savefig(f, format="png")
     content_file = ImageFile(f)
-    student.WordCloud.save('name',content_file)
+    student.WordCloud.save(student.name + '_wc',content_file)
     student.save()
 
 def display_yearbook(request):
