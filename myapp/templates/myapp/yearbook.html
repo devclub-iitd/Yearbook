@@ -116,11 +116,11 @@
             
         </div><!--//sidebar-wrapper-->
         <div class="main-wrapper">
-            <div class="wordcloud-container">
-                {% if student.AdjectivesIGet.count %}
-                    <img style="height:250px;width: auto;max-width: 100%;" src="{{student.WordCloud.url}}" alt="" />
-                {% endif %}
+            {% if student.AdjectivesIGet.count %}
+            <div style="text-align: center; margin-bottom: 60px;" class="wordcloud-container">
+                <img style="height:400px;width: auto;max-width: 100%;" src="{{student.WordCloud.url}}" alt="" />
             </div>
+            {% endif %}
 
              <section class="section experiences-section">
                 <h2 class="section-title"><i class="fa fa-archive"></i>Answers about yourself</h2>
