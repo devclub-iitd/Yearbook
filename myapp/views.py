@@ -24,13 +24,12 @@ def kerberos_to_entry_number(kerberos):
     return "20" + kerberos[3:5] + kerberos[:3].upper() + kerberos[5:]
 
 # Create your views here.
-# TODO update requirements.txt
 
 def index(request):
     # print(os.environ["OauthTokenURL"])
     # # if request.method == 'POST':
     #     # return redirect(config.authLinkPart1 + config.CLIENT_ID + config.authLinkPart2)
-    myUser = User.objects.get(username=('2015ch10076').lower())
+    myUser = User.objects.get(username=('2016cs50393').lower())
     login(request, myUser)
     return redirect('/profile')
 
@@ -134,15 +133,6 @@ def answerMyself(request):
         GenQuestions = GenQuestion.objects.all()
         AnswersDisplay = u.student.AnswersAboutMyself
         gen_GenQuestions = []
-
-        # print(u.student.AdjectivesIGive.first().forWhom.user)
-        # print("...........")
-
-        # for i in u.student.AdjectivesIGet.all():
-        #     print(i.adjective + " by ")
-        #     print(i.byWhom.count())
-        #     for p in i.byWhom.all():
-        #         print(" "+p.name)
     
         for q in GenQuestions:
             gen_GenQuestions.append([q.id, q.question, ""])
