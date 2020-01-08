@@ -18,7 +18,7 @@ import io
 from django.core.files.images import ImageFile
 import urllib3.contrib.pyopenssl
 urllib3.contrib.pyopenssl.inject_into_urllib3()
-
+from django.template.defaulttags import register
 
 def kerberos_to_entry_number(kerberos):
     return "20" + kerberos[3:5] + kerberos[:3].upper() + kerberos[5:]
@@ -229,13 +229,28 @@ def poll(request):
         u.student.save()
     return redirect("/poll")
         
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
+
 @login_required()
 def comment(request):
     u = request.user
     users_all = User.objects.filter(is_superuser=False).order_by('username')
         # we pass this to display options, remove self user
     myComments = u.student.CommentsIWrite
-    myAdjectives = u.student.AdjectivesIGive.filter().order_by('forWhom')
+    myAdjectives = u.student.AdjectivesIGive.all()
+
+    adj_dictionary = {}
+    name_dictionary = {}
+    for i in myAdjectives:
+        name_dictionary[i.forWhom.user] = i.forWhom.name
+        if i.forWhom.user in adj_dictionary:
+            adj_dictionary[i.forWhom.user].append(i.adjective)
+        else:
+            adj_dictionary[i.forWhom.user] = [i.adjective]
+
     gen_comments = []
 
     for c in myComments:
@@ -246,14 +261,14 @@ def comment(request):
 
     adjective_list = [adj[0] for adj in Adjective.adjective_list]
 
-    context={"comments":gen_comments, "adjectives":myAdjectives, "users":users_all, "adjective_list": adjective_list}
+    context={"comments":gen_comments, "users":users_all, "adjective_list": adjective_list, "adj_dictionary": adj_dictionary, "name_dictionary": name_dictionary}
 
     if request.method=='GET':
         return render(request, 'myapp/comment.html',context)
     
     ## Need it to close based on deadline
     if is_deadline_over():
-        return render(request, 'myapp/comment.html', {"comments":gen_comments, "adjectives":myAdjectives, "users":users_all, "comment": "You can't comment after deadline :(", "adjective_list": adjective_list})
+        return render(request, 'myapp/comment.html', {"comments":gen_comments, "users":users_all, "comment": "You can't comment after deadline :(", "adjective_list": adjective_list, "adj_dictionary": adj_dictionary, "name_dictionary": name_dictionary})
 
     for i in range(len(request.POST.getlist('forWhom[]'))):
         lowerEntry = (request.POST.getlist('forWhom[]')[i]).lower()
@@ -284,7 +299,7 @@ def comment(request):
                 u.student.CommentsIWrite.append({"comment":request.POST.getlist('val[]')[i],"forWhom":lowerEntry})
                 # A not found check of user and I cant comment for myself
             if (u.username.lower() == lowerEntry):
-                return render(request, 'myapp/comment.html', {"comments":gen_comments, "adjectives":myAdjectives, "users":users_all, "comment": "You can't comment for yourself :)", "adjective_list": adjective_list})
+                return render(request, 'myapp/comment.html', {"comments":gen_comments, "users":users_all, "comment": "You can't comment for yourself :)", "adjective_list": adjective_list, "adj_dictionary": adj_dictionary, "name_dictionary": name_dictionary})
             if (User.objects.filter(username = lowerEntry).exists()):
 
                 for a in request.POST.getlist('adjectivesSelected'):
@@ -455,14 +470,16 @@ def createWordCloud(student):
     for adj in student.AdjectivesIGet.all():
         dictionary[adj.adjective] = adj.byWhom.count()
     
-    wordcloud = WordCloud(width=600,height=500,margin=1,max_words=300,background_color="white").generate_from_frequencies(dictionary)
+    wordcloud = WordCloud(width=800,height=800,margin=1,max_words=300,background_color="white").generate_from_frequencies(dictionary)
 
     f = io.BytesIO()
+    plt.figure( figsize=(20,10) )
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
     plt.tight_layout(pad=0)
     plt.savefig(f, format="png")
     content_file = ImageFile(f)
+    student.WordCloud.delete()
     student.WordCloud.save(student.name + '_wc',content_file)
     student.save()
 
