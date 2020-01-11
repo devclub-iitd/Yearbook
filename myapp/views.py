@@ -19,6 +19,7 @@ from django.core.files.images import ImageFile
 import urllib3.contrib.pyopenssl
 urllib3.contrib.pyopenssl.inject_into_urllib3()
 from django.template.defaulttags import register
+from django.core.files import File
 
 def kerberos_to_entry_number(kerberos):
     return "20" + kerberos[3:5] + kerberos[:3].upper() + kerberos[5:]
@@ -367,16 +368,10 @@ def otherComment(request):
         
         if len(gen_comments) == 0 and not u.student.AdjectivesIGet:
             return render(request, 'myapp/no_comment.html')
-        
-        # ==================================================================
-        # Use when displaying adjectives recieved:
-        # myAdjectives = u.student.AdjectivesIGet.all()
-        # createWordCloud(u.student)
-        # context={"comments":gen_comments,"adjectives":myAdjectives, "wordcloud":u.student.WordCloud}
-        # ==================================================================
 
-        context={"comments":gen_comments}
-        return render(request, 'myapp/otherComment.html',context)
+        context = {"comments": gen_comments}
+
+        return render(request, 'myapp/otherComment.html', context)
     
     ## Need it to stop people from changing view of comments
     if is_deadline_over():
@@ -462,25 +457,68 @@ def yearbook(request):
             dep_polls.append([p.poll,tmpVotes[0:ind]])
 
     context={"students":students_dep,"department":departmentN,"allPolls":all_polls,"deptPolls":dep_polls}
-    return render(request, 'myapp/yearbook.html',context)
-   
+    return render(request, 'myapp/yearbook.html', context)
+
+
+class SimpleGroupedColorFunc(object):
+    """Create a color function object which assigns EXACT colors
+       to certain words based on the color to words mapping
+
+       Parameters
+       ----------
+       color_to_words : dict(str -> list(str))
+         A dictionary that maps a color to the list of words.
+
+       default_color : str
+         Color that will be assigned to a word that's not a member
+         of any value from color_to_words.
+    """
+
+    def __init__(self, color_to_words, default_color):
+        self.word_to_color = {word: color
+                              for (color, words) in color_to_words.items()
+                              for word in words}
+
+        self.default_color = default_color
+
+    def __call__(self, word, **kwargs):
+        return self.word_to_color.get(word, self.default_color)
+
+
+color_to_words = {
+    '#2E4053': [Adjective.adjective_list[0][0]],
+    'teal'   : [Adjective.adjective_list[1][0]],
+    '#D35400': [Adjective.adjective_list[2][0]],
+    'olive'  : [Adjective.adjective_list[3][0]],
+    '#145A32': [Adjective.adjective_list[4][0]],
+    '#145A32': [Adjective.adjective_list[5][0]],
+    '#D35400': [Adjective.adjective_list[6][0]],
+    '#D35400': [Adjective.adjective_list[7][0]],
+    '#1F618D': [Adjective.adjective_list[8][0]],
+    '#1F618D': [Adjective.adjective_list[9][0]],
+    '#6C3483': [Adjective.adjective_list[10][0]]
+}
+
+default_color = '#2E4053'
+
+grouped_color_func = SimpleGroupedColorFunc(color_to_words, default_color)
+
 
 def createWordCloud(student):
-    dictionary = {} # { adjective : vote }
+    dictionary = {}  # { adjective : vote }
     for adj in student.AdjectivesIGet.all():
         dictionary[adj.adjective] = adj.byWhom.count()
-    
-    wordcloud = WordCloud(width=800,height=800,margin=1,max_words=300,background_color="white").generate_from_frequencies(dictionary)
 
-    f = io.BytesIO()
-    plt.figure( figsize=(20,10) )
-    plt.imshow(wordcloud, interpolation="bilinear")
-    plt.axis("off")
-    plt.tight_layout(pad=0)
-    plt.savefig(f, format="png")
-    content_file = ImageFile(f)
-    student.WordCloud.delete()
-    student.WordCloud.save(student.name + '_wc',content_file)
+    wordcloud = WordCloud(width=800, height=550, margin=60, max_words=300,min_font_size=20,
+                          background_color="rgba(255,255,255,0)", mode="RGBA").generate_from_frequencies(dictionary)
+
+    wordcloud.recolor(color_func=grouped_color_func)
+
+    image_url = 'media/myapp/static/myapp/wordcloud/' + student.name + '_wc.png'
+
+    wordcloud.to_file(image_url)
+    student.WordCloud.save(student.name + 'wc_image',
+                           File(open(image_url, 'rb')))
     student.save()
 
 def display_yearbook(request):

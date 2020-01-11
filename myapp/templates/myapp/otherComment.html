@@ -36,34 +36,6 @@
 		</form>			
 	</div>
 	{% endif %}
-
-<!-- 
-	==========================================================
-	Use when displaying recieved adjectives:
-	{% if adjectives  %}
-	<div class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
-		<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
-			{% csrf_token %}
-			<span class="login100-form-title p-b-37">
-				Others' adjectives
-			</span>
-			{% for adj in adjectives %}
-				<h5>{{ adj.adjective }}</h5>
-				{% for p in adj.byWhom.all %}
-					<h6> from {{ p.name }} ({{ p.user }})</h6>
-				{% endfor %}
-				<hr>
-			{% endfor %}
-		</form>			
-	</div>
-	{% endif %}
-	<div>
-		<img style="height:200px;width: auto;max-width: 100%;" class="profile" src="{{wordcloud.url}}" alt="" />
-	</div>
-	===========================================================
- -->
-
-
 {% endblock %}
 </body>
 </html>
