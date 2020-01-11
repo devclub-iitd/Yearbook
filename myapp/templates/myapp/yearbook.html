@@ -81,13 +81,16 @@
 	<div class="wrapperCont">
 		<div class="upperCont">
 			<div class="upperContLeft">
-				<img style="height:240px;width: auto;max-width: 100%;" src="{{student.DP.url}}">
+				<img style="height:240px;width: auto;max-width: 100%; border-radius: 20px;" src="{{student.DP.url}}">
 			</div>
 			<div class="upperContRight">
 				<div class="upperContRightC1">
 					<div class="bio">
-						<span class="personName">{{student.name}} |</span>
-						<span class="personTagline">{{student.oneliner}}</span>
+						<span class="personName">{{student.name}}</span>
+						{% if student.oneliner %}
+							<span class="personName">|</span>
+							<span class="personTagline">{{student.oneliner}}</span>
+						{% endif %}
 					</div>
 					<div class="personInfo">
 						<i class="fas fa-envelope"></i>
@@ -108,48 +111,47 @@
 				</div>
 					{% if student.AdjectivesIGet.count %}
 						<div class="upperContRightC2">
-							<img style="height:240px;width: auto;max-width: 100%;" src="{{student.WordCloud.url}}" alt="" />
+							<img style="height:200px;width: auto;max-width: 100%;" src="{{student.WordCloud.url}}" alt="" />
 						</div>
             		{% endif %}
 				</div>
 			</div>
-		</div>
-		<div class="bottomCont">
-			<div class="qSec">
-				<div class="qSecTitle">
-					<i class="fa fa-archive"></i>
-					Answer's About Yourself -
-				</div>
-				<!-- <div class="qSeperator"></div> -->
-				{% for ques,ans in student.AnswersAboutMyself %}
-				<div class="qSecItem" style="word-wrap: break-word; page-break-inside: avoid;">
-					<div class="question">{{ques}}</div>
-					<div class="qSecSeperator"></div>
-					<div class="answer">
-						{{ans}}
+			<div class="bottomCont">
+				<div class="qSec">
+					<div class="qSecTitle">
+						<i class="fa fa-archive"></i>
+						Answer's About Yourself -
 					</div>
-				</div>
-				{% endfor %}
-			</div>
-
-			<div class="qSec">
-				<div class="qSecTitle">
-					<i class="fa fa-list-ol"></i>
-					What other's have written about you -
-				</div>
-				{% for comment,fromWhom in student.CommentsIGet %}
-				<div class="qTileCont" style="word-wrap: break-word; page-break-inside: avoid;">
-					<div class="qTile">
-						<div class="qTileAuth">{{fromWhom}} ~</div>
-						<div class="qTileComment">
-							{{comment}}
+					<!-- <div class="qSeperator"></div> -->
+					{% for ques,ans in student.AnswersAboutMyself %}
+					<div class="qSecItem" style="word-wrap: break-word; page-break-inside: avoid;">
+						<div class="question">{{ques}}</div>
+						<div class="qSecSeperator"></div>
+						<div class="answer">
+							{{ans}}
 						</div>
 					</div>
-				{% endfor %}
+					{% endfor %}
+				</div>
+	
+				<div class="qSec">
+					<div class="qSecTitle">
+						<i class="fa fa-list-ol"></i>
+						What other's have written about you -
+					</div>
+					<div class="qTileCont">
+						{% for comment,fromWhom in student.CommentsIGet %}
+						<div class="qTile"  style="word-wrap: break-word; page-break-inside: avoid;">
+							<div class="qTileAuth">{{fromWhom}} ~</div>
+							<div class="qTileComment">
+								{{comment}}
+							</div>
+						</div>
+					{% endfor %}
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 	{% endfor %}
 </body>
 </html>

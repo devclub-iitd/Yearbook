@@ -151,6 +151,9 @@ p {
   border-radius: 20px;
   background-color: white;
 }
+.upperContLeft img {
+  border-radius: 20px;
+}
 .upperContRight {
   width: calc(98% - 330px );
   background-color: rgba(255,255, 255, 0.65);
@@ -166,7 +169,7 @@ p {
 }
 .upperContRightC1 {
   height: 100%;
-  width: 40%;
+  width: 55%;
   flex-direction: column;
   display: flex;
   justify-content: space-around;
@@ -175,10 +178,18 @@ p {
 .upperContRightC2 {
   height: 100%;
   display: flex;	
-  width: 60%;
+  background-color: rgba(255, 255, 255, 0.6);
+  width: 40%;
+  border-radius: 20px;
+  align-self: flex-end;
   flex-direction: row;
-  justify-content: right;
-  align-items: right;
+  justify-content: center;
+  margin-right: 0px;
+  margin-left: auto;;
+  align-items: center;
+}
+.upperContRightC2 img {
+  margin: auto;
 }
 .upperContRightC2 div {
   text-align: right;
@@ -188,18 +199,20 @@ p {
   opacity: 0.5;
 }
 .bio {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
+  /* display: flex; */
+  /* flex-direction: row; */
+  /* justify-content: flex-start; */
+  /* align-items: center; */
   /*background-color: red;*/
 }
 .personName {
   font-size: 32px;
   font-weight: 700;
+  /* background-color: red;; */
 }
 .personTagline {
-  margin-left: 8px;
+  /* background-color: blue;; */
+  /* margin-left: 8px; */
   font-size: 16px;;
   /*font-style: italic;*/
   font-family: 'Zilla-Slab', serif;
