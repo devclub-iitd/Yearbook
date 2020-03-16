@@ -4,6 +4,9 @@ django.setup()
 from myapp.models import *
 from collections import defaultdict
 import copy
+# import logging
+
+# logger = logging.getLogger(__name__)
 
 depts = [
     "chemical",
@@ -28,7 +31,7 @@ for dept in depts:
     users = Student.objects.filter(department=dept)
     for u in users:
         votes_given = {}
-        # print('------------',u.name, u.VotesIHaveGiven,)
+        # logger.info('%s ------------ %s',u.name, u.VotesIHaveGiven,)
         for vote_id,enum in u.VotesIHaveGiven.items():
             if(len(enum.strip())>0 and enum.strip().lower()[:4]=='2015'):
                 if(int(vote_id) > 180):
@@ -44,7 +47,7 @@ for dept in depts:
                 else:
                     votes_given[vote_id] = enum.strip()
         u.VotesIHaveGiven = votes_given
-        # print(u.VotesIHaveGiven)
+        # logger.info(u.VotesIHaveGiven)
         u.save()
 
 

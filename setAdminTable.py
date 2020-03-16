@@ -3,15 +3,18 @@ django.setup()
 from myapp.models import AdminTable
 import datetime
 from django.utils.timezone import get_current_timezone
+import logging
 
-print("Running setAdminTable.py...")
+logger = logging.getLogger(__name__)
+
+logger.info("Running setAdminTable.py...")
 
 if AdminTable.objects.exists():
-    print("AdminTable object already exists. Skipping...")
+    logger.info("AdminTable object already exists. Skipping...")
 else:
     y = AdminTable(deadline=datetime.datetime.now(tz=get_current_timezone()))
     try:
         y.save()
-        print("New AdminTable object created")
+        logger.info("New AdminTable object created")
     except:
-        print("EXCEPTION: AdminTable object already exists. Continuing...")
+        logger.exception("EXCEPTION: AdminTable object already exists. Continuing...")

@@ -2,6 +2,9 @@ import django
 import csv
 django.setup()
 from myapp.models import *
+import logging
+
+logger = logging.getLogger(__name__)
 
 poll_filename  = "./Scrape/polls.csv"
 
@@ -21,8 +24,7 @@ depts = [
 def addPoll(poll_quest,dept):
     u = Poll(poll=poll_quest, department=dept)
     u.save()
-    print(poll_quest,"------>",dept)
-                
+    logger.info("%s ------> %s", poll_quest, dept)
     return
 
 with open(poll_filename, "rU") as file:

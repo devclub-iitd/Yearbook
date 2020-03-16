@@ -15,6 +15,8 @@ from django.utils import timezone
 import urllib3.contrib.pyopenssl
 urllib3.contrib.pyopenssl.inject_into_urllib3()
 
+import logging
+logger = logging.getLogger(__name__)
 
 def kerberos_to_entry_number(kerberos):
     return "20" + kerberos[3:5] + kerberos[:3].upper() + kerberos[5:]
@@ -23,10 +25,10 @@ def kerberos_to_entry_number(kerberos):
 
 
 def index(request):
-    # print(os.environ["OauthTokenURL"])
+    # logger.info(os.environ["OauthTokenURL"])
     # # if request.method == 'POST':
     #     # return redirect(config.authLinkPart1 + config.CLIENT_ID + config.authLinkPart2)
-    myUser = User.objects.get(username=('2016cs50393').lower())
+    myUser = User.objects.get(username=('2015ch10076').lower())
     login(request, myUser)
     return redirect('/profile')
 
@@ -46,7 +48,7 @@ def authenticate(request):
     'client_secret': os.environ["CLIENT_SECRET"],
     'grant_type': os.environ["AUTHORIZATION_CODE"],
     'code': request.GET.get('code')}
-    print("###")
+    logger.info("###")
 
     r = requests.post(os.environ["OauthTokenURL"], PostData, verify=os.environ["certiPath"])
     a = r.json()
@@ -84,7 +86,7 @@ def profile(request):
     if is_deadline_over():
         return deadlineover(request)
 
-    # print int(request.FILES.get('dp').size)<6000000
+    # logger.info(int(request.FILES.get('dp').size)<6000000)
     if(request.FILES.get('dp') != None and int(request.FILES.get('dp').size) < 6000000):
         # Get the picture
         picture = request.FILES.get('dp')
@@ -136,7 +138,7 @@ def answerMyself(request):
                 gen_GenQuestions[-1][-1] = AnswersDisplay[str(q.id)]
         context = {"genQuestions": gen_GenQuestions}
         return render(request, 'myapp/answers.html', context)
-    # print request.POST.getlist('answer[]')
+    # logger.info(request.POST.getlist('answer[]'))
 
     ## Need it to stop people from uploading new pics
     if is_deadline_over():
@@ -191,7 +193,7 @@ def poll(request):
         return render(request, 'myapp/poll.html',context)
 
     # if POST request 
-    # print request.POST.getlist('entrynumber[]')
+    # logger.info(request.POST.getlist('entrynumber[]'))
     for i in range(len(request.POST.getlist('entrynumber[]'))):
         fetchPoll = ""
         if Poll.objects.filter(id = request.POST.getlist('id[]')[i]).exists():
@@ -269,7 +271,7 @@ def comment(request):
             if (User.objects.filter(username = lowerEntry).exists()):
                 u_new = User.objects.get(username=lowerEntry)
             else:
-                print (User.objects.filter(username = lowerEntry).exists())
+                logger.info((User.objects.filter(username = lowerEntry).exists()))
                 return redirect('/comment')
             u_new.student.CommentsIGet.append({"comment":request.POST.getlist('val[]')[i],"fromWhom":u.username,"displayInPdf":"True"})
             u_new.student.save()
