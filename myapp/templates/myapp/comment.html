@@ -2,59 +2,98 @@
 {% block title %}YearBook - My comments{% endblock %}
 {% block body %}
 
-	{% if comments  %}
-	<div class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
-		<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
-			{% csrf_token %}
-			<span class="login100-form-title p-b-37">
-				Comments already written
+{% if comments  %}
+<div style="margin-right: 5px;" class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
+	<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<span class="login100-form-title p-b-37">
+			Comments already written
+		</span>
+		{% for comment,forWhom,name in comments %}
+		<label>For : {{ name }} ({{ forWhom }})</label>
+		<input style="display:none" type="text" name="forWhom[]" value="{{ forWhom }}" readonly="readonly">
+		<br>
+		<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
+			<p style="word-wrap: break-word">
+				{{ comment }}
+			</p>
+		</div>
+		<hr>
+		{% endfor %}
+	</form>
+</div>
+{% endif %}
+
+{% if adj_dictionary  %}
+<div style="margin-left: 5px; margin-top: 20px;" class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
+	<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<span class="login100-form-title p-b-37">
+			Adjectives already given
+		</span>
+
+		{% for user, adj_list in adj_dictionary.items %}
+		<label>For : {{ name_dictionary|get_item:user }} ({{ user }})</label>
+		<input style="display:none" type="text" name="forWhom[]" value="{{ p }}" readonly="readonly">
+		<br>
+		{% for adj in adj_list %}
+		<span>
+			{{ adj }} &nbsp;
+		</span>
+		{% endfor %}
+		<hr>
+		{% endfor %}
+	</form>
+</div>
+{% endif %}
+
+<div style="margin-left: 5px; margin-top: 20px; margin-bottom: 40px;" class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
+	<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<span class="login100-form-title p-b-37">
+			New/Modify Comment
+		</span>
+		<p style="text-align: center; color: red">{{comment}}</p>
+		<div class="wrap-input100 validate-input m-b-20">
+			<!-- <input class="input100" type="text" name="forWhom[]" placeholder="for whom"> -->
+			<template id="students">
+				{% for user in users %}
+				<option value="{{user.username}}">{{user.student.name}}</option>
+				{% endfor %}
+			</template>
+			<input class="input100" type="text" list="searchresults" name="forWhom[]" placeholder="Enter Name"
+				autocomplete="off">
+			<datalist id="searchresults">
+			</datalist>
+			<span class="focus-input100"></span>
+		</div>
+		<div class="wrap-input100 validate-input m-b-20">
+			<textarea class="input100" type="text" name="val[]" placeholder="Comment"></textarea>
+			<span class="focus-input100"></span>
+		</div>
+
+		<div class="hiddenCB">
+			<span class="hiddenCB-title">
+				Select adjectives:
 			</span>
-			{% for comment,forWhom,name in comments %}
-				<label>For : {{ name }} ({{ forWhom }})</label>
-				<input style="display:none" type="text" name="forWhom[]" value="{{ forWhom }}" readonly="readonly">
-				<br>
-				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
-					<p style="word-wrap: break-word">
-						{{ comment }}
-					</p>	
-				</div>
-				<hr>
-			{% endfor %}
-		</form>			
-	</div>
-	{% endif %}
-	<div style="margin-left: 20px" class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
-		<form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
-			{% csrf_token %}
-			<span class="login100-form-title p-b-37">
-				New/Modify Comment
-			</span>
-			<p style="text-align: center; color: red">{{comment}}</p>
-			<div class="wrap-input100 validate-input m-b-20">
-				<!-- <input class="input100" type="text" name="forWhom[]" placeholder="for whom"> -->
-				<template id="students">
-					{% for user in users %}
-						<option value="{{user.username}}" >{{user.student.name}}</option>
-					{% endfor %}
-				</template>
-				<input class="input100" type="text" list="searchresults" name="forWhom[]" placeholder="Enter Name" autocomplete="off">
-				<datalist id="searchresults">
-				</datalist>
-				<span class="focus-input100"></span>
+
+			<div class="hiddenCB-options">
+				{% for adj in adjective_list %}
+				<input type="checkbox" name="adjectivesSelected" value={{adj}} id="{{adj}}"><label
+					for="{{adj}}">{{ adj }}</label>
+				{% endfor %}
 			</div>
-			<div class="wrap-input100 validate-input m-b-20">
-				<textarea class="input100" type="text" name="val[]" placeholder="Comment"></textarea>
-				<span class="focus-input100"></span>
-			</div>
-			<div class="container-login100-form-btn">
-				<button class="login100-form-btn">
-					Comment
-				</button>
-			</div>
-		</form>			
-	</div>
+		</div>
+
+		<div class="container-login100-form-btn">
+			<button class="login100-form-btn">
+				Comment
+			</button>
+		</div>
+	</form>
+</div>
 <script type="text/javascript" src="/myapp/static/myapp/commentList.js"></script>
 {% endblock %}
 </body>
-</html>
 
+</html>

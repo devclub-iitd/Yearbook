@@ -95,6 +95,13 @@ ul, li {
   list-style-type: none;
 }
 
+span {
+  font-family: SourceSansPro-Regular;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #666666;
+  margin: 0px;
+}
 
 /*---------------------------------------------*/
 input {
@@ -612,4 +619,61 @@ input:-webkit-autofill {
   text-align: center;
   font-family: SourceSansPro-SemiBold;
 }
-  
+
+/*----------------------------------------------
+[Hidden Checkbox]*/
+
+.hiddenCB-title {
+  display: block;
+  font-family: SourceSansPro-Bold;
+  font-size: 15px;
+  color: #979497;
+  line-height: 1.2;
+  padding: 12px;
+  text-align: center;
+}
+
+.hiddenCB div {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hiddenCB label {
+  cursor: pointer;
+  font-family: SourceSansPro-Bold;
+  font-size: 16px;
+  color: #a558b6;
+  padding: 8px 10px;
+  border-radius: 15px;
+  transition: all .6s;
+
+  /* box-sizing: content-box; */
+  box-shadow: 0 5px 30px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 5px 30px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 5px 30px 0px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 5px 30px 0px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 5px 30px 0px rgba(0, 0, 0, 0.1);
+}
+
+.hiddenCB input[type="checkbox"],
+.hiddenCB input[type="radio"] {
+  display: none;
+}
+
+.hiddenCB input[type="checkbox"]+label:hover {
+  background: rgba(183, 128, 209, 0.4);
+}
+
+.hiddenCB input[type="checkbox"]:checked+label {
+  background: rgba(183, 128, 209, 0.4);
+}
+
+.hiddenCB input[type="checkbox"]:checked+label:hover {
+  background: rgba(183, 128, 209, 0.2);
+}
+
+.hiddenCB-options {
+  text-align: center;
+}
