@@ -1,6 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 listOfUrls=[
 "http://ldap1.iitd.ernet.in/LDAP/chemical/ch115.shtml",
@@ -47,7 +50,7 @@ for url in listOfUrls:
 	table_body = soup.find('table')
 
 	rows = table_body.find_all('tr')
-	print(url)
+	logger.info(url)
 		
 	for row in rows:
 		cols = row.find_all('td')
