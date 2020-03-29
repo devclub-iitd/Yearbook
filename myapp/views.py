@@ -32,15 +32,15 @@ def kerberos_to_entry_number(kerberos):
 
 def index(request):
     # logger.info(os.environ["OauthTokenURL"])
-    # # if request.method == 'POST':
-    #     # return redirect(config.authLinkPart1 + config.CLIENT_ID + config.authLinkPart2)
-    myUser = User.objects.get(username=('2015ch10076').lower())
-    login(request, myUser)
-    return redirect('/profile')
-
     # if request.method == 'POST':
-    #     return redirect(os.environ["authLinkPart1"] + os.environ["CLIENT_ID"] + os.environ["authLinkPart2"])
-    # return render(request, 'myapp/index.html')
+        # return redirect(config.authLinkPart1 + config.CLIENT_ID + config.authLinkPart2)
+    # myUser = User.objects.get(username=('2015ch10076').lower())
+    # login(request, myUser)
+    # return redirect('/profile')
+
+    if request.method == 'POST':
+        return redirect(os.environ["authLinkPart1"] + os.environ["CLIENT_ID"] + os.environ["authLinkPart2"])
+    return render(request, 'myapp/index.html')
     # return render(request, 'myapp/index.html')
 
 
