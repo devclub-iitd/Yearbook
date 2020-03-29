@@ -2,6 +2,11 @@
 
 echo "Script starts"
 
+set -e
+
+# RUN DATABASE_URL='' python manage.py collectstatic --noinput
+DATABASE_URL='' python manage.py collectstatic --noinput
+
 until psql $POSTGRES_HOST_URL -c '\l'; do
  	>&2 echo "Postgres is unavailable - sleeping"
  	sleep 1

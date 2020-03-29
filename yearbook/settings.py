@@ -142,7 +142,7 @@ USE_TZ = True
 MEDIA_URL = '/myapp/media/'
 STATIC_URL = '/myapp/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/myapp/static/myapp')
+STATIC_ROOT = os.path.join(BASE_DIR, 'media/myapp/static/myapp')
 
 LOGGING = {
     'version': 1,
