@@ -38,6 +38,8 @@ services:
       - VIRTUAL_HOST=${VIRTUAL_HOST}
     depends_on:
       - db
+    links:
+      - db:db
 
 volumes:
   postgres_data:
