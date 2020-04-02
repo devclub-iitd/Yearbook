@@ -33,7 +33,7 @@ for dept in depts:
         votes_given = {}
         # logger.info('%s ------------ %s',u.name, u.VotesIHaveGiven,)
         for vote_id,enum in u.VotesIHaveGiven.items():
-            if(len(enum.strip())>0 and enum.strip().lower()[:4]=='2015'):
+            if(len(enum.strip())>0 and enum.strip().lower()[:4]=='2016'):
                 if(int(vote_id) > 180):
                     poll_text = Poll.objects.filter(id=int(vote_id))[0].poll
                     replace_vote_id = str(polls_dict[poll_text][0])

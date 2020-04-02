@@ -18,9 +18,9 @@ services:
     volumes:
       - yearbook_media:/Yearbook/media/myapp/static/myapp
     ports:
-      - 7000
+      - ${DEPLOY_PORT}:${DEPLOY_PORT}
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:7000"]
+      test: ["CMD", "curl", "-f", "http://localhost:${DEPLOY_PORT}"]
       interval: 1m30s
       timeout: 10s
       retries: 3
@@ -32,7 +32,6 @@ services:
     env_file:
       - ./.env
     environment:
-      - PORT=7000
       - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
       - POSTGRES_HOST_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db
       - VIRTUAL_HOST=${VIRTUAL_HOST}

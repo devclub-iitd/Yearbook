@@ -43,7 +43,7 @@ WORKDIR /Yearbook/
 ADD . /Yearbook/
 
 # uWSGI will listen on this port
-EXPOSE 7000
+EXPOSE ${DEPLOY_PORT}
 
 # RUN echo ${POSTGRES_HOST_URL}
 # Add any static environment variables needed by Django or your settings file here:
@@ -60,7 +60,7 @@ ENV DJANGO_SETTINGS_MODULE=yearbook.settings.deploy
 ENV UWSGI_WSGI_FILE=yearbook/wsgi.py
 
 # Base uWSGI configuration (you shouldn't need to change these):
-ENV UWSGI_HTTP=:7000 UWSGI_MASTER=1 UWSGI_HTTP_AUTO_CHUNKED=1 UWSGI_HTTP_KEEPALIVE=1 UWSGI_LAZY_APPS=1 UWSGI_WSGI_ENV_BEHAVIOR=holy
+ENV UWSGI_HTTP=:${DEPLOY_PORT} UWSGI_MASTER=1 UWSGI_HTTP_AUTO_CHUNKED=1 UWSGI_HTTP_KEEPALIVE=1 UWSGI_LAZY_APPS=1 UWSGI_WSGI_ENV_BEHAVIOR=holy
 
 # Number of uWSGI workers and threads per worker (customize as needed):
 ENV UWSGI_WORKERS=2 UWSGI_THREADS=4
