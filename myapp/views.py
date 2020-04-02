@@ -34,7 +34,7 @@ def index(request):
     # logger.info(os.environ["OauthTokenURL"])
     # if request.method == 'POST':
         # return redirect(config.authLinkPart1 + config.CLIENT_ID + config.authLinkPart2)
-    # myUser = User.objects.get(username=('2015ch10076').lower())
+    # myUser = User.objects.get(username=('2016ch10076').lower())
     # login(request, myUser)
     # return redirect('/profile')
 
