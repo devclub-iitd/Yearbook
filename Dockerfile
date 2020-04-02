@@ -47,7 +47,7 @@ EXPOSE ${DEPLOY_PORT}
 
 # RUN echo ${POSTGRES_HOST_URL}
 # Add any static environment variables needed by Django or your settings file here:
-ENV DJANGO_SETTINGS_MODULE=yearbook.settings.deploy
+ENV DJANGO_SETTINGS_MODULE=yearbook.settings
 # ENV POSTGRES_DB=${POSTGRES_DB}
 # ENV POSTGRES_USER=${POSTGRES_USER}
 # ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
