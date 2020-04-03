@@ -2,12 +2,12 @@ import django
 import csv
 django.setup()
 from myapp.models import *
-from myapp import Config as config
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
-pswd = config.pswd
+pswd = os.environ["pswd"]
 ind = 0
 with open("./Scrape/fileName.csv", "rU") as file:
 	reader = csv.reader(file, delimiter=';')
