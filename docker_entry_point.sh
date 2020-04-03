@@ -2,8 +2,6 @@
 
 echo "Script starts"
 
-set -e
-
 # RUN DATABASE_URL='' python manage.py collectstatic --noinput
 DATABASE_URL='' python manage.py collectstatic --noinput
 
@@ -31,6 +29,7 @@ python3 setAdminTable.py
 ## Add Users
 python3 Scrape/Scrape.py
 python3 CsvToDatabase.py
+
 ## Commenting this so that polls are not added multiple times
 python3 addPolls.py
 

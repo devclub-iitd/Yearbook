@@ -264,3 +264,25 @@ Also see the list of Devclub's [members](https://github.com/orgs/devclub-iitd/pe
 
 * [**Aman Agrawal**](https://github.com/aman71197) for your guidance
 * [**Udit Jain**](https://github.com/udit01) for helping with the collage
+
+## Running Locally simplified by Shashwat Shivam
+1. To get started with the yearbook follow the steps:
+   * Clone the repository
+   * Activate the virtalenv if you don't want python to interfere with your global packages
+   * pip install -r requirements.txt (For errors regarding psycopg2 refer to further sections)
+   * Check .env file deployment mode to be localhost.
+   * Export environment variables present in .env file (intended for docker environment) using the command `source <(sed -E -e "s/^([^#])/export \1/" -e "s/=/='/" -e "s/(=.*)$/\1'/" .env)` 
+   * Create db (with same name as in env file in local postgres)
+   * python manage.py makemigrations (For errors regarding postgresql refer to further sections)
+   * python manage.py migrate
+   * python manage.py createsuperuser
+        * This will ask you for username, password and other details of the superuser you are creating. Remember the credentials. This super user will allow you to handle django database.
+   * Run python3 setAdminTable.py to create an admin table object if it does not exists already.
+   * python manage.py runserver
+        * This starts the Django server at port 8000
+        * visit http://localhost:8000/admin on your browser
+        * Enter the credentials of the superuser you created
+        * Now you can see various tables like user, GenQuestions and Polls.
+        * You can add or delete GenQuestions manually as their are only handful of them.
+        * Rest of the polls and user entries will be done by the scripts.
+        * This portal will be used to setup and verify the database entries.
