@@ -56,13 +56,15 @@ def authenticate(request):
     'code': request.GET.get('code')}
     logger.info("###")
 
-    r = requests.post(os.environ["OauthTokenURL"], PostData, verify=os.environ["certiPath"])
+    # r = requests.post(os.environ["OauthTokenURL"], PostData, verify=os.environ["certiPath"])
+    r = requests.post(os.environ["OauthTokenURL"], PostData, verify=False)
     a = r.json()
     access_token = a['access_token']
     PostData2 = {
         'access_token': access_token
     }
-    r1 = requests.post(os.environ["ResourceURL"], PostData2, verify=os.environ["certiPath"])
+    # r1 = requests.post(os.environ["ResourceURL"], PostData2, verify=os.environ["certiPath"])
+    r1 = requests.post(os.environ["ResourceURL"], PostData2, verify=False)
     b = r1.json()
 
     if User.objects.filter(username=(b['uniqueiitdid']).lower()).exists():
