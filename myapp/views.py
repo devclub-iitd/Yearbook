@@ -520,10 +520,13 @@ def createWordCloud(student):
 
     wordcloud.recolor(color_func=grouped_color_func)
 
-    image_url = 'media/myapp/static/myapp/wordcloud/' + student.name + '_wc.png'
+    wordcloud_directory = 'media/myapp/static/myapp/wordcloud'
+    if not os.path.exists(wordcloud_directory):
+        os.makedirs(wordcloud_directory)   
+    image_url = wordcloud_directory + '/' + student.user.username + '_wc.png'
 
     wordcloud.to_file(image_url)
-    student.WordCloud.save(student.name + 'wc_image',
+    student.WordCloud.save(student.user.username + 'wc_image',
                            File(open(image_url, 'rb')))
     student.save()
 
