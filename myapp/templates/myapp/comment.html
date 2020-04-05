@@ -61,14 +61,14 @@
 				<option value="{{user.username}}">{{user.student.name}}</option>
 				{% endfor %}
 			</template>
-			<input class="input100" type="text" list="searchresults" name="forWhom[]" placeholder="Enter Name"
-				autocomplete="off">
+			<input id="user_id" class="input100" type="text" list="searchresults" name="forWhom[]" placeholder="Enter Name"
+				autocomplete="off" onchange="changeContent()">
 			<datalist id="searchresults">
 			</datalist>
 			<span class="focus-input100"></span>
 		</div>
 		<div class="wrap-input100 validate-input m-b-20">
-			<textarea class="input100" type="text" name="val[]" placeholder="Comment"></textarea>
+			<textarea id="user_comment" class="input100" type="text" name="val[]" placeholder="Comment"></textarea>
 			<span class="focus-input100"></span>
 		</div>
 
@@ -84,6 +84,51 @@
 				{% endfor %}
 			</div>
 		</div>
+
+
+		<script type="text/javascript">
+			/* Function to load previous comment and adjectives */
+			function changeContent() {
+				var selectedUser = document.getElementById("user_id").value;
+
+				/* Load previous comments */
+				var all_comments_given = '{{ comments_json|safe }}'; // Returns comments json as string
+				all_comments_given = JSON.parse(all_comments_given); // Parse string into json object
+				var found_comment = false;
+				var textArea = document.getElementById("user_comment");
+
+				for (let index = 0; index < all_comments_given.length; index++) {
+					if (all_comments_given[index][1] == selectedUser) {
+						textArea.value = all_comments_given[index][0];
+						found_comment = true;
+					}
+				}
+
+				if (!found_comment) {
+					textArea.value = "";
+				}
+
+				/* Load previous adjectives */
+				var all_adj_given = '{{ adj_dictionary_json|safe }}';
+				all_adj_given = JSON.parse(all_adj_given);
+
+				var adjective_list = '{{ adjective_list_json|safe }}';
+				adjective_list = JSON.parse(adjective_list);
+
+				adjective_list.forEach(element => {
+					document.getElementById(element).checked = false;
+				});
+
+				if (all_adj_given.hasOwnProperty(selectedUser)) {
+					var adjectives = all_adj_given[selectedUser];
+
+					for (let index = 0; index < adjectives.length; index++) {
+						const element = adjectives[index];
+						document.getElementById(element).checked = true;
+					}
+				}
+			}
+		 </script>
 
 		<div class="container-login100-form-btn">
 			<button class="login100-form-btn">
