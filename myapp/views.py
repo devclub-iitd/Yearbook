@@ -15,6 +15,8 @@ from django.utils import timezone
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import io
+import json
+
 from django.core.files.images import ImageFile
 import urllib3.contrib.pyopenssl
 urllib3.contrib.pyopenssl.inject_into_urllib3()
@@ -255,11 +257,11 @@ def comment(request):
     adj_dictionary = {}
     name_dictionary = {}
     for i in myAdjectives:
-        name_dictionary[i.forWhom.user] = i.forWhom.name
-        if i.forWhom.user in adj_dictionary:
-            adj_dictionary[i.forWhom.user].append(i.adjective)
+        name_dictionary[i.forWhom.user.username] = i.forWhom.name
+        if i.forWhom.user.username in adj_dictionary:
+            adj_dictionary[i.forWhom.user.username].append(i.adjective)
         else:
-            adj_dictionary[i.forWhom.user] = [i.adjective]
+            adj_dictionary[i.forWhom.user.username] = [i.adjective]
 
     gen_comments = []
 
@@ -271,14 +273,19 @@ def comment(request):
 
     adjective_list = [adj[0] for adj in Adjective.adjective_list]
 
-    context={"comments":gen_comments, "users":users_all, "adjective_list": adjective_list, "adj_dictionary": adj_dictionary, "name_dictionary": name_dictionary}
+    # Convert to json objects
+    comments_json = json.dumps(gen_comments)
+    adj_dictionary_json = json.dumps(adj_dictionary)
+    adjective_list_json = json.dumps(adjective_list)
+
+    context={"comments":gen_comments, "comments_json": comments_json, "users":users_all, "adjective_list": adjective_list, "adjective_list_json": adjective_list_json, "adj_dictionary": adj_dictionary, "adj_dictionary_json": adj_dictionary_json, "name_dictionary": name_dictionary}
 
     if request.method=='GET':
         return render(request, 'myapp/comment.html',context)
     
     ## Need it to close based on deadline
     if is_deadline_over():
-        return render(request, 'myapp/comment.html', {"comments":gen_comments, "users":users_all, "comment": "You can't comment after deadline :(", "adjective_list": adjective_list, "adj_dictionary": adj_dictionary, "name_dictionary": name_dictionary})
+        return render(request, 'myapp/comment.html', {"comments":gen_comments, "comments_json": comments_json, "users":users_all, "comment": "You can't comment after deadline :(", "adjective_list": adjective_list, "adjective_list_json": adjective_list_json, "adj_dictionary": adj_dictionary, "adj_dictionary_json": adj_dictionary_json, "name_dictionary": name_dictionary})
 
     for i in range(len(request.POST.getlist('forWhom[]'))):
         lowerEntry = (request.POST.getlist('forWhom[]')[i]).lower()
@@ -309,7 +316,7 @@ def comment(request):
                 u.student.CommentsIWrite.append({"comment":request.POST.getlist('val[]')[i],"forWhom":lowerEntry})
                 # A not found check of user and I cant comment for myself
             if (u.username.lower() == lowerEntry):
-                return render(request, 'myapp/comment.html', {"comments":gen_comments, "users":users_all, "comment": "You can't comment for yourself :)", "adjective_list": adjective_list, "adj_dictionary": adj_dictionary, "name_dictionary": name_dictionary})
+                return render(request, 'myapp/comment.html', {"comments":gen_comments, "comments_json": comments_json, "users":users_all, "comment": "You can't comment for yourself :)", "adjective_list": adjective_list, "adjective_list_json": adjective_list_json, "adj_dictionary": adj_dictionary, "adj_dictionary_json": adj_dictionary_json, "name_dictionary": name_dictionary})
             if (User.objects.filter(username = lowerEntry).exists()):
 
                 for a in request.POST.getlist('adjectivesSelected'):
