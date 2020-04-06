@@ -64,8 +64,7 @@ for url in listOfUrls:
 			cols = [ele.text.strip() for ele in cols]
 			Dept = code2dept[str(cols[0][0:2])]
 
-
-with open('fileName.csv', 'w') as f:
+with open('./Scrape/fileName.csv', 'w') as f:
     for line in totalDic:
-        f.write(";".join(line)+"\n");
+        f.write(";".join(line)+"\n")
 
