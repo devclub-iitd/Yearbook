@@ -22,4 +22,4 @@ with open("./Scrape/fileName.csv", "rU") as file:
 			u.student = s
 			u.student.save()
 		except:
-			logger.exception("EXCEPTION: User Already Exists. Continuing")
+			logger.exception("EXCEPTION: User Already Exists. Continuing: " + str(col[0]))
