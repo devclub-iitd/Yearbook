@@ -15,6 +15,8 @@ from django.utils import timezone
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import io
+import json
+
 from django.core.files.images import ImageFile
 import urllib3.contrib.pyopenssl
 urllib3.contrib.pyopenssl.inject_into_urllib3()
@@ -170,35 +172,36 @@ def poll(request):
         return deadlineover(request)
 
     u = request.user
+    enum_to_name = {}
+    users_all = User.objects.filter(is_superuser=False).order_by('username')
+    
+    dept_users = []
+
+    for i in users_all:
+        enum_to_name[i.username] = i.student.name
+        if i.student.department==u.student.department:
+            dept_users.append(i)
+
+    allPolls = Poll.objects.filter(department="all")
+    deptPolls = Poll.objects.filter(department=u.student.department)
+    VotesDisplay = u.student.VotesIHaveGiven
+    gen_allPolls=[]
+    gen_deptPolls=[]
+    
+    for p in allPolls:
+        gen_allPolls.append([p.id,p.poll,"", ""])
+        if (str(p.id) in VotesDisplay):
+            gen_allPolls[-1][2]=VotesDisplay[str(p.id)]
+            gen_allPolls[-1][3]=enum_to_name.get(VotesDisplay[str(p.id)], "")
+            
+    for p in deptPolls:
+        gen_deptPolls.append([p.id,p.poll,"", ""])
+        if (str(p.id) in VotesDisplay):
+            gen_deptPolls[-1][2]=VotesDisplay[str(p.id)]
+            gen_deptPolls[-1][3]=(enum_to_name.get(VotesDisplay[str(p.id)], ""))
+    context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users_all,"deptUsers":dept_users}
+
     if request.method == 'GET':
-        enum_to_name = {}
-        users_all = User.objects.filter(is_superuser=False).order_by('username')
-        
-        dept_users = []
-
-        for i in users_all:
-            enum_to_name[i.username] = i.student.name
-            if i.student.department==u.student.department:
-                dept_users.append(i)
-
-        allPolls = Poll.objects.filter(department="all")
-        deptPolls = Poll.objects.filter(department=u.student.department)
-        VotesDisplay = u.student.VotesIHaveGiven
-        gen_allPolls=[]
-        gen_deptPolls=[]
-        
-        for p in allPolls:
-            gen_allPolls.append([p.id,p.poll,"", ""])
-            if (str(p.id) in VotesDisplay):
-                gen_allPolls[-1][2]=VotesDisplay[str(p.id)]
-                gen_allPolls[-1][3]=enum_to_name.get(VotesDisplay[str(p.id)], "")
-                
-        for p in deptPolls:
-            gen_deptPolls.append([p.id,p.poll,"", ""])
-            if (str(p.id) in VotesDisplay):
-                gen_deptPolls[-1][2]=VotesDisplay[str(p.id)]
-                gen_deptPolls[-1][3]=(enum_to_name.get(VotesDisplay[str(p.id)], ""))
-        context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users_all,"deptUsers":dept_users}
         return render(request, 'myapp/poll.html',context)
 
     # if POST request 
@@ -222,6 +225,8 @@ def poll(request):
                 return redirect("/poll")
         else:
             # A not found check for poll and Cannot vote oneself
+            if (u.username.lower() == lowerEntry):
+                return render(request, 'myapp/poll.html', {"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users_all,"deptUsers":dept_users, "selfvote": "You cannot vote for yourself :)"})
             if (User.objects.filter(username = lowerEntry).exists() and (lowerEntry != u.username.lower())):
                 toVoteDepartment = (User.objects.get(username=lowerEntry)).student.department
                 if (((fetchPoll.department.lower() == "all") or (fetchPoll.department.lower() == toVoteDepartment.lower())) and (lowerEntry[0:4] == u.username[0:4])):      
@@ -252,11 +257,11 @@ def comment(request):
     adj_dictionary = {}
     name_dictionary = {}
     for i in myAdjectives:
-        name_dictionary[i.forWhom.user] = i.forWhom.name
-        if i.forWhom.user in adj_dictionary:
-            adj_dictionary[i.forWhom.user].append(i.adjective)
+        name_dictionary[i.forWhom.user.username] = i.forWhom.name
+        if i.forWhom.user.username in adj_dictionary:
+            adj_dictionary[i.forWhom.user.username].append(i.adjective)
         else:
-            adj_dictionary[i.forWhom.user] = [i.adjective]
+            adj_dictionary[i.forWhom.user.username] = [i.adjective]
 
     gen_comments = []
 
@@ -268,14 +273,19 @@ def comment(request):
 
     adjective_list = [adj[0] for adj in Adjective.adjective_list]
 
-    context={"comments":gen_comments, "users":users_all, "adjective_list": adjective_list, "adj_dictionary": adj_dictionary, "name_dictionary": name_dictionary}
+    # Convert to json objects
+    comments_json = json.dumps(gen_comments)
+    adj_dictionary_json = json.dumps(adj_dictionary)
+    adjective_list_json = json.dumps(adjective_list)
+
+    context={"comments":gen_comments, "comments_json": comments_json, "users":users_all, "adjective_list": adjective_list, "adjective_list_json": adjective_list_json, "adj_dictionary": adj_dictionary, "adj_dictionary_json": adj_dictionary_json, "name_dictionary": name_dictionary}
 
     if request.method=='GET':
         return render(request, 'myapp/comment.html',context)
     
     ## Need it to close based on deadline
     if is_deadline_over():
-        return render(request, 'myapp/comment.html', {"comments":gen_comments, "users":users_all, "comment": "You can't comment after deadline :(", "adjective_list": adjective_list, "adj_dictionary": adj_dictionary, "name_dictionary": name_dictionary})
+        return render(request, 'myapp/comment.html', {"comments":gen_comments, "comments_json": comments_json, "users":users_all, "comment": "You can't comment after deadline :(", "adjective_list": adjective_list, "adjective_list_json": adjective_list_json, "adj_dictionary": adj_dictionary, "adj_dictionary_json": adj_dictionary_json, "name_dictionary": name_dictionary})
 
     for i in range(len(request.POST.getlist('forWhom[]'))):
         lowerEntry = (request.POST.getlist('forWhom[]')[i]).lower()
@@ -306,7 +316,7 @@ def comment(request):
                 u.student.CommentsIWrite.append({"comment":request.POST.getlist('val[]')[i],"forWhom":lowerEntry})
                 # A not found check of user and I cant comment for myself
             if (u.username.lower() == lowerEntry):
-                return render(request, 'myapp/comment.html', {"comments":gen_comments, "users":users_all, "comment": "You can't comment for yourself :)", "adjective_list": adjective_list, "adj_dictionary": adj_dictionary, "name_dictionary": name_dictionary})
+                return render(request, 'myapp/comment.html', {"comments":gen_comments, "comments_json": comments_json, "users":users_all, "comment": "You can't comment for yourself :)", "adjective_list": adjective_list, "adjective_list_json": adjective_list_json, "adj_dictionary": adj_dictionary, "adj_dictionary_json": adj_dictionary_json, "name_dictionary": name_dictionary})
             if (User.objects.filter(username = lowerEntry).exists()):
 
                 for a in request.POST.getlist('adjectivesSelected'):
@@ -520,10 +530,13 @@ def createWordCloud(student):
 
     wordcloud.recolor(color_func=grouped_color_func)
 
-    image_url = 'media/myapp/static/myapp/wordcloud/' + student.name + '_wc.png'
+    wordcloud_directory = 'media/myapp/static/myapp/wordcloud'
+    if not os.path.exists(wordcloud_directory):
+        os.makedirs(wordcloud_directory)   
+    image_url = wordcloud_directory + '/' + student.user.username + '_wc.png'
 
     wordcloud.to_file(image_url)
-    student.WordCloud.save(student.name + 'wc_image',
+    student.WordCloud.save(student.user.username + 'wc_image',
                            File(open(image_url, 'rb')))
     student.save()
 
