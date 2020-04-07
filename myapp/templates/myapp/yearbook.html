@@ -23,56 +23,58 @@
     </div>
     <div id="polls">
         <!-- Use this for polls -->
-        {% if allPolls %}
-            <section class="skills-section section">
-                <h2 class="section-title"><i class="fa fa-comments"></i> General Polls</h2>
-                <div class="skillset"> 
-                <div class="container">
-                    <div class="row">  
-                        {% for poll,votes in allPolls %}  
-                            <div style="padding: 0px" class="col-md-4 card">
-                              <div class="card-header">{{poll}}</div>
-                              <div class="card-body">
-                                {% for ct,mem in votes %}
-                                    <li>{{mem}}</li>
-                                 {% endfor %}
-                              </div> 
-                            </div>
-                          {% endfor %} 
-                        </div>
-                    </div>  
-                </div>  
-            </section>
+		{% if allPolls %}
+		<div class="sec">
+			<div class="secTitle">
+				<i class="fa fa-comments" aria-hidden="true"></i>
+				General Polls
+			</div>
+			<div class="pollContainer">
+				{% for poll,votes in allPolls %}
+				<div class="pollCard">
+					<div class="pollTitle">{{poll}} ~</div>
+					<div class="pollSep"></div>
+					<div class="pollContent">
+						{% for ct,mem in votes %}
+							<div class="pollContentItem">{{mem}}</div>
+						{% endfor %}
+					</div>
+				</div>
+			{% endfor %}
+			</div>
+		</div>
         {% endif %}   
         <hr> 
         <!-- Use this for polls -->
         {% if request.user.is_superuser %}
 
         {% if deptPolls %}
-            <section class="skills-section section">
-                <h2 class="section-title"><i class="fa fa-comments"></i> Department Polls</h2>
-                <div class="skillset">   
-                    <div class="container">
-                      <div class="row">
-                        {% for poll,votes in deptPolls %}  
-                            <div style="padding: 0px" class="col-md-4 card">
-                              <div class="card-header">{{poll}}</div>
-                              <div class="card-body">
-                                {% for ct,mem in votes %}
-                                    <li>{{mem}}</li>
-                                 {% endfor %}
-                              </div> 
-                            </div>
-                        {% endfor %}  
-                   </div>
-                  </div>
-                </div>  
-            </section>
+		<div class="sec">
+			<div class="secTitle">
+				<i class="fa fa-comments" aria-hidden="true"></i>
+				Department Polls
+			</div>
+			<div class="pollContainer">
+				{% for poll,votes in deptPolls %}
+				<div class="pollCard">
+					<div class="pollTitle">{{poll}} ~</div>
+					<div class="pollSep"></div>
+					<div class="pollContent">
+						{% for ct,mem in votes %}
+							<div class="pollContentItem">{{mem}}</div>
+						{% endfor %}
+					</div>
+				</div>
+			{% endfor %}
+			</div>
+		</div>
         {% endif %}   
 
         {% else %}
-         <h2 class="section-title"><i class="fa fa-comments"></i> Department
-           Polls (TBD) </h2>
+		<div class="secTitle">
+			<i class="fa fa-comments" aria-hidden="true"></i>
+			Department Polls (TBD)
+		</div>
               
         {% endif %}
 	</div>
