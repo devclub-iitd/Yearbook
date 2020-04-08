@@ -24,7 +24,7 @@ SECRET_KEY = '0)f5-u(p#y^oza438k_i^7*yga2(dno@uw@loap)%kq_l8n=$1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Also maybe we need to remove CORS_ORIGIN_ALLOW_ALL True declaration
-DEBUG = True
+DEBUG = False
 LOGIN_URL = '/'
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True

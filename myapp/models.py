@@ -65,18 +65,19 @@ class Student(models.Model):
 
 class Adjective(models.Model):
 	adjective_list = [
-		("happy", "happy"),
-		("short-tempered", "short-tempered"),
+		("optimistic", "optimistic"),
+		("kanjoos", "kanjoos"),
 		("genius", "genius"),
-		("adventurous", "adventurous"),
-		("creative", "creative"),
-		("friendly", "friendly"),
 		("gym-freak","gym-freak"),
-		("artistic", "artistic"),
+		("tharki", "tharki"),
+		("maggu", "maggu"),
+		("helpful", "helpful"),
+		("cry-baby", "cry-baby"),
 		("hard-working","hard-working"),
-		("comedian", "comedian"),
-		("geek", "geek"),
-		("leader", "leader")
+		("show-off", "show-off"),
+		("pakau", "pakau"),
+		("foodie", "foodie"),
+		("gossiper", "gossiper")
 	]
 	adjective = models.CharField(max_length=100, choices=adjective_list)
 	forWhom = models.ForeignKey(Student, on_delete=models.CASCADE, related_name="AdjectivesIGet")
