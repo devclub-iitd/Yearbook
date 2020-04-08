@@ -29,6 +29,10 @@ class Poll(models.Model):
 	poll = models.CharField(max_length=200)
 	department = models.CharField(max_length=200,choices=departments)
 	votes = JSONField(blank=True,default=dict)
+
+	class Meta:
+		unique_together = ("poll", "department")
+
 	def __str__(self):
 		return self.poll
 

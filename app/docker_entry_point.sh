@@ -2,9 +2,6 @@
 
 echo "Script starts"
 
-# RUN DATABASE_URL='' python manage.py collectstatic --noinput
-# DATABASE_URL='' python manage.py collectstatic --noinput
-
 until psql $POSTGRES_HOST_URL -c '\l'; do
  	>&2 echo "Postgres is unavailable - sleeping"
  	sleep 1
@@ -32,11 +29,5 @@ python3 CsvToDatabase.py
 
 ## Commenting this so that polls are not added multiple times
 python3 addPolls.py
-
-
-# echo "Starting WEB Server"
-# python3 manage.py runserver 0.0.0.0:$DEPLOY_PORT
-
-echo "Script complete"
 
 exec "$@"
