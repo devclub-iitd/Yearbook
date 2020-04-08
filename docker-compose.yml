@@ -11,23 +11,23 @@ services:
       - ./.env
     restart: always
   web:
-    build: .
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+      args: 
+        - POSTGRES_DB
+        - POSTGRES_USER
+        - POSTGRES_PASSWORD
+        - POSTGRES_DEPLOYMENT_MODE
     working_dir: /Yearbook
     image: "${REGISTRY_NAME}devclubiitd/yearbook:0.1"
-    command: ./docker_entry_point.sh
+    command: gunicorn yearbook.wsgi:application --bind 0.0.0.0:8000
     volumes:
-      - yearbook_media:/Yearbook/media/myapp/static/myapp
-    ports:
-      - ${DEPLOY_PORT}:${DEPLOY_PORT}
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:${DEPLOY_PORT}"]
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-    restart: always 
+      - yearbook_media:/Yearbook/media/
+      - yearbook_static:/Yearbook/static/
+    expose:
+      - 8000
     networks:
-      - "reverseproxy"
       - "internal"
     env_file:
       - ./.env
@@ -39,10 +39,29 @@ services:
       - db
     links:
       - db:db
+  nginx:
+    build: ./nginx
+    volumes:
+      - yearbook_media:/Yearbook/media/
+      - yearbook_static:/Yearbook/static/
+    ports:
+      - ${DEPLOY_PORT}:80
+    depends_on:
+        - web
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${DEPLOY_PORT}"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - "reverseproxy"
+      - "internal"
 
 volumes:
   postgres_data:
   yearbook_media:
+  yearbook_static:
 
 networks:
   reverseproxy:

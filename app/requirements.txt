@@ -30,3 +30,4 @@ soupsieve==2.0
 sqlparse==0.3.0
 urllib3==1.25.7
 wordcloud==1.6.0
+gunicorn==19.9.0

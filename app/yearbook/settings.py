@@ -139,10 +139,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-MEDIA_URL = '/myapp/media/'
-STATIC_URL = '/myapp/static/'
+MEDIA_URL = '/media/'
+STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-STATIC_ROOT = os.path.join(BASE_DIR, 'media/myapp/static/myapp')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 LOGGING = {
     'version': 1,

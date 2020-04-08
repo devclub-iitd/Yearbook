@@ -92,7 +92,7 @@ venv/
 win_venv/
 media/
 !media/myapp/static/myapp/DP/anonymous.jpg
-myapp/migrations/
+# myapp/migrations/
 Config.py
 *~
 .gitsecret/keys/random_seed
