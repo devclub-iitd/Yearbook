@@ -40,7 +40,6 @@ services:
     links:
       - db:db
   nginx:
-    image: "${REGISTRY_NAME}nginx:1.17.4-alpine"
     build: ./nginx
     volumes:
       - yearbook_media:/Yearbook/media/
