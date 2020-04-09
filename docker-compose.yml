@@ -40,6 +40,7 @@ services:
     links:
       - db:db
   nginx:
+    image: "${REGISTRY_NAME}devclubiitd/yearbook-nginx:0.1"
     build: ./nginx
     volumes:
       - yearbook_media:/Yearbook/media/
