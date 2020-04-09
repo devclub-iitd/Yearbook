@@ -2,6 +2,8 @@
 
 echo "Script starts"
 
+chmod -R 755 media
+
 until psql $POSTGRES_HOST_URL -c '\l'; do
  	>&2 echo "Postgres is unavailable - sleeping"
  	sleep 1
