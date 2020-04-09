@@ -124,7 +124,26 @@ def profile(request):
     if len(u.student.name) == 0:
         return render(request, 'myapp/profile.html', {"user": UsrObj, "name": "Name cannot be empty"})
 
+    obj = {}
+    flag = False
     # Phone email and oneliner can be empty if the user does not wish to specify.
+    if len(request.POST.get('phone')) > 10:
+        flag = True
+        obj["phone"] = "Number has to be less than 10 characters"
+    elif len(request.POST.get('email')) > 100: 
+        flag = True
+        obj["email"] = "Email has to be less than 100 characters"
+    elif len(request.POST.get('oneliner')) > 100: 
+        flag = True
+        obj["oneliner"] = "Oneliner has to be less than 100 characters"
+    elif len(request.POST.get('future')) > 100: 
+        flag = True
+        obj["future"] = "Future has to be less than 100 characters"
+
+    if flag:
+        obj["user"] = UsrObj
+        return render(request, 'myapp/profile.html', obj)
+
     u.student.phone = request.POST.get('phone')
     u.student.email = request.POST.get('email')
     u.student.oneliner = request.POST.get('oneliner')

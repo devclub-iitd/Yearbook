@@ -24,10 +24,10 @@ python3 manage.py migrate
 python3 setAdminTable.py
 
 ## Add Users
-python3 Scrape/Scrape.py
-python3 CsvToDatabase.py
+# python3 Scrape/Scrape.py
+# python3 CsvToDatabase.py
 
 ## Commenting this so that polls are not added multiple times
-python3 addPolls.py
+# python3 addPolls.py
 
 exec "$@"
