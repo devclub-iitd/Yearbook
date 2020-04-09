@@ -130,13 +130,13 @@ def profile(request):
     if len(request.POST.get('phone')) > 10:
         flag = True
         obj["phone"] = "Number has to be less than 10 characters"
-    elif len(request.POST.get('email')) > 100: 
+    if len(request.POST.get('email')) > 100: 
         flag = True
         obj["email"] = "Email has to be less than 100 characters"
-    elif len(request.POST.get('oneliner')) > 100: 
+    if len(request.POST.get('oneliner')) > 100: 
         flag = True
         obj["oneliner"] = "Oneliner has to be less than 100 characters"
-    elif len(request.POST.get('future')) > 100: 
+    if len(request.POST.get('future')) > 100: 
         flag = True
         obj["future"] = "Future has to be less than 100 characters"
 
