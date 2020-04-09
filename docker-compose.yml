@@ -40,6 +40,7 @@ services:
     links:
       - db:db
   nginx:
+    image: "${REGISTRY_NAME}nginx:1.17.4-alpine"
     build: ./nginx
     volumes:
       - yearbook_media:/Yearbook/media/
@@ -57,7 +58,12 @@ services:
     networks:
       - "reverseproxy"
       - "internal"
-
+    env_file:
+      - ./.env
+    environment:
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
+      - POSTGRES_HOST_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db
+      - VIRTUAL_HOST=${VIRTUAL_HOST}
 volumes:
   postgres_data:
   yearbook_media:
