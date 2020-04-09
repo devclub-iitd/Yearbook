@@ -21,7 +21,7 @@ RUN set -ex \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy in your requirements file
-ADD ./requirements.txt /requirements.txt
+ADD ./app/requirements.txt /requirements.txt
 
 # Install build deps, then run `pip install`, then remove unneeded build deps all in a single step.
 # Correct the path to your production requirements file, if needed.
@@ -41,7 +41,7 @@ RUN set -ex \
 # Copy your application code to the container (make sure you create a .dockerignore file if any large files or directories should be excluded)
 RUN mkdir /Yearbook/
 WORKDIR /Yearbook/
-ADD . /Yearbook/
+ADD ./app/ /Yearbook/
 
 ENV DJANGO_SETTINGS_MODULE=yearbook.settings
 ARG POSTGRES_DB
