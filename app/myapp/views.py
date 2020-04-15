@@ -558,7 +558,7 @@ def createWordCloud(student):
     student.save()
 
 def display_yearbook(request):
-    if AdminTable.objects.first().displayYearbook:
+    if AdminTable.objects.first().displayYearbook or request.user.is_superuser:
         return yearbook(request)
     else:
         return comingsoon(request)
