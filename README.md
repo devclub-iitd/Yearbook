@@ -109,6 +109,17 @@ This repository contains the development code for the yearbook portal
   "2014bb10028":6
   }
   ```
+## Development
+1. Activate your virtualenv.
+2. Just use `./start_dev_server.sh` to start the local development server!  
+A superuser is created with these credentials:
+	```
+	username (entry number): tester
+	password: password
+	student name: tester
+	student department: cse
+	```  
+IITD OAuth is bypassed by default in development and you are directly logged in with user `tester`. Set `BYPASS_OAUTH = False` in `settings_dev.py` to use OAuth instead.  
 
 ## How is this supposed to work?
 ### Prior work to be done by admins

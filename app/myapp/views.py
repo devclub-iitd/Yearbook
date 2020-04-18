@@ -11,6 +11,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .models import *
 from django.utils import timezone
+from django.conf import settings
 
 import io
 import json
@@ -32,10 +33,19 @@ def index(request):
     # logger.info(os.environ["OauthTokenURL"])
     # if request.method == 'POST':
         # return redirect(config.authLinkPart1 + config.CLIENT_ID + config.authLinkPart2)
-    # myUser = User.objects.get(username=('2016CS50393').lower())
-    # login(request, myUser)
-    # return redirect('/profile')
+    
+    # For local development
+    if hasattr(settings, 'BYPASS_OAUTH') and settings.BYPASS_OAUTH:
+        myUser = User.objects.get(username=('tester').lower())
+        if not hasattr(myUser, 'student'):
+            myUser.student = Student(name='tester', department='cse')
+            myUser.student.save()
+            logger.info("New student created for user tester")
+        
+        login(request, myUser)
+        return redirect('/profile')
 
+    # For production
     if request.method == 'POST':
         return redirect(os.environ["authLinkPart1"] + os.environ["CLIENT_ID"] + os.environ["authLinkPart2"])
     return render(request, 'myapp/index.html')
