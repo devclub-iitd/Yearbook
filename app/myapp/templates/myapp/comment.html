@@ -87,6 +87,24 @@
 
 
 		<script type="text/javascript">
+
+			/* Limit max number of line breaks (new line) in textarea */
+			var limit = 50;
+			var textarea = document.getElementById("user_comment");
+
+			textarea.onkeyup = function() {
+				var lines = textarea.value.split("\n");
+
+				if(lines.length>limit)
+				{
+					textarea.style.color = 'red';
+					setTimeout(function(){
+						textarea.style.color = '';
+					},500);
+				}    
+				textarea.value = lines.slice(0, limit).join("\n");
+			};
+
 			/* Function to load previous comment and adjectives */
 			function changeContent() {
 				var selectedUser = document.getElementById("user_id").value;
