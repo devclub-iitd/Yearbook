@@ -14,9 +14,7 @@
 		<input style="display:none" type="text" name="forWhom[]" value="{{ forWhom }}" readonly="readonly">
 		<br>
 		<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
-			<p style="word-wrap: break-word">
-				{{ comment }}
-			</p>
+			<p style="word-wrap: break-word; white-space: pre-wrap;">{{ comment }}</p>
 		</div>
 		<hr>
 		{% endfor %}
