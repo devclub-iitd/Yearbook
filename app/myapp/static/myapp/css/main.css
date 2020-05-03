@@ -246,7 +246,39 @@ iframe {
   }
 }
 
+/*------------------------------------------------------------------
+[ Group pictures ]*/
 
+.genpics {
+  width: 60%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (min-width: 768px) {
+  .genpics {
+    flex-direction: row;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .genpics {
+    flex-direction: column;
+  }
+}
+
+.genpics-img {
+  flex: 1;
+}
+
+.genpics-img img {
+  margin:5px;height: 250px;width: auto;
+}
+
+.genpics-img p {
+  margin-bottom: 20px;
+}
 
 /*==================================================================
 [ Form ]*/

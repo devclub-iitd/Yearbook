@@ -157,6 +157,15 @@ def profile(request):
     u.student.save()
     return redirect('/profile')
 
+@login_required
+def delete_image(request, type):
+    if type == 'DP':
+        request.user.student.DP.delete()
+    elif type == 'genPic1':
+        request.user.student.genPic1.delete()
+    elif type == 'genPic2':
+        request.user.student.genPic2.delete()
+    return redirect('/profile')
 
 @login_required
 def answerMyself(request):
@@ -357,6 +366,33 @@ def comment(request):
                 u_new.student.CommentsIGet.append({"comment":request.POST.getlist('val[]')[i],"fromWhom":u.username,"displayInPdf":"True"})
             u_new.student.save()
         u.student.save()
+    return redirect('/comment')
+
+
+@login_required
+def delete_comment(request, forwhom):
+    u = request.user
+    forWhom = User.objects.get(username=forwhom)
+
+    for c in u.student.CommentsIWrite:
+        if c["forWhom"] == forwhom:
+            u.student.CommentsIWrite.remove(c)
+            break
+    u.student.save()
+
+    for c in forWhom.student.CommentsIGet:
+        if c["fromWhom"]==u.username:
+            forWhom.student.CommentsIGet.remove(c)
+            break
+    forWhom.student.save()
+    return redirect('/comment')
+
+@login_required
+def delete_adjectives(request, forwhom):
+    u = request.user
+    forWhom = User.objects.get(username=forwhom)
+    for adj in u.student.AdjectivesIGive.filter(forWhom=forWhom.student):
+        removeAdjective(adj.adjective, forWhom, u)
     return redirect('/comment')
 
 
