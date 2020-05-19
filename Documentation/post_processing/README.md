@@ -22,7 +22,7 @@ Directory structure of `collage_and_yearbook`:
 │       ├── out_0.jpg
 │       └── out_0.pdf
 ```  
-2. Download the yearbook PDFs from the web portal and place them inside the corresponding department folder in `collage_and_yearbook` with the name `yearbook.pdf`.  
+2. Download the yearbook PDFs from the web portal and place them inside the corresponding department folder in `collage_and_yearbook` with the name `yearbook.pdf`. Also place the corresponding department picture with the name `department_pic.jpg`.  
 Now the directory structure of `collage_and_yearbook` is:
 ```
 .
@@ -35,7 +35,8 @@ Now the directory structure of `collage_and_yearbook` is:
 │   │   ├── out_0.pdf
 │   │   ├── out_1.jpg
 │   │   └── out_1.pdf
-│   └── yearbook.pdf
+│   ├── yearbook.pdf
+│   └── department_pic.jpg
 |   ...
 ...
 ├── physics
@@ -44,7 +45,8 @@ Now the directory structure of `collage_and_yearbook` is:
 │   ├── collages
 │   │   ├── out_0.jpg
 │   │   └── out_0.pdf
-│   └── yearbook.pdf
+│   ├── yearbook.pdf
+│   └── department_pic.jpg
 
 ```  
-3. Run `python merge_pdfs.py` to merge the yearbook and the collages. This generates the `final_yearbook_<department>.pdf` inside the department folders.
+3. Run `python merge_pdfs.py` to convert `department_pic.jpg` to pdf format and then merge the yearbook, department_pic and the collages. This generates the `final_yearbook_<department>.pdf` inside the department folder. Note that this also removes the 'add group photo page' from the final pdf.
