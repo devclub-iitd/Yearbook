@@ -44,14 +44,17 @@
   z-index: -1;
   color: white;
   text-align: center;
-  padding-top: 40vh;
+  /* padding-top: 40vh; */
   font-family: Gaegu;
   /*font-size: 3em !important;*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 #heading h1{
   width: 30%;
   padding:20px;
-  margin-left: 35%;
+  /* margin-left: 35%; */
   background-color: rgba(0,0,0,0.8);
   -webkit-box-shadow: 3px 3px 5px 6px #000;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow:    3px 3px 5px 6px #000;  /* Firefox 3.5 - 3.6 */

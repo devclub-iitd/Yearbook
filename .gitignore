@@ -92,6 +92,7 @@ venv/
 win_venv/
 media/
 !media/myapp/static/myapp/DP/anonymous.jpg
+collage_and_yearbook/
 # myapp/migrations/
 Config.py
 *~
