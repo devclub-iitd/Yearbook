@@ -24,11 +24,11 @@ SECRET_KEY = '0)f5-u(p#y^oza438k_i^7*yga2(dno@uw@loap)%kq_l8n=$1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Also maybe we need to remove CORS_ORIGIN_ALLOW_ALL True declaration
-DEBUG = False
+DEBUG = True
 LOGIN_URL = '/'
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
-
+BYPASS_OAUTH = True
 
 # Application definition
 
@@ -78,34 +78,16 @@ WSGI_APPLICATION = 'yearbook.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ["POSTGRES_DB"],
-        'USER': os.environ["POSTGRES_USER"],
-        'PASSWORD': os.environ["POSTGRES_PASSWORD"],
-        'HOST': os.environ["POSTGRES_DEPLOYMENT_MODE"],  # 'db' for docker and 'localhost' for normal localhost working of the app
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
         'PORT': 5432,
     }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'temp',
-    #     'USER': 'batman',
-    #     'PASSWORD': 'password',
-    #     'HOST': 'localhost',
-    #     'PORT': 5432,
-    # }
 }
-
-# DATABASES = { 'default': { 'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'myproject', 'USER': 'mayank', 'PASSWORD': 'mayank123', 'HOST': 'localhost', 'PORT': '5432', } }
 
 
 # Password validation
@@ -193,8 +175,6 @@ LOGGING = {
     }
 }
 
-FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o755
-FILE_UPLOAD_PERMISSIONS = 0o644
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 

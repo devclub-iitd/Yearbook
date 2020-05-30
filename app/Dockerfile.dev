@@ -1,0 +1,18 @@
+FROM python:3.6
+
+ENV PYTHONUNBUFFERED 1
+
+RUN mkdir /Yearbook
+WORKDIR /Yearbook
+
+ENV DJANGO_SETTINGS_MODULE=yearbook.settings_dev
+
+COPY requirements.txt .
+
+RUN pip3 install -Ur requirements.txt
+
+ADD . /Yearbook/
+
+# run entrypoint.dev.sh
+RUN ["chmod", "+x", "/Yearbook/docker_entry_point.dev.sh"]
+ENTRYPOINT ["/Yearbook/docker_entry_point.dev.sh"]
