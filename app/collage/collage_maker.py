@@ -108,7 +108,7 @@ def prepare(args):
     if args['shuffle']:
         random.shuffle(images)
 
-    print('Making collage...')
+    print('Making collage... (Image folder: {})'.format(args['folder']))
     res = make_collage(images, args['output'], args['width'], args['init_height'])
     if not res:
         print('Failed to create collage!')
