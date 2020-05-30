@@ -10,13 +10,14 @@
 			Comments already written
 		</span>
 		{% for comment,forWhom,name in comments %}
-		<label>For : {{ name }} ({{ forWhom }})</label>
+		<p style="font-size: 0;">
+			<span style="width:50%; display:inline-block; font-weight: bold;">For : {{ name }} ({{ forWhom }})</span>
+			<span style="width:50%; display:inline-block; text-align: right;"><a href="{% url 'delete_comment' forwhom=forWhom %}">Delete</a></span>
+		</p>
 		<input style="display:none" type="text" name="forWhom[]" value="{{ forWhom }}" readonly="readonly">
-		<br>
+		<!-- <br> -->
 		<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
-			<p style="word-wrap: break-word">
-				{{ comment }}
-			</p>
+			<p style="word-wrap: break-word; white-space: pre-wrap;">{{ comment }}</p>
 		</div>
 		<hr>
 		{% endfor %}
@@ -33,9 +34,12 @@
 		</span>
 
 		{% for user, adj_list in adj_dictionary.items %}
-		<label>For : {{ name_dictionary|get_item:user }} ({{ user }})</label>
+		<p style="font-size: 0;">
+			<span style="width:50%; display:inline-block; font-weight: bold;">For : {{ name_dictionary|get_item:user }} ({{ user }})</span>
+			<span style="width:50%; display:inline-block; text-align: right;"><a href="{% url 'delete_adjectives' forwhom=user %}">Delete</a></span>
+		</p>
 		<input style="display:none" type="text" name="forWhom[]" value="{{ p }}" readonly="readonly">
-		<br>
+		<!-- <br> -->
 		{% for adj in adj_list %}
 		<span>
 			{{ adj }} &nbsp;

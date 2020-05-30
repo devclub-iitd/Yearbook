@@ -44,15 +44,21 @@
 	{% endblock %}
 	<div class="container-login100">
 		{% block body %}
-			<div class="container">
-					<center>
+			<div class="genpics">
 				{% if user.genPic1 %}
-					<img style="margin:20px;height: 250px;width: auto;max-width: 50%;" class="img-responsive img-thumbnail" src={{user.genPic1.url}}>
+					<div class="genpics-img">
+						<img class="img-responsive img-thumbnail" src={{user.genPic1.url}}>
+						<br>
+						<p><a href="{% url 'delete_image' type='genPic1' %}">Delete</a></p>
+					</div>
 				{% endif %}
 				{% if user.genPic2 %}
-					<img style="margin:20px;height: 250px;width: auto;max-width: 50%;" class="img-responsive img-thumbnail" src={{user.genPic2.url}}>
+					<div class="genpics-img">
+						<img class="img-responsive img-thumbnail" src={{user.genPic2.url}}>
+						<br>
+						<p><a href="{% url 'delete_image' type='genPic2' %}">Delete</a></p>
+					</div>
 				{% endif %}
-					</center>
 			</div>
 
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
@@ -62,7 +68,11 @@
 						Profile
 					</span>
 					{% if user.DP %}
-						<center><img style="margin:auto;height: auto;width: auto;max-width: 70%;" class="img-responsive img-thumbnail" src={{user.DP.url}}></center>
+						<center>
+							<img style="margin:auto;height: auto;width: auto;max-width: 70%;" class="img-responsive img-thumbnail" src={{user.DP.url}}>
+							<br>
+							<a href="{% url 'delete_image' type='DP' %}">Delete</a>
+						</center>
 					{% endif %}
 
 					<p style="text-align: center; color: red">{{image}}</p>

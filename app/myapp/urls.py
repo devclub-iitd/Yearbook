@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
+from django.urls import path
 
 from . import views
 
@@ -14,6 +15,9 @@ urlpatterns = [
     url(r'^otherComment/$', views.otherComment, name='otherComment'),
     url(r'^auth/$', views.authenticate, name='otherComment'),
     url(r'^yearbook/$', views.display_yearbook, name='yearbook'),
+    path('delete-image/<type>', views.delete_image, name="delete_image"),
+    path('delete-comment/<forwhom>', views.delete_comment, name="delete_comment"),
+    path('delete-adjectives/<forwhom>', views.delete_adjectives, name="delete_adjectives"),
     # url(r'^yearbook/$', views.yearbook, name='yearbook'),    
     # url(r'^yearbook/$', views.comingsoon, name='yearbook'),    
 ]
