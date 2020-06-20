@@ -39,6 +39,7 @@ services:
       - db
     links:
       - db:db
+    restart: always
   nginx:
     image: "${REGISTRY_NAME}devclubiitd/yearbook-nginx:0.1"
     build: ./nginx
@@ -64,6 +65,7 @@ services:
       - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
       - POSTGRES_HOST_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db
       - VIRTUAL_HOST=${VIRTUAL_HOST}
+    restart: always
 volumes:
   postgres_data:
   yearbook_media:
