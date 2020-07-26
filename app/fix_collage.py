@@ -14,7 +14,8 @@ dirs = [f for f in os.listdir(ROOT_DIR) if os.path.isdir(os.path.join(ROOT_DIR, 
 for current_dir in dirs:
     current_dir = os.path.join(ROOT_DIR, current_dir)
     temp_dir = os.path.join(current_dir, 'temp')
-    shutil.rmtree(temp_dir)
+    if os.path.exists(temp_dir):
+        shutil.rmtree(temp_dir)
     os.makedirs(temp_dir)
 
 all_students = Student.objects.all()
