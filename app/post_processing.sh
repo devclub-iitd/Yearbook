@@ -4,6 +4,10 @@ echo "Generating wordclouds..."
 python generate_wordcloud.py
 echo "Generating wordclouds... done"
 
+echo "Fixing group pics"
+python fix_collage.py
+echo "Fixing group pics... done"
+
 echo "Generating collages..."
 ROOT_DIR="collage_and_yearbook/"
 rm -rf $ROOT_DIR
@@ -23,7 +27,7 @@ departments=(
 
 for dept in ${departments[@]}; do
     if [ -d media/$dept ]; then
-        cp -R media/$dept $ROOT_DIR/$dept
+        cp -R media/$dept/temp $ROOT_DIR/$dept
     fi
 done
 

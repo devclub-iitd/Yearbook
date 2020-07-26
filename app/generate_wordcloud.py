@@ -77,8 +77,12 @@ def createWordCloud(student):
 
 
 all_students = Student.objects.all()
+students_count = Student.objects.count()
 
+counter = 0
 for i in all_students:
+    counter = counter + 1
+    logging.info("Processing user: " + str(i.user) + "...............(" + str(counter) + "/" + str(students_count) + ")")
     if i.AdjectivesIGet.exists():
         createWordCloud(i)
         logger.info("Student: %s - Wordcloud created/updated", i.user)
