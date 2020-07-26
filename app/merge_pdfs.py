@@ -14,15 +14,17 @@ for current_dir in dirs:
     collage_pdfs = os.listdir(collage_dir)
     
     # convert department pic to pdf
-    a4inpt = (img2pdf.mm_to_pt(210),img2pdf.mm_to_pt(297)) # specify page size (A4)
-    layout_fun = img2pdf.get_layout_fun(a4inpt)
     department_pic_pdf = os.path.join(current_dir,'department_pic.pdf')
-    with open(department_pic_pdf, "wb") as f:
-        f.write(img2pdf.convert(os.path.join(current_dir,'department_pic.jpg'), layout_fun=layout_fun))
+    if os.path.exists(department_pic_pdf):
+        a4inpt = (img2pdf.mm_to_pt(210),img2pdf.mm_to_pt(297)) # specify page size (A4)
+        layout_fun = img2pdf.get_layout_fun(a4inpt)
+        with open(department_pic_pdf, "wb") as f:
+            f.write(img2pdf.convert(os.path.join(current_dir,'department_pic.jpg'), layout_fun=layout_fun))
 
     merger = PdfFileMerger()
     merger.append(yearbook_pdf)
-    merger.merge(2, department_pic_pdf) # add department_pic as 3rd page
+    if os.path.exists(department_pic_pdf):
+        merger.merge(2, department_pic_pdf) # add department_pic as 3rd page
 
     for collage in collage_pdfs:
         if collage.endswith('.pdf'):
