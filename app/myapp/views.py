@@ -161,11 +161,17 @@ def profile(request):
 def delete_image(request, type):
     if type == 'DP':
         request.user.student.DP.delete()
+        return redirect('/profile')
     elif type == 'genPic1':
         request.user.student.genPic1.delete()
+        return redirect('/profile')
     elif type == 'genPic2':
         request.user.student.genPic2.delete()
-    return redirect('/profile')
+        return redirect('/profile')
+    elif type == 'closeFriendsPic':
+        request.user.student.closeFriendsPic.delete()
+        return redirect('/closeFriends')
+
 
 @login_required
 def answerMyself(request):
@@ -553,3 +559,42 @@ def is_deadline_over():
 
 def deadlineover(request):
     return render(request, 'myapp/deadlineover.html')
+
+
+@login_required()
+def closeFriends(request):
+    if is_deadline_over():
+        return deadlineover(request)
+
+    u = request.user
+    UsrObj = Student(name=u.student.name, department=u.student.department,
+        DP=u.student.DP, phone=u.student.phone, email=u.student.email,
+        oneliner=u.student.oneliner, future=u.student.future, genPic1=u.student.genPic1, genPic2=u.student.genPic2, closeFriends=u.student.closeFriends, closeFriendsPic=u.student.closeFriendsPic)
+    users_all = User.objects.filter(is_superuser=False).order_by('username')
+    users_json = []
+    for user in users_all:
+        users_json.append({"id": user.username, "user": user.student.name + " (" + user.username + ")"})
+
+    users_json = json.dumps(users_json)
+    curr_close_friends = u.student.closeFriends
+    curr_close_friends = ','.join(list(curr_close_friends.keys()))
+
+    if request.method=='GET':   
+        context = {"user": UsrObj, "users_json": users_json, "curr_close_friends": curr_close_friends}
+        return render(request, 'myapp/closeFriends.html', context)
+
+    closeFriends = request.POST.get('closeFriends[]')
+    closeFriends = [x.strip() for x in closeFriends.split(',')]
+    u.student.closeFriends = {}
+    for friendUserName in closeFriends:
+        u.student.closeFriends[friendUserName] = User.objects.get(username=(friendUserName).lower()).student.name
+
+    if(request.FILES.get('closeFriendsPic') != None and int(request.FILES.get('closeFriendsPic').size) < 6000000):
+        u.student.closeFriendsPic = request.FILES.get('closeFriendsPic')
+        if not (u.student.closeFriendsPic.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
+            return render(request, 'myapp/profile.html', {"user": UsrObj, "image": "Image should be in .png, .jpg or .jpeg format"})
+        extension = u.student.closeFriendsPic.name.lower()[u.student.closeFriendsPic.name.lower().rfind("."):] 
+        u.student.closeFriendsPic.name = u.username + extension
+
+    u.student.save()
+    return redirect('/closeFriends')
