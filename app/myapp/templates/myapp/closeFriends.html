@@ -1,0 +1,74 @@
+{% extends 'myapp/profile.html' %}
+{% block title %}YearBook - Close Friends{% endblock %}
+{% block body %}
+{% load static %}
+
+{% if user.closeFriendsPic %}
+<div class="container">
+  <center>
+    <img style="margin:5px;height: 250px;width: auto;max-width: 50%;" class="img-responsive img-thumbnail"
+      src={{user.closeFriendsPic.url}}>
+    <!-- <br> -->
+    <p><a href="{% url 'delete_image' type='closeFriendsPic' %}">Delete</a></p>
+  </center>
+</div>
+{% endif %}
+
+<div style="margin-left: 5px; margin-top: 20px; margin-bottom: 40px;" class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
+  <form class="login100-form validate-form" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <span class="login100-form-title p-b-37">
+      Close Friends
+    </span>
+
+    <!-- {% if user.closeFriends %}
+    {% for key, value in user.closeFriends.items %}
+      <div>{{value}} ({{key}})</div>
+    {% endfor %}
+    {% endif %} -->
+
+    <div class="wrap-input100 validate-input m-b-20">
+      <label style="color: grey;padding-left: 20px">Select close friends:</label>
+      <div style="padding-left: 20px;">
+        <input type='text' placeholder='Type name or entry no.' class='flexdatalist' multiple='multiple'
+          data-search-in='user' data-min-length='1' name='closeFriends[]' data-selection-required='true'
+          data-data="{{ users_json }}" value="{{ curr_close_friends }}">
+
+        <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+        <script type="text/javascript" src="{% static 'myapp/jquery.flexdatalist.min.js'%}"></script>
+        <script>
+          var c = "{{ users_json | escapejs }}";
+          $('.flexdatalist').flexdatalist({
+            value: 'cs112',
+            selectionRequired: true,
+            minLength: 1,
+            searchIn: 'user',
+            valueProperty: 'id',
+            searchContain: true,
+            visibleProperties: ["user"],
+            data: JSON.parse(c)
+          });
+        </script>
+      </div>
+
+      <span class="focus-input100"></span>
+    </div>
+
+    <div class="wrap-input100 validate-input m-b-20">
+      <label style="color: grey;padding-left: 20px">Group Picture: (max size 5MB)</label>
+      <input style="color: #adabab;" class="input100" type="file" name="closeFriendsPic">
+      <span class="focus-input100"></span>
+    </div>
+
+    <div class="container-login100-form-btn">
+      <button class="login100-form-btn">
+        Save
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}
+</body>
+
+</html>

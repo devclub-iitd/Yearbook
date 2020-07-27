@@ -64,6 +64,8 @@ class Student(models.Model):
 	CommentsIWrite = JSONField(blank=True,default=list)
 	CommentsIGet = JSONField(blank=True,default=list)
 	WordCloud = models.ImageField(upload_to="wordcloud",blank=True)
+	closeFriends = JSONField(blank=True,default=dict)
+	closeFriendsPic = models.ImageField(upload_to=user_directory_path,blank=True)
 	def __str__(self):
 		return self.name 
 
