@@ -114,8 +114,8 @@
 				var selectedUser = document.getElementById("user_id").value;
 
 				/* Load previous comments */
-				var all_comments_given = '{{ comments_json }}'; // Returns comments json as string
-				all_comments_given = JSON.parse(all_comments_given); // Parse string into json object
+				var all_comments_given = {{ comments_json|safe }}; // Returns comments json as string
+// 				all_comments_given = JSON.parse(all_comments_given); // Parse string into json object
 				var found_comment = false;
 				var textArea = document.getElementById("user_comment");
 
