@@ -583,11 +583,13 @@ def closeFriends(request):
         context = {"user": UsrObj, "users_json": users_json, "curr_close_friends": curr_close_friends}
         return render(request, 'myapp/closeFriends.html', context)
 
-    closeFriends = request.POST.get('closeFriends[]')
-    closeFriends = [x.strip() for x in closeFriends.split(',')]
     u.student.closeFriends = {}
-    for friendUserName in closeFriends:
-        u.student.closeFriends[friendUserName] = User.objects.get(username=(friendUserName).lower()).student.name
+    closeFriends = request.POST.get('closeFriends[]')
+    if closeFriends:
+        closeFriends = [x.strip() for x in closeFriends.split(',')]
+        for friendUserName in closeFriends:
+            if User.objects.filter(username=(friendUserName).lower()).exists():
+                u.student.closeFriends[friendUserName] = User.objects.get(username=(friendUserName).lower()).student.name
 
     if(request.FILES.get('closeFriendsPic') != None and int(request.FILES.get('closeFriendsPic').size) < 6000000):
         u.student.closeFriendsPic = request.FILES.get('closeFriendsPic')
