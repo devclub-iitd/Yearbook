@@ -21,7 +21,7 @@ services:
         - POSTGRES_DEPLOYMENT_MODE
     working_dir: /Yearbook
     image: "${REGISTRY_NAME}devclubiitd/yearbook:0.1"
-    command: gunicorn --workers=4 --threads=5 --worker-class=gthread yearbook.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn --workers=6 --threads=4 --worker-class=gthread yearbook.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - yearbook_media:/Yearbook/media/
       - yearbook_static:/Yearbook/static/
