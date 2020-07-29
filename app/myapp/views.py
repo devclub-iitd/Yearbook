@@ -12,6 +12,8 @@ from django.contrib.auth.models import User
 from .models import *
 from django.utils import timezone
 from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.base import TemplateView
 
 import io
 import json
@@ -600,3 +602,12 @@ def closeFriends(request):
 
     u.student.save()
     return redirect('/closeFriends')
+
+@login_required
+def allYearbooks(request):
+    print(request.build_absolute_uri())
+    return render(request, 'myapp/allYearbooks.html', {})
+
+class PersonalYearbookView(LoginRequiredMixin, TemplateView):
+    def get_template_names(self):
+        return str(self.request.user) + '_personalYearbook.html'

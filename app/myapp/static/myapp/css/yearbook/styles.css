@@ -12,6 +12,20 @@
      margin: 0;
      padding: 0;
  }
+ :root {
+  --background-normal: #d38312; /* fallback for old browsers */
+  --background-gradient: linear-gradient(
+    to right,
+    #a83279,
+    #d38312
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  --webkit-background-gradient: -webkit-linear-gradient(
+    to right,
+    #a83279,
+    #d38312
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  --background-alternate: #a83279;
+}
 .item{
   padding-left:20px;
   padding-right:20px;
@@ -139,9 +153,9 @@ p {
   background-image: linear-gradient(315deg, #000000 0%, #7f8c8d 74%);
 
 */			
-  background: #D38312;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #A83279, #D38312);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #A83279, #D38312); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: var(--background-normal);
+  background: var(--webkit-background-gradient);
+  background: var(--background-gradient);
 
   display: flex;
   flex-direction: row;
@@ -274,9 +288,9 @@ p {
   margin-top: 10px;
   border-radius: 3px;
   /*background-color: black;*/
-  background: #D38312;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #A83279, #D38312);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #A83279, #D38312); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: var(--background-normal);
+  background: var(--webkit-background-gradient);
+  background: var(--background-gradient);
 }
 .answer {
   margin-top: 10px;
@@ -321,7 +335,7 @@ p {
   height: auto;
   margin: auto;
   margin-top: 4px;
-  border-left: 1.5px solid #D38312;
+  border-left: 1.5px solid var(--background-normal);
   /*border-right: 2px solid black;*/
   /*border-left: 2px solid #e74c3c;*/
   text-align:justify;
@@ -339,7 +353,7 @@ p {
 .alternate .qTileComment{
   /*border-left: 2px solid black;*/
   /*border-left: 2px solid #3498db;*/
-  border-left: 1.5px solid #A83279;
+  border-left: 1.5px solid var(--background-alternate);
 }
 .skillset .item {
   /*margin-bottom: 15px;*/
