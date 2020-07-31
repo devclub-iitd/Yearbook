@@ -34,3 +34,4 @@ wordcloud==1.6.0
 gunicorn==19.9.0
 img2pdf
 PyPDF2
+python-dotenv

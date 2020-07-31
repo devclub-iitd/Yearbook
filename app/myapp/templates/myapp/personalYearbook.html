@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base href="{{ baseURL }}">
+  <title>Yearbook</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700|Zilla+Slab&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/f6a9b938ff.js" crossorigin="anonymous"></script>
+  <link id="theme-style" rel="stylesheet" href="{% static 'myapp/css/yearbook/styles.css'%}" type="text/css">
+  <meta charset="UTF-8">
+</head>
+
+<body>
+  <div id="heading">
+    <h1>Yearbook</h1>
+    <!-- <h2>To the looney toons we sang here...</h2> -->
+    <!-- <h3>Add a department pic</h3> -->
+  </div>
+
+  {% if user.closeFriendsPic %}
+  <div class="wrapperCont">
+    <p style="text-align: center;"><img style="height:450px;width: auto;max-width: 100%;" src="{{user.closeFriendsPic.url}}"></p>
+  </div>
+  {% endif %}
+
+  {% if user.genPic1 %}
+  <div class="wrapperCont">
+    <p style="text-align: center;"><img style="height:450px;width: auto;max-width: 100%;" src="{{user.genPic1.url}}"></p>
+  </div>
+  {% endif %}
+
+  {% if user.genPic2 %}
+  <div class="wrapperCont">
+    <p style="text-align: center;"><img style="height:450px;width: auto;max-width: 100%;" src="{{user.genPic2.url}}"></p>
+  </div>
+  {% endif %}
+
+  {% for student in students %}
+  <div class="wrapperCont">
+    <div class="upperCont">
+      <div class="upperContLeft">
+        <img style="height:240px;width: auto;max-width: 100%; border-radius: 20px;" src="{{student.DP.url}}">
+      </div>
+      <div class="upperContRight">
+        <div class="upperContRightC1">
+          <div class="bio">
+            <span class="personName">{{student.name}}</span>
+            {% if student.oneliner %}
+            <span class="personName">|</span>
+            <span class="personTagline">{{student.oneliner}}</span>
+            {% endif %}
+          </div>
+          <div class="personInfo">
+            <i class="fas fa-envelope"></i>
+            {{student.email}}
+          </div>
+          <div class="personInfo">
+            <i class="fas fa-phone"></i>
+            {{student.phone}}
+          </div>
+          <div class="personInfo">
+            <i class="fas fa-university"></i>
+            {{student.department}}
+          </div>
+          <div class="personInfo">
+            <i class="fas fa-briefcase"></i>
+            {{student.future}}
+          </div>
+        </div>
+        {% if student.WordCloud %}
+        <div class="upperContRightC2">
+          <img style="height:200px;width: auto;max-width: 100%;" src="{{student.WordCloud.url}}" alt="" />
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="bottomCont">
+      <div class="qSec">
+        <div class="qSecTitle">
+          <i class="fa fa-archive"></i>
+          Answer's About Yourself -
+        </div>
+        <!-- <div class="qSeperator"></div> -->
+        {% for ques,ans in student.AnswersAboutMyself %}
+        <div class="qSecItem" style="word-wrap: break-word; page-break-inside: avoid;">
+          <div class="question">{{ques}}</div>
+          <div class="qSecSeperator"></div>
+          <div class="answer">
+            {{ans}}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="qSec">
+        <div class="qSecTitle">
+          <i class="fa fa-list-ol"></i>
+          What other's have written about you -
+        </div>
+        <div class="qTileCont">
+          {% for comment,fromWhom in student.CommentsIGet %}
+          <div class="qTile" style="word-wrap: break-word; page-break-inside: avoid;">
+            <div class="qTileAuth">{{fromWhom}} ~</div>
+            <div class="qTileComment">
+              <span style="white-space: pre-wrap;">{{comment}}</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</body>
+
+</html>

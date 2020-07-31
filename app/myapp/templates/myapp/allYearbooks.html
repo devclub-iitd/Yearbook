@@ -1,0 +1,29 @@
+{% extends 'myapp/profile.html' %}
+{% block title %}YearBook - All yearbooks{% endblock %}
+{% block body %}
+
+<div style="margin-left: 5px; margin-top: 20px; margin-bottom: 40px;" class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-30">
+  {% csrf_token %}
+
+  <span class="login100-form-title p-b-37">
+    Yearbooks
+  </span>
+
+  <div class="container-login100-form-btn">
+    <button class="login100-form-btn" onclick="location.href='{% url 'personalYearbook' %}'">
+      Personal Yearbook
+    </button>
+  </div>
+  <br />
+  <div class="container-login100-form-btn">
+    <button class="login100-form-btn" onclick="location.href='{% url 'yearbook' %}'">
+      Department Yearbook
+    </button>
+  </div>
+
+</div>
+
+{% endblock %}
+</body>
+
+</html>
