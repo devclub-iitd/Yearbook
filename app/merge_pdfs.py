@@ -12,6 +12,7 @@ for current_dir in dirs:
     yearbook_pdf = os.path.join(current_dir, 'yearbook.pdf')
     collage_dir = os.path.join(current_dir, 'collages')
     collage_pdfs = os.listdir(collage_dir)
+    frontpage_pdf = os.path.join(ROOT_DIR, 'frontpage.pdf')
     
     # convert department pic to pdf
     department_pic_pdf = os.path.join(current_dir,'department_pic.pdf')
@@ -22,6 +23,7 @@ for current_dir in dirs:
             f.write(img2pdf.convert(os.path.join(current_dir,'department_pic.jpg'), layout_fun=layout_fun))
 
     merger = PdfFileMerger()
+    merger.append(frontpage_pdf)
     merger.append(yearbook_pdf)
     if os.path.exists(department_pic_pdf):
         merger.merge(2, department_pic_pdf) # add department_pic as 3rd page
@@ -36,7 +38,7 @@ for current_dir in dirs:
     merger.close()
 
     # delete the 'add offcial group photo' page
-    pages_to_delete = [3] # Change this according to the temp yearbook pdf generated
+    pages_to_delete = [1,3,4,5] # Change this according to the temp yearbook pdf generated
     infile = PdfFileReader(temp_yearbook, 'rb')
     output = PdfFileWriter()
 

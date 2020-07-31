@@ -23,8 +23,10 @@ Directory structure of `collage_and_yearbook`:
 │       └── out_0.pdf
 ```  
 2. Download the yearbook PDFs from the web portal and place them inside the corresponding department folder in `collage_and_yearbook` with the name `yearbook.pdf`. Also place the corresponding department picture with the name `department_pic.jpg`.  
+Also add the front page as `frontpage.pdf` in `collage_and_yearbook` folder.
 Now the directory structure of `collage_and_yearbook` is:
 ```
+├── frontpage.pdf
 .
 ├── chemical
 │   ├── 0
