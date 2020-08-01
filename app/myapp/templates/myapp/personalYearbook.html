@@ -7,32 +7,50 @@
   <title>Yearbook</title>
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700|Zilla+Slab&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/f6a9b938ff.js" crossorigin="anonymous"></script>
-  <link id="theme-style" rel="stylesheet" href="{% static 'myapp/css/yearbook/styles.css'%}" type="text/css">
+  <link id="theme-style" rel="stylesheet" href="{% static 'myapp/css/yearbook/styles-new.css'%}" type="text/css">
   <meta charset="UTF-8">
 </head>
 
 <body>
-  <div id="heading">
-    <h1>Yearbook</h1>
-    <!-- <h2>To the looney toons we sang here...</h2> -->
-    <!-- <h3>Add a department pic</h3> -->
+  <div class="personalYearbookCoverPage">
   </div>
 
-  {% if user.closeFriendsPic %}
-  <div class="wrapperCont">
-    <p style="text-align: center;"><img style="height:450px;width: auto;max-width: 100%;" src="{{user.closeFriendsPic.url}}"></p>
+  <div class="picturePage">
+    <h1 class="picturePageTitle">To the looney tunes we sang here...</h1> 
   </div>
-  {% endif %}
 
   {% if user.genPic1 %}
-  <div class="wrapperCont">
-    <p style="text-align: center;"><img style="height:450px;width: auto;max-width: 100%;" src="{{user.genPic1.url}}"></p>
+  <div class="picturePage">
+    <div class="polaroidContainer">
+      <img src="{{user.genPic1.url}}" alt="" class="userPicture" />
+      <div class="polaroidCaptionContainer">
+        <div class="polaroidCaptionText">
+          genPic1
+        </div>
+      </div>
+    </div>
   </div>
   {% endif %}
 
   {% if user.genPic2 %}
-  <div class="wrapperCont">
-    <p style="text-align: center;"><img style="height:450px;width: auto;max-width: 100%;" src="{{user.genPic2.url}}"></p>
+  <div class="picturePage">
+    <div class="polaroidContainer">
+      <img src="{{user.genPic2.url}}" alt="" class="userPicture" />
+      <div class="polaroidCaptionContainer">
+        <div class="polaroidCaptionText">
+          genPic2
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if user.closeFriendsPic %}
+  <div class="picturePage collagePage">
+    <h1 class="picturePageTitle">A NICE CAPTION GOES HERE FOR COLLAGE</h1>
+    <div class="collageContainer">
+      <img src="{{user.closeFriendsPic.url}}" alt="" class="collageImage" />
+    </div>
   </div>
   {% endif %}
 
@@ -40,7 +58,11 @@
   <div class="wrapperCont">
     <div class="upperCont">
       <div class="upperContLeft">
-        <img style="height:240px;width: auto;max-width: 100%; border-radius: 20px;" src="{{student.DP.url}}">
+        {% if student.DP %}
+        <img src="{{student.DP.url}}">
+        {% else %}
+        <img src="/media/DP/anonymous.jpg">
+        {% endif %}
       </div>
       <div class="upperContRight">
         <div class="upperContRightC1">
