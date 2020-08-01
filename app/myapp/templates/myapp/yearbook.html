@@ -5,23 +5,21 @@
 	<title>Yearbook</title>
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700|Zilla+Slab&display=swap" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/f6a9b938ff.js" crossorigin="anonymous"></script>
-	<link id="theme-style" rel="stylesheet" href="{% static 'myapp/css/yearbook/styles.css'%}" type="text/css"
+	<link id="theme-style" rel="stylesheet" href="{% static 'myapp/css/yearbook/styles-new.css'%}" type="text/css"
 	<meta charset="UTF-8">
 </head>
 <body>
-	<div id="heading">
-        <h1  >Yearbook</h1>
-        <!-- <h2>To the looney toons we sang here...</h2> -->
-        <!-- <h3>Add a department pic</h3> -->
-    </div>
-    <div id="looney">
-        <h1>{{department}}</h1>
-        <h1>To the looney tunes we sang here...</h1>
-    </div>
-    <div id="departmentIntro">
-        <h1>add the official group photo</h1>
-    </div>
-    <div id="polls">
+  <div class="departmentYearbookCoverPage">
+	</div>
+	
+	<div class="picturePage">
+    <h1 class="picturePageTitle">{{department}}
+			<br />
+			To the looney tunes we sang here...
+		</h1> 
+  </div>
+
+	<div id="polls">
         <!-- Use this for polls -->
 		{% if allPolls %}
 		<div class="sec">
@@ -83,7 +81,11 @@
 	<div class="wrapperCont">
 		<div class="upperCont">
 			<div class="upperContLeft">
-				<img style="height:240px;width: auto;max-width: 100%; border-radius: 20px;" src="{{student.DP.url}}">
+				{% if student.DP %}
+        <img src="{{student.DP.url}}">
+        {% else %}
+        <img src="/media/DP/anonymous.jpg">
+        {% endif %}
 			</div>
 			<div class="upperContRight">
 				<div class="upperContRightC1">
