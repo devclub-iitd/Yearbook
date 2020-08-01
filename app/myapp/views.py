@@ -610,4 +610,7 @@ def allYearbooks(request):
 
 class PersonalYearbookView(LoginRequiredMixin, TemplateView):
     def get_template_names(self):
-        return str(self.request.user) + '_personalYearbook.html'
+        if AdminTable.objects.first().displayYearbook or self.request.user.is_superuser:
+            return str(self.request.user) + '_personalYearbook.html'
+        else:
+            return 'myapp/comingsoon.html'
