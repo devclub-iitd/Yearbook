@@ -44,10 +44,11 @@ for student in all_students:
         i.CommentsIGet=list(gen_commentsIGet)
         allFriends.append(i)
 
-    deployPort = os.getenv("DEPLOY_PORT")
-    if not deployPort:
-        deployPort = '8000'
-    baseURL = 'http://0.0.0.0:' + deployPort
+    # deployPort = os.getenv("DEPLOY_PORT")
+    # if not deployPort:
+    #     deployPort = '8000'
+    # baseURL = 'http://0.0.0.0:' + deployPort
+    baseURL = 'https://yearbook.devclub.in/'
     context={"students": allFriends, "user": student, "baseURL": baseURL}
     content = render_to_string('myapp/personalYearbook.html', context)
     with open('media/' + str(student.user) + '_personalYearbook.html', 'w') as static_file:
