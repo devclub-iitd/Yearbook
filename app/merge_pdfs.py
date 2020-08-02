@@ -62,10 +62,10 @@ for current_dir in dirs:
     merger2 = PdfFileMerger()
     merger2.append(temp_yearbook)
     if os.path.exists(department_pic1_pdf):
-    	merger2.merge(1, department_pic1_pdf)
+    	merger2.merge(2, department_pic1_pdf)
 
     if os.path.exists(department_pic2_pdf):
-    	merger2.merge(2, department_pic2_pdf)
+    	merger2.merge(3, department_pic2_pdf)
 
     final_yearbook = os.path.join(current_dir, 'final_yearbook_' + department + '.pdf')
     merger2.write(final_yearbook)
