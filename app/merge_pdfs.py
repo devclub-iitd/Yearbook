@@ -12,7 +12,7 @@ for current_dir in dirs:
     yearbook_pdf = os.path.join(current_dir, 'yearbook.pdf')
     collage_dir = os.path.join(current_dir, 'collages')
     collage_pdfs = os.listdir(collage_dir)
-    frontpage_pdf = os.path.join(ROOT_DIR, 'frontpage.pdf')
+    # frontpage_pdf = os.path.join(ROOT_DIR, 'frontpage.pdf')
     
     a4inpt = (img2pdf.mm_to_pt(210),img2pdf.mm_to_pt(297)) # specify page size (A4)
     layout_fun = img2pdf.get_layout_fun(a4inpt)
@@ -32,7 +32,7 @@ for current_dir in dirs:
             f.write(img2pdf.convert(department_pic2, layout_fun=layout_fun))
 
     merger = PdfFileMerger()
-    merger.append(frontpage_pdf)
+    # merger.append(frontpage_pdf)
     merger.append(yearbook_pdf)
     
     for collage in collage_pdfs:
@@ -44,23 +44,23 @@ for current_dir in dirs:
     merger.write(temp_yearbook)
     merger.close()
 
-    # delete the 'add offcial group photo' page
-    pages_to_delete = [1,3,4,5] # Change this according to the temp yearbook pdf generated
-    infile = PdfFileReader(temp_yearbook, 'rb')
-    output = PdfFileWriter()
+    # # delete the 'add offcial group photo' page
+    # pages_to_delete = [1,3,4,5] # Change this according to the temp yearbook pdf generated
+    # infile = PdfFileReader(temp_yearbook, 'rb')
+    # output = PdfFileWriter()
 
-    for i in range(infile.getNumPages()):
-        if i not in pages_to_delete:
-            p = infile.getPage(i)
-            output.addPage(p)
+    # for i in range(infile.getNumPages()):
+    #     if i not in pages_to_delete:
+    #         p = infile.getPage(i)
+    #         output.addPage(p)
 
-    temp_yearbook2 = os.path.join(current_dir, 'temp_yearbook2_' + department + '.pdf')
-    with open(temp_yearbook2, 'wb') as f:
-        output.write(f)
+    # temp_yearbook2 = os.path.join(current_dir, 'temp_yearbook2_' + department + '.pdf')
+    # with open(temp_yearbook2, 'wb') as f:
+    #     output.write(f)
 
     # add department pics
     merger2 = PdfFileMerger()
-    merger2.append(temp_yearbook2)
+    merger2.append(temp_yearbook)
     if os.path.exists(department_pic1_pdf):
     	merger2.merge(1, department_pic1_pdf)
 
