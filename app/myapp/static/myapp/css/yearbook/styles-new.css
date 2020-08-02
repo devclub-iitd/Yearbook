@@ -492,7 +492,10 @@ p {
   /* background-image: url("./bg1.jpg"); */
   background-image: url("../../images/YearbookGTA_copy2.jpg");
   -webkit-print-color-adjust: exact;
-  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  background-position: 50%;
+  background-color: black;
   width: 100%;
   min-height: 100%;
   display: flex;
