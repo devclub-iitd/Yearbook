@@ -490,7 +490,7 @@ p {
 }
 .personalYearbookCoverPage {
   /* background-image: url("./bg1.jpg"); */
-  background-image: url("../../images/YearbookGTA_copy2.jpg");
+  background-image: url("../../images/YearbookGTA_new.jpg");
   -webkit-print-color-adjust: exact;
   background-repeat: no-repeat;
   background-size: auto 100%;
@@ -564,7 +564,8 @@ p {
   align-items: center;
 }
 .collageImage {
-  max-width: 95%;
+  max-width: 700px;
+  max-height: 800px;
   clip-path: polygon(
     10% 0%,
     90% 0%,

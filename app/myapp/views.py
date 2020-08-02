@@ -487,7 +487,7 @@ def yearbook(request):
     if request.user.is_superuser:
         dep = request.GET.get('department')
     else:
-        # return redirect("https://devclub.in/yearbooks/")
+        return redirect("https://drive.google.com/drive/folders/15dj-O_ZRN8voS7Axc2YSBLvNJiSQ-c_b?usp=sharing")
         dep = request.user.student.department
         
     departmentN=""
