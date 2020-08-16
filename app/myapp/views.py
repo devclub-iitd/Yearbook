@@ -49,11 +49,7 @@ def index(request):
 
     # For production
     if request.method == 'POST':
-        resp = redirect(os.environ["authLinkPart1"] + os.environ["CLIENT_ID"] + os.environ["authLinkPart2"])
-        if not os.getenv("VIRTUAL_HOST","yearbook").startswith("yearbook"):
-            resp['Referer'] = 'https://yearbook.devclub.in'
-            resp['Referrer-Policy'] = 'unsafe-url'
-        return resp
+        return redirect(os.environ["authLinkPart1"] + os.environ["CLIENT_ID"] + os.environ["authLinkPart2"])
     return render(request, 'myapp/index.html')
     # return render(request, 'myapp/index.html')
 
