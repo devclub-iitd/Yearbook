@@ -28,6 +28,7 @@ DEBUG = False
 LOGIN_URL = '/'
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
+BYPASS_OAUTH = True
 
 
 # Application definition

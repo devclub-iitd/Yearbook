@@ -2,13 +2,16 @@
 
 emails=(
   devclub.iitd@gmail.com
+  devclub.iitd@gmail.com
 )
 
 usernames=(
   devclub
+  tester
 )
 
 passwords=(
+  $YEARBOOK_ADMIN_PASS
   $YEARBOOK_ADMIN_PASS
 )
 
