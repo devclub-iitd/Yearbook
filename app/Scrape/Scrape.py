@@ -6,21 +6,21 @@ import logging
 logger = logging.getLogger(__name__)
 
 listOfUrls=[
-"http://ldap1.iitd.ernet.in/LDAP/chemical/ch116.shtml",
-"http://ldap1.iitd.ernet.in/LDAP/chemical/ch716.shtml",
-"http://ldap1.iitd.ernet.in/LDAP/civil/ce116.shtml",
-"http://ldap1.iitd.ernet.in/LDAP/cse/cs116.shtml",
-"http://ldap1.iitd.ernet.in/LDAP/cse/cs516.shtml",
-"http://ldap1.iitd.ernet.in/LDAP/dbeb/bb116.shtml",
-"http://ldap1.iitd.ernet.in/LDAP/dbeb/bb516.shtml",
-"http://ldap1.iitd.ernet.in/LDAP/ee/ee116.shtml",
-"http://ldap1.iitd.ernet.in/LDAP/ee/ee316.shtml",
-"http://ldap1.iitd.ernet.in/LDAP/maths/mt116.shtml",
-"http://ldap1.iitd.ernet.in/LDAP/maths/mt616.shtml",
-"http://ldap1.iitd.ernet.in/LDAP/mech/me116.shtml",
-"http://ldap1.iitd.ernet.in/LDAP/mech/me216.shtml",
-"http://ldap1.iitd.ernet.in/LDAP/physics/ph116.shtml",
-"http://ldap1.iitd.ernet.in/LDAP/textile/tt116.shtml"
+"http://ldap1.iitd.ernet.in/LDAP/chemical/ch117.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/chemical/ch717.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/civil/ce117.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/cse/cs117.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/cse/cs517.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/dbeb/bb117.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/dbeb/bb517.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/ee/ee117.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/ee/ee317.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/maths/mt117.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/maths/mt617.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/mech/me117.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/mech/me217.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/physics/ph117.shtml",
+"http://ldap1.iitd.ernet.in/LDAP/textile/tt117.shtml"
 ]
 
 def kerberos_to_entry_number(kerberos):
