@@ -224,36 +224,36 @@ def poll(request):
 
     u = request.user
 
+    enum_to_name = {}
+    users_all = User.objects.filter(is_superuser=False).order_by('username')
+    
+    dept_users = []
+
+    for i in users_all:
+        enum_to_name[i.username] = i.student.name
+        if i.student.department==u.student.department:
+            dept_users.append(i)
+
+    allPolls = Poll.objects.filter(department="all").order_by('poll')
+    deptPolls = Poll.objects.filter(department=u.student.department).order_by('poll')
+    VotesDisplay = u.student.VotesIHaveGiven
+    gen_allPolls=[]
+    gen_deptPolls=[]
+    
+    for p in allPolls:
+        gen_allPolls.append([p.id,p.poll,"", ""])
+        if (str(p.id) in VotesDisplay):
+            gen_allPolls[-1][2]=VotesDisplay[str(p.id)]
+            gen_allPolls[-1][3]=enum_to_name.get(VotesDisplay[str(p.id)], "")
+            
+    for p in deptPolls:
+        gen_deptPolls.append([p.id,p.poll,"", ""])
+        if (str(p.id) in VotesDisplay):
+            gen_deptPolls[-1][2]=VotesDisplay[str(p.id)]
+            gen_deptPolls[-1][3]=(enum_to_name.get(VotesDisplay[str(p.id)], ""))
+    context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users_all,"deptUsers":dept_users}
+
     if request.method == 'GET':
-        enum_to_name = {}
-        users_all = User.objects.filter(is_superuser=False).order_by('username')
-        
-        dept_users = []
-
-        for i in users_all:
-            enum_to_name[i.username] = i.student.name
-            if i.student.department==u.student.department:
-                dept_users.append(i)
-
-        allPolls = Poll.objects.filter(department="all").order_by('poll')
-        deptPolls = Poll.objects.filter(department=u.student.department).order_by('poll')
-        VotesDisplay = u.student.VotesIHaveGiven
-        gen_allPolls=[]
-        gen_deptPolls=[]
-        
-        for p in allPolls:
-            gen_allPolls.append([p.id,p.poll,"", ""])
-            if (str(p.id) in VotesDisplay):
-                gen_allPolls[-1][2]=VotesDisplay[str(p.id)]
-                gen_allPolls[-1][3]=enum_to_name.get(VotesDisplay[str(p.id)], "")
-                
-        for p in deptPolls:
-            gen_deptPolls.append([p.id,p.poll,"", ""])
-            if (str(p.id) in VotesDisplay):
-                gen_deptPolls[-1][2]=VotesDisplay[str(p.id)]
-                gen_deptPolls[-1][3]=(enum_to_name.get(VotesDisplay[str(p.id)], ""))
-        context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users_all,"deptUsers":dept_users}
-
         return render(request, 'myapp/poll.html',context)
 
     # if POST request
