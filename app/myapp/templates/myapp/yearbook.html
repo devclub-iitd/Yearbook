@@ -106,7 +106,28 @@
 					</div>
 					<div class="personInfo">
 						<i class="fas fa-university"></i>
-						{{student.department}}
+						{% if student.department == "chemical" %}
+							{{deptDict.chemical}}
+						{% elif student.department == "civil" %}
+							{{deptDict.civil}}
+						{% elif student.department == "cse" %}
+							{{deptDict.cse}}
+						{% elif student.department == "ee" %}
+							{{deptDict.ee}}
+						{% elif student.department == "maths" %}
+							{{deptDict.maths}}
+						{% elif student.department == "mech" %}
+							{{deptDict.mech}}
+						{% elif student.department == "physics" %}
+							{{deptDict.physics}}
+						{% elif student.department == "textile" %}
+							{{deptDict.textile}}
+						{% elif student.department == "dbeb" %}
+							{{deptDict.dbeb}}
+						{% elif student.department == "all" %}
+							{{deptDict.all}}
+						{% endif %}
+
 					</div>
 					<div class="personInfo">
 						<i class="fas fa-briefcase"></i>

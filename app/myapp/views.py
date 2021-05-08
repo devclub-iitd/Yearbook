@@ -35,14 +35,14 @@ def index(request):
     # logger.info(os.environ["OauthTokenURL"])
     # if request.method == 'POST':
         # return redirect(config.authLinkPart1 + config.CLIENT_ID + config.authLinkPart2)
-    
+
     # For local development
     if hasattr(settings, 'BYPASS_OAUTH') and settings.BYPASS_OAUTH:
-        myUser = User.objects.get(username=('tester').lower())
+        myUser = User.objects.get(username=('2017_tester').lower())
         if not hasattr(myUser, 'student'):
-            myUser.student = Student(name='tester', department='cse')
+            myUser.student = Student(name='2017_tester', department='cse')
             myUser.student.save()
-            logger.info("New student created for user tester")
+            logger.info("New student created for user 2017_tester")
         
         login(request, myUser)
         return redirect('/profile')
@@ -102,6 +102,8 @@ def profile(request):
     if is_deadline_over():
         return deadlineover(request)
 
+    obj = {}
+    flag = False
     # logger.info(int(request.FILES.get('dp').size)<6000000)
     if(request.FILES.get('dp') != None and int(request.FILES.get('dp').size) < 6000000):
         # Get the picture
@@ -116,47 +118,56 @@ def profile(request):
     if(request.FILES.get('genPic1') != None and int(request.FILES.get('genPic1').size) < 6000000):
         u.student.genPic1 = request.FILES.get('genPic1')
         if not (u.student.genPic1.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
-            return render(request, 'myapp/profile.html', {"user": UsrObj, "image": "Image should be in .png, .jpg or .jpeg format"})
-        extension = u.student.genPic1.name.lower()[u.student.genPic1.name.lower().rfind("."):] 
-
-        u.student.genPic1.name = u.username + extension
+            flag = True
+            obj["image"] = "Image should be in .png, .jpg or .jpeg format"
+        else:
+            extension = u.student.genPic1.name.lower()[u.student.genPic1.name.lower().rfind("."):]
+            u.student.genPic1.name = u.username + extension
 
     if(request.FILES.get('genPic2') != None and int(request.FILES.get('genPic2').size) < 6000000):
         u.student.genPic2 = request.FILES.get('genPic2')
         if not (u.student.genPic2.name.lower().endswith(('.png', '.jpg', '.jpeg'))):
-            return render(request, 'myapp/profile.html', {"user": UsrObj, "image": "Image should be in .png, .jpg or .jpeg format"})
-        extension = u.student.genPic2.name.lower()[u.student.genPic2.name.lower().rfind("."):] 
-        u.student.genPic2.name = u.username + extension
+            flag = True
+            obj["image"] = "Image should be in .png, .jpg or .jpeg format"
+        else:
+            extension = u.student.genPic2.name.lower()[u.student.genPic2.name.lower().rfind("."):] 
+            u.student.genPic2.name = u.username + extension
 
     u.student.name = request.POST.get('name')
     if len(u.student.name) == 0:
         return render(request, 'myapp/profile.html', {"user": UsrObj, "name": "Name cannot be empty"})
 
-    obj = {}
-    flag = False
     # Phone email and oneliner can be empty if the user does not wish to specify.
     if len(request.POST.get('phone')) > 10:
         flag = True
         obj["phone"] = "Number has to be less than 10 characters"
+    else:
+        u.student.phone = request.POST.get('phone')
+
     if len(request.POST.get('email')) > 100: 
         flag = True
         obj["email"] = "Email has to be less than 100 characters"
+    else:
+        u.student.email = request.POST.get('email')
+
     if len(request.POST.get('oneliner')) > 100: 
         flag = True
         obj["oneliner"] = "Oneliner has to be less than 100 characters"
+    else:
+        u.student.oneliner = request.POST.get('oneliner')
+
     if len(request.POST.get('future')) > 100: 
         flag = True
         obj["future"] = "Future has to be less than 100 characters"
+    else:
+        u.student.future = request.POST.get('future')
+
+    u.student.save()
 
     if flag:
-        obj["user"] = UsrObj
+        obj["user"] = u.student
         return render(request, 'myapp/profile.html', obj)
 
-    u.student.phone = request.POST.get('phone')
-    u.student.email = request.POST.get('email')
-    u.student.oneliner = request.POST.get('oneliner')
-    u.student.future = request.POST.get('future')
-    u.student.save()
     return redirect('/profile')
 
 @login_required
@@ -212,41 +223,46 @@ def poll(request):
         return deadlineover(request)
 
     u = request.user
-    enum_to_name = {}
-    users_all = User.objects.filter(is_superuser=False).order_by('username')
-    
-    dept_users = []
-
-    for i in users_all:
-        enum_to_name[i.username] = i.student.name
-        if i.student.department==u.student.department:
-            dept_users.append(i)
-
-    allPolls = Poll.objects.filter(department="all")
-    deptPolls = Poll.objects.filter(department=u.student.department)
-    VotesDisplay = u.student.VotesIHaveGiven
-    gen_allPolls=[]
-    gen_deptPolls=[]
-    
-    for p in allPolls:
-        gen_allPolls.append([p.id,p.poll,"", ""])
-        if (str(p.id) in VotesDisplay):
-            gen_allPolls[-1][2]=VotesDisplay[str(p.id)]
-            gen_allPolls[-1][3]=enum_to_name.get(VotesDisplay[str(p.id)], "")
-            
-    for p in deptPolls:
-        gen_deptPolls.append([p.id,p.poll,"", ""])
-        if (str(p.id) in VotesDisplay):
-            gen_deptPolls[-1][2]=VotesDisplay[str(p.id)]
-            gen_deptPolls[-1][3]=(enum_to_name.get(VotesDisplay[str(p.id)], ""))
-    context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users_all,"deptUsers":dept_users}
 
     if request.method == 'GET':
+        enum_to_name = {}
+        users_all = User.objects.filter(is_superuser=False).order_by('username')
+        
+        dept_users = []
+
+        for i in users_all:
+            enum_to_name[i.username] = i.student.name
+            if i.student.department==u.student.department:
+                dept_users.append(i)
+
+        allPolls = Poll.objects.filter(department="all").order_by('poll')
+        deptPolls = Poll.objects.filter(department=u.student.department).order_by('poll')
+        VotesDisplay = u.student.VotesIHaveGiven
+        gen_allPolls=[]
+        gen_deptPolls=[]
+        
+        for p in allPolls:
+            gen_allPolls.append([p.id,p.poll,"", ""])
+            if (str(p.id) in VotesDisplay):
+                gen_allPolls[-1][2]=VotesDisplay[str(p.id)]
+                gen_allPolls[-1][3]=enum_to_name.get(VotesDisplay[str(p.id)], "")
+                
+        for p in deptPolls:
+            gen_deptPolls.append([p.id,p.poll,"", ""])
+            if (str(p.id) in VotesDisplay):
+                gen_deptPolls[-1][2]=VotesDisplay[str(p.id)]
+                gen_deptPolls[-1][3]=(enum_to_name.get(VotesDisplay[str(p.id)], ""))
+        context={"allPolls":gen_allPolls, "deptPolls":gen_deptPolls,"users":users_all,"deptUsers":dept_users}
+
         return render(request, 'myapp/poll.html',context)
 
-    # if POST request 
+    # if POST request
     # logger.info(request.POST.getlist('entrynumber[]'))
     for i in range(len(request.POST.getlist('entrynumber[]'))):
+        lowerEntry = (request.POST.getlist('entrynumber[]')[i]).lower()
+        if not lowerEntry:
+            continue
+
         fetchPoll = ""
         if Poll.objects.filter(id = request.POST.getlist('id[]')[i]).exists():
             fetchPoll = Poll.objects.get(id = request.POST.getlist('id[]')[i])
@@ -257,7 +273,6 @@ def poll(request):
             if(OldVotePresent in fetchPoll.votes):
                 fetchPoll.votes[OldVotePresent] = fetchPoll.votes[OldVotePresent] - 1   
         
-        lowerEntry = (request.POST.getlist('entrynumber[]')[i]).lower()
         if(lowerEntry in fetchPoll.votes):
             if ((lowerEntry != u.username.lower())):
                 fetchPoll.votes[lowerEntry] = fetchPoll.votes[lowerEntry] + 1   
@@ -473,15 +488,15 @@ def otherComment(request):
 def yearbook(request):
     dep=""
     departmentDic={
-            "chemical": "chemical",
-            "civil": "civil",
-            "cse": "computer science",
-            "ee": "electrical",
-            "maths": "mathematics",
-            "mech": "mechanical",
-            "physics": "engineering physics",
-            "textile": "textile engineering",
-            "dbeb": "biotechnology",
+            "chemical": "Chemical Engineering",
+            "civil": "Civil Engineering",
+            "cse": "Computer Science and Engineering",
+            "ee": "Electrical Engineering",
+            "maths": "	Mathematics & Computing",
+            "mech": "Mechanical Engineering",
+            "physics": "Engineering Physics",
+            "textile": "Textile Engineering",
+            "dbeb": "Biochemical Engineering and Biotechnology",
             "all": "all"
         }
     if request.user.is_superuser:
@@ -537,7 +552,7 @@ def yearbook(request):
         if ind!=0:
             dep_polls.append([p.poll,tmpVotes[0:ind]])
 
-    context={"students":students_dep,"department":departmentN,"allPolls":all_polls,"deptPolls":dep_polls}
+    context={"students":students_dep,"department":departmentN,"allPolls":all_polls,"deptPolls":dep_polls, "deptDict":departmentDic}
     return render(request, 'myapp/yearbook.html', context)
 
 def display_yearbook(request):
