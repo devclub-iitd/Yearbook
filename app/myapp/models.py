@@ -83,7 +83,10 @@ class Adjective(models.Model):
 		("show-off", "show-off"),
 		("pakau", "pakau"),
 		("foodie", "foodie"),
-		("gossiper", "gossiper")
+		("gossiper", "gossiper"),
+		("poltu-baaz", "poltu-baaz"),
+		("chep", "chep"),
+		("comedy-king", "comedy-king")
 	]
 	adjective = models.CharField(max_length=100, choices=adjective_list)
 	forWhom = models.ForeignKey(Student, on_delete=models.CASCADE, related_name="AdjectivesIGet")
