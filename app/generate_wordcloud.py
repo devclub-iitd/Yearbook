@@ -71,7 +71,7 @@ def createWordCloud(student):
     image_url = wordcloud_directory + '/' + student.user.username + '_wc.png'
 
     wordcloud.to_file(image_url)
-    student.WordCloud.save(student.user.username + 'wc_image',
+    student.WordCloud.save(student.user.username + 'wc_image.png',
                            File(open(image_url, 'rb')))
     student.save()
 
