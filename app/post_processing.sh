@@ -1,8 +1,9 @@
 #!/bin/bash
 
-echo "Generating wordclouds..."
-python generate_wordcloud.py
-echo "Generating wordclouds... done"
+# Run if not already done for personal yearbook
+# echo "Generating wordclouds..."
+# python generate_wordcloud.py
+# echo "Generating wordclouds... done"
 
 echo "Fixing group pics"
 python fix_collage.py

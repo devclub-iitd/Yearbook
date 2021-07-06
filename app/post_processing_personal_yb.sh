@@ -1,6 +1,10 @@
 #!/bin/bash
 
-# python generate_wordcloud.py # (Run if not already done for department yearbook)
+# Run if not already done for dept yearbook
+echo "Generating wordclouds..."
+python generate_wordcloud.py
+echo "Generating wordclouds... done"
+
 
 ROOT_DIR="collage_and_yearbook_personal/"
 rm -rf $ROOT_DIR

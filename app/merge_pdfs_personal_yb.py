@@ -3,6 +3,7 @@ from PyPDF2 import PdfFileMerger, PdfFileWriter, PdfFileReader
 import img2pdf
 
 ROOT_DIR = "collage_and_yearbook_personal/"
+FRONT_PAGE = "myapp/static/myapp/pdf/Yearbook21GTA.pdf"
 
 dirs = [f for f in os.listdir(ROOT_DIR) if os.path.isdir(os.path.join(ROOT_DIR, f))]
 
@@ -18,7 +19,7 @@ for current_dir in dirs:
     layout_fun = img2pdf.get_layout_fun(a4inpt)
 
     merger = PdfFileMerger()
-    # merger.append(frontpage_pdf)
+    merger.append(FRONT_PAGE)
     merger.append(yearbook_pdf)
     
     for collage in collage_pdfs:

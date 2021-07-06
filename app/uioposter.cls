@@ -78,31 +78,31 @@
 
 \setlength{\labelsep}{3ex}
 \setlength{\leftmargini}{18ex}
-\setbeamersize{text margin left = 3cm, text margin right = 3cm}
+\setbeamersize{text margin left = 5cm, text margin right = 5cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\definecolor{uiored}{cmyk}{0, 1, 1, 0}
-\definecolor{uiowhite}{cmyk}{0, 0, 0, 0}
-\definecolor{uioblack}{cmyk}{0, 0, 0, 1}
-\definecolor{uioheader}{cmyk}{0, 0, 0, 0.6}
-\definecolor{uiobackground}{cmyk}{0, 0, 0, 0.2}
-\definecolor{uiolink}{HTML}{0B5A9D}
+\definecolor{uiored}{HTML}{D3F8E2}
+\definecolor{uiowhite}{HTML}{F0F5F9}
+\definecolor{uioblack}{HTML}{000000}
+\definecolor{uioheader}{HTML}{242038}
+\definecolor{uiobackground}{HTML}{E7E5F0}
+\definecolor{uiotertiary}{HTML}{EA1F4B}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \setbeamercolor{structure}{fg = uioheader}
 \setbeamercolor{alerted text}{fg = uiored}
-\setbeamercolor{background canvas}{fg = uioblack, bg = uiobackground}
-\setbeamercolor{headline}{fg = uiowhite, bg = uioblack}
+\setbeamercolor{background canvas}{fg = uiowhite, bg = uiobackground}
+\setbeamercolor{headline}{fg = uiowhite, bg = uioheader}
 \setbeamercolor{title in headline}{fg = uiored}
-\setbeamercolor{author in headline}{fg = uiowhite}
-\setbeamercolor{footline}{fg = uiowhite, bg = uioblack}
+\setbeamercolor{author in headline}{fg = uiored}
+\setbeamercolor{footline}{fg = uiowhite, bg = uioheader}
 
 
-\setbeamercolor{block title}{fg = uiowhite, bg = structure}
-\setbeamercolor{block title example}{fg = uiowhite, bg = uioblack}
-\setbeamercolor{block title alerted}{fg = uiowhite, bg = uiored}
+\setbeamercolor{block title}{fg = uiowhite, bg = uioheader}
+\setbeamercolor{block title example}{fg = uiowhite, bg = uiotertiary}
+\setbeamercolor{block title alerted}{fg = uiowhite, bg = uioheader}
 
 
 \setbeamercolor{block body} {fg = uioblack, bg = uiowhite}
@@ -248,7 +248,7 @@
         \usebeamerfont{block body}
         \vskip2ex
         \begin{minipage}{\textwidth-4ex}
-             \setlength{\parskip}{15ex}
+             \setlength{\parskip}{1.5ex}
              \setlength{\abovecaptionskip}{1ex}
 }
 
@@ -366,7 +366,7 @@
 
 \pgfpagesdeclarelayout{resize and center}
 {
-    \def\pgfpageoptionborder{5em}
+    \def\pgfpageoptionborder{0em}
 }
 {
     \pgfpagesphysicalpageoptions
