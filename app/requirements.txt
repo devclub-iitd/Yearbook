@@ -35,3 +35,4 @@ gunicorn==19.9.0
 img2pdf
 PyPDF2
 python-dotenv
+Jinja2

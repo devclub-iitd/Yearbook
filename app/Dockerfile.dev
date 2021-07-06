@@ -11,6 +11,9 @@ COPY requirements.txt .
 
 RUN pip3 install -Ur requirements.txt
 
+RUN apt-get update
+RUN apt-get install texlive-full -y
+
 ADD . /Yearbook/
 
 # run entrypoint.dev.sh

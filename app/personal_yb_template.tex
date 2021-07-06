@@ -1,0 +1,138 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% https://github.com/martinhelso/uioposter %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Class options                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Orientation:                             %
+% portrait (default), landscape            %
+%                                          %
+% Paper size:                              %
+% a0paper (default), a1paper, a2paper,     %
+% a3paper, a4paper, a5paper, a6paper       %
+%                                          %
+% Language:                                %
+% english (default), norsk                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{uioposter}
+
+
+\usepackage{lipsum}    
+\usepackage{fontawesome}
+\usepackage[figwidth = 0.98\linewidth]{todonotes}  % Dummy image (and more!)
+\usepackage[absolute, overlay]{textpos}  
+\graphicspath{ {./} }
+
+\newcommand{\VAR}[1]{}
+\newcommand{\BLOCK}[1]{}
+
+
+% \usepackage[left=2cm, right=5cm, top=2cm]{geometry}
+\begin{document}
+
+\BLOCK{for student in students}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{\VAR{student.name}}
+\author
+{%
+\faAngleDoubleRight \hspace{2mm}  \VAR{student.oneliner}
+\newline \faEnvelope  \hspace{2mm} \VAR{student.email}
+\newline  \faPhone \hspace{2mm} \VAR{student.phone}
+\newline \faGraduationCap \hspace{2mm}  \VAR{student.department}
+\newline  \faSuitcase  \hspace{2mm} \VAR{student.future}
+}
+
+\begin{frame}[allowframebreaks]
+
+    \begin{beamercolorbox}[wd = \paperwidth]{headline}
+
+        \begin{columns}[onlytextwidth]
+        
+        \hspace{1.5cm}
+        \begin{column}{0.25\textwidth }
+            \vspace{0.5cm}
+
+        \BLOCK{if student.DP}
+        \includegraphics[width=1\textwidth]
+        {\VAR{student.DP.url}}
+        \BLOCK{else}
+        \includegraphics[width=1\textwidth]
+        {/media/DP/anonymous.jpg}
+        \BLOCK{endif}
+
+        
+        \end{column}
+            
+
+        \begin{column}{0.40\textwidth}
+        
+        \usebeamerfont{title in headline}
+                \usebeamercolor{title in headline}
+                \color{fg}
+                % \vskip0ex
+                \inserttitle
+                \vskip0.5ex
+                \usebeamerfont{author in headline}
+                \usebeamercolor{author in headline}
+                \color{fg}
+                \insertauthor
+                \ifdefempty{\insertinstitute}{}
+                {
+                    \vskip1ex
+                    \usebeamerfont{institute}
+                    \def\beamer@andinst{\quad}
+                    \insertinstitute
+                }
+                \vskip3cm
+        
+        \end{column}
+        
+        \begin{column}{0.30\textwidth }
+            \vspace{0.5cm}
+        \BLOCK{if student.WordCloud}
+        \includegraphics[width=1\textwidth]
+        {\VAR{student.WordCloud.url}}
+        \BLOCK{endif}
+
+        
+        \end{column}
+        
+        
+        \end{columns}
+
+        
+    \end{beamercolorbox}
+
+    \vspace{1cm}
+    \begin{exampleblock}{\faUser \hspace{0.5cm} Answers about me}
+        \BLOCK{for ques,ans in student.AnswersAboutMyself}
+        \textbf{\VAR{ques}}
+        \newline \VAR{ans}
+        \newline
+        \BLOCK{endfor}
+
+    \end{exampleblock}
+    \vspace{-1cm}
+    {\faUsers \hspace{0cm} \sffamily \bfseries \large What others have written about you!}
+    
+    \vspace{1cm}
+
+    \BLOCK{for comment,fromWhom, newPage in student.CommentsIGet}
+        \BLOCK{if newPage}
+        \newpage
+        \vspace*{5cm}
+        \BLOCK{endif}
+
+        \begin{block}{\hspace{0.5cm} \VAR{fromWhom}}
+                \VAR{comment}
+        \end{block}
+    \BLOCK{endfor}
+    
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\BLOCK{endfor}
+
+\end{document}

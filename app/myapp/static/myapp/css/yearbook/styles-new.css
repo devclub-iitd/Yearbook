@@ -478,7 +478,7 @@ p {
 
 .departmentYearbookCoverPage {
   /* background-image: url("./bg1.jpg"); */
-  background-image: url("../../images/YearbookGen6-1.jpg");
+  background-image: url("../../images/YearbookGen-1.jpg");
   -webkit-print-color-adjust: exact;
   background-size: cover;
   width: 100%;

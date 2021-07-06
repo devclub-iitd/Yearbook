@@ -30,6 +30,7 @@ RUN set -ex \
     build-essential \
     libpcre3-dev \
     libpq-dev \
+    texlive-full \
     " \
     && apt-get update && apt-get install -y --no-install-recommends $BUILD_DEPS \
     && apt-get install -y vim && apt-get install -y wget \
