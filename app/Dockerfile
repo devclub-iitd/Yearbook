@@ -8,6 +8,7 @@ RUN groupadd -r ${APP_USER} && useradd --no-log-init -r -g ${APP_USER} ${APP_USE
 # Install packages needed to run your application (not build deps):
 #   mime-support -- for mime types when serving static files
 #   postgresql-client -- for running database commands
+#   texlive-full -- for generating final PDFs
 # We need to recreate the /usr/share/man/man{1..8} directories first because
 # they were clobbered by a parent image.
 RUN set -ex \
@@ -15,6 +16,7 @@ RUN set -ex \
     libpcre3 \
     mime-support \
     postgresql-client \
+    texlive-full \
     " \
     && seq 1 8 | xargs -I{} mkdir -p /usr/share/man/man{} \
     && apt-get update && apt-get install -y --no-install-recommends $RUN_DEPS \
@@ -30,7 +32,6 @@ RUN set -ex \
     build-essential \
     libpcre3-dev \
     libpq-dev \
-    texlive-full \
     " \
     && apt-get update && apt-get install -y --no-install-recommends $BUILD_DEPS \
     && apt-get install -y vim && apt-get install -y wget \
