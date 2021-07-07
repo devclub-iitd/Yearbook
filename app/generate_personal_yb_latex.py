@@ -30,10 +30,13 @@ latex_jinja_env = jinja2.Environment(
 FIRST_PAGE_LINES = 20
 NEXT_PAGE_LINES = 35
 
-def text_to_latex(text):
-    rep = {"\n": "\\\\", "\r": "", "_": "\_", "~": "\~", "$": "\$", "{": "\{", "}": "\}"}
+from utils.emoji import emojis
+reps = {"\n": "\\\\", "\r": "", "_": "\_", "~": "\~", "$": "\$", "{": "\{", "}": "\}"}
 
-    rep = dict((re.escape(k), v) for k, v in rep.items())
+rep = {**reps, **emojis}
+rep = dict((re.escape(k), v) for k, v in rep.items())
+
+def text_to_latex(text):
     pattern = re.compile("|".join(rep.keys()))
     return pattern.sub(lambda m: rep[re.escape(m.group(0))], text)
 
@@ -92,5 +95,5 @@ for student in all_students:
     with open(latex_file,'w') as output:
         output.write(document)
 
-    subprocess.run(["pdflatex", "-output-directory=" + output_directory, latex_file])   # generate pdf from tex
+    subprocess.run(["lualatex", "-output-directory=" + output_directory, latex_file])   # generate pdf from tex
     subprocess.run(["pdfjam", "-q", "--outfile", out_file, "--paper", "a4paper", pdf_file])   # convert to a4
