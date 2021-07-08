@@ -31,7 +31,7 @@ FIRST_PAGE_LINES = 20
 NEXT_PAGE_LINES = 35
 
 from utils.emoji import emojis
-reps = {"\n": "\\\\", "\r": "", "_": "\_", "~": "\~", "$": "\$", "{": "\{", "}": "\}"}
+reps = {"\n": "\\\\", "\r": "", "_": "\_", "~": "\~", "$": "\$", "{": "\{", "}": "\}", "&": "\&", "%": "\%"}
 
 rep = {**reps, **emojis}
 rep = dict((re.escape(k), v) for k, v in rep.items())
@@ -59,6 +59,10 @@ for student in all_students:
     allFriends = []
     for friendUserName in friendsGroup:
         i = User.objects.get(username=(friendUserName).lower()).student
+        i.oneliner = text_to_latex(i.oneliner)
+        i.future = text_to_latex(i.future)
+        i.email = text_to_latex(i.email)
+        i.phone = text_to_latex(i.phone)
         gen_GenQuestions=list([])
         for q in GenQuestions:
             if ((str(q.id) in i.AnswersAboutMyself) and i.AnswersAboutMyself[str(q.id)]!=""):
