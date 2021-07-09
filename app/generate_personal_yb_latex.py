@@ -27,11 +27,11 @@ latex_jinja_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.path.abspath('.'))
 )
 
-FIRST_PAGE_LINES = 20
-NEXT_PAGE_LINES = 35
+FIRST_PAGE_LINES = 10
+NEXT_PAGE_LINES = 25
 
 from utils.emoji import emojis
-reps = {"\n": "\\\\", "\r": "", "_": "\_", "~": "\~", "$": "\$", "{": "\{", "}": "\}", "&": "\&", "%": "\%"}
+reps = {"\\": "\\textbackslash", "\n": "\\\\", "\r": "", "_": "\_", "~": "\~", "$": "\$", "{": "\{", "}": "\}", "&": "\&", "%": "\%", "^": "\\textsuperscript{$\wedge$}", "#": "\#"}
 
 rep = {**reps, **emojis}
 rep = dict((re.escape(k), v) for k, v in rep.items())
@@ -76,11 +76,12 @@ for student in all_students:
         for a in i.CommentsIGet:
             if(User.objects.filter(username=a['fromWhom']).exists() and a['comment']!="" and a['displayInPdf']=="True"):
                 gen_commentsIGet.append([])
-                current_lines += a['comment'].count('\n') + int(len(a['comment']) / 117)
+                comment_lines = a['comment'].count('\n') + int(len(a['comment']) / 117)
+                current_lines += comment_lines
                 newPage = False
                 if current_lines > max_lines:
                     max_lines = NEXT_PAGE_LINES
-                    current_lines = 0
+                    current_lines = comment_lines
                     newPage = True
                 gen_commentsIGet[-1] = [text_to_latex(a['comment']), User.objects.filter(username=a['fromWhom'])[0].student.name, newPage]
         i.CommentsIGet=list(gen_commentsIGet)
