@@ -3,6 +3,7 @@ import shutil
 import django
 django.setup()
 from myapp.models import *
+from PIL import Image, ImageOps
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -25,9 +26,12 @@ for student in all_students:
         if closeFriend != str(student.user):
             friendsGroup.append(closeFriend)
 
-    folder_path = os.path.join(ROOT_DIR, student.user.username)
-    folder_path = os.path.join(folder_path, 'collages')
+    student_dir_path = os.path.join(ROOT_DIR, student.user.username)
+    folder_path = os.path.join(student_dir_path, 'collages')
     os.makedirs(folder_path)
+
+    if student.closeFriendsPic:
+        ImageOps.expand(Image.open(student.closeFriendsPic.path),border=400,fill='white').save(os.path.join(student_dir_path, "closeFriendsPic.jpg"))
 
     for friendUserName in friendsGroup:
         i = User.objects.get(username=(friendUserName).lower()).student
