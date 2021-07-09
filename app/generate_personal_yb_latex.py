@@ -29,6 +29,7 @@ latex_jinja_env = jinja2.Environment(
 
 FIRST_PAGE_LINES = 10
 NEXT_PAGE_LINES = 25
+FRAME_SIZE = 250
 
 from utils.emoji import emojis
 reps = {"\\": "\\textbackslash", "\n": "\\\\", "\r": "", "_": "\_", "~": "\~", "$": "\$", "{": "\{", "}": "\}", "&": "\&", "%": "\%", "^": "\\textsuperscript{$\wedge$}", "#": "\#"}
@@ -79,7 +80,7 @@ for student in all_students:
                 comment_lines = a['comment'].count('\n') + int(len(a['comment']) / 117)
                 current_lines += comment_lines
                 newPage = False
-                if current_lines > max_lines:
+                if current_lines > FRAME_SIZE:
                     max_lines = NEXT_PAGE_LINES
                     current_lines = comment_lines
                     newPage = True
