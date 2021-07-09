@@ -218,6 +218,7 @@ for folder in dir_names:
 ##########################################
 # generate tex and pdf
 
+FRAME_SIZE = 250
 allFriends = []
 for friendUserName in friendsGroup:
     i = User.objects.get(username=(friendUserName).lower()).student
@@ -241,7 +242,7 @@ for friendUserName in friendsGroup:
             comment_lines = a['comment'].count('\n') + int(len(a['comment']) / 117)
             current_lines += comment_lines
             newPage = False
-            if current_lines > max_lines:
+            if current_lines > FRAME_SIZE:
                 max_lines = NEXT_PAGE_LINES
                 current_lines = comment_lines
                 newPage = True
