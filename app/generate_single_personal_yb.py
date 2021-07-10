@@ -40,7 +40,7 @@ FIRST_PAGE_LINES = 10
 NEXT_PAGE_LINES = 25
 
 from utils.emoji import emojis
-reps = {"\\": "\\textbackslash", "\n": "\\\\", "\r": "", "_": "\_", "~": "\~", "$": "\$", "{": "\{", "}": "\}", "&": "\&", "%": "\%", "^": "\\textsuperscript{$\wedge$}", "#": "\#"}
+reps = {"\\": "\\textbackslash", "\n": "\\\\ ", "\r": "", "_": "\_", "~": "\~", "$": "\$", "{": "\{", "}": "\}", "&": "\&", "%": "\%", "^": "\\textsuperscript{$\wedge$}", "#": "\#"}
 
 rep = {**reps, **emojis}
 rep = dict((re.escape(k), v) for k, v in rep.items())
@@ -219,7 +219,7 @@ for folder in dir_names:
 ##########################################
 # generate tex and pdf
 
-FRAME_SIZE = 250
+FRAME_SIZE = 150
 allFriends = []
 for friendUserName in friendsGroup:
     i = User.objects.get(username=(friendUserName).lower()).student
