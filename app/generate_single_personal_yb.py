@@ -40,7 +40,7 @@ FIRST_PAGE_LINES = 10
 NEXT_PAGE_LINES = 25
 
 from utils.emoji import emojis
-reps = {"\\": "\\textbackslash", "\n": "\\\\ ", "\r": "", "_": "\_", "~": "\~", "$": "\$", "{": "\{", "}": "\}", "&": "\&", "%": "\%", "^": "\\textsuperscript{$\wedge$}", "#": "\#"}
+reps = {"\\": "\\textbackslash", "\n": "\\\\[0pt] ", "\r": "", "_": "\_", "~": "\~", "$": "\$", "{": "\{", "}": "\}", "&": "\&", "%": "\%", "^": "\\textsuperscript{$\wedge$}", "#": "\#"}
 
 rep = {**reps, **emojis}
 rep = dict((re.escape(k), v) for k, v in rep.items())
