@@ -9,6 +9,7 @@ RUN groupadd -r ${APP_USER} && useradd --no-log-init -r -g ${APP_USER} ${APP_USE
 #   mime-support -- for mime types when serving static files
 #   postgresql-client -- for running database commands
 #   texlive-full -- for generating final PDFs
+#   exiftran -- for using EXIF metadata to rotate images
 # We need to recreate the /usr/share/man/man{1..8} directories first because
 # they were clobbered by a parent image.
 RUN set -ex \
@@ -17,6 +18,7 @@ RUN set -ex \
     mime-support \
     postgresql-client \
     texlive-full \
+    exiftran \
     " \
     && seq 1 8 | xargs -I{} mkdir -p /usr/share/man/man{} \
     && apt-get update && apt-get install -y --no-install-recommends $RUN_DEPS \
