@@ -32,7 +32,7 @@ for student in all_students:
 
     if student.closeFriendsPic:
         rgb_img = Image.open(student.closeFriendsPic.path).convert('RGB')
-        ImageOps.expand(rgb_img, border=400,fill='white').save(os.path.join(student_dir_path, "closeFriendsPic.jpg"))
+        ImageOps.expand(rgb_img, border=200,fill='white').save(os.path.join(student_dir_path, "closeFriendsPic.jpg"))
 
     for friendUserName in friendsGroup:
         i = User.objects.get(username=(friendUserName).lower()).student
