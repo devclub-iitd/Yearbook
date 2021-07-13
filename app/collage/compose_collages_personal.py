@@ -5,7 +5,7 @@ import collage_maker
 import img2pdf
 from PIL import Image, ImageOps
 
-ROOT_DIR = "collage_and_yearbook_personal"
+ROOT_DIR = "media/collage_and_yearbook_personal"
 BATCH_SIZE = 8
 
 dirs = [f for f in os.listdir(ROOT_DIR) if os.path.isdir(os.path.join(ROOT_DIR, f))]

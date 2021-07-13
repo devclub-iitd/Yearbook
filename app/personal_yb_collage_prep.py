@@ -11,7 +11,7 @@ load_dotenv()
 import logging
 logger = logging.getLogger(__name__)
 
-ROOT_DIR = "collage_and_yearbook_personal"
+ROOT_DIR = "media/collage_and_yearbook_personal"
 all_students = Student.objects.all()
 students_count = Student.objects.count()
 

@@ -6,7 +6,7 @@ python generate_wordcloud.py
 echo "Generating wordclouds... done"
 
 
-ROOT_DIR="collage_and_yearbook_personal/"
+ROOT_DIR="media/collage_and_yearbook_personal/"
 rm -rf $ROOT_DIR
 mkdir $ROOT_DIR
 

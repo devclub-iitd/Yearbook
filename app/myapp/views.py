@@ -633,7 +633,7 @@ class PersonalYearbookView(LoginRequiredMixin, TemplateView):
 
 @login_required
 def getPersonalYearbook(request):
-    personal_yb = open(settings.BASE_DIR + "/collage_and_yearbook_personal/" + str(request.user) + "/final_yearbook_" + str(request.user) + ".pdf", 'rb').read()
+    personal_yb = open("collage_and_yearbook_personal/" + str(request.user) + "/final_yearbook_" + str(request.user) + ".pdf", 'rb').read()
     return HttpResponse(personal_yb, content_type='application/pdf')
 
 

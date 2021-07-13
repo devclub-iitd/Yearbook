@@ -93,7 +93,7 @@ for student in all_students:
     context={"students": allFriends, "user": student}
     document = template.render(context)
     
-    output_directory = "collage_and_yearbook_personal/" + str(student.user) + "/"
+    output_directory = "media/collage_and_yearbook_personal/" + str(student.user) + "/"
     latex_file = output_directory + 'personal_yb.tex'
     pdf_file = output_directory + 'personal_yb.pdf'
     out_file = output_directory + 'yearbook.pdf'

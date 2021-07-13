@@ -141,7 +141,7 @@ if student.AdjectivesIGet.exists():
 ##########################################
 # prepare directory
 
-ROOT_DIR = "collage_and_yearbook_personal"
+ROOT_DIR = "media/collage_and_yearbook_personal"
 student_dir_path = os.path.join(ROOT_DIR, student.user.username)
 folder_path = os.path.join(student_dir_path, 'collages')
 if os.path.exists(folder_path) and os.path.isdir(folder_path):
@@ -161,7 +161,7 @@ for friendUserName in friendsGroup:
 ##########################################
 # generate collage
 
-ROOT_DIR = "collage_and_yearbook_personal"
+ROOT_DIR = "media/collage_and_yearbook_personal"
 BATCH_SIZE = 8
 
 dirs = [f for f in os.listdir(ROOT_DIR) if os.path.isdir(os.path.join(ROOT_DIR, f))]
@@ -256,7 +256,7 @@ template = latex_jinja_env.get_template('personal_yb_template.tex')
 context={"students": allFriends, "user": student}
 document = template.render(context)
 
-output_directory = "collage_and_yearbook_personal/" + str(student.user) + "/"
+output_directory = "media/collage_and_yearbook_personal/" + str(student.user) + "/"
 latex_file = output_directory + 'personal_yb.tex'
 pdf_file = output_directory + 'personal_yb.pdf'
 out_file = output_directory + 'yearbook.pdf'
@@ -272,7 +272,7 @@ subprocess.run(["pdfjam", "-q", "--outfile", out_file, "--paper", "a4paper", pdf
 # merge pdfs
 
 FRONT_PAGE = "myapp/static/myapp/pdf/Yearbook21GTA.pdf"
-ROOT_DIR = "collage_and_yearbook_personal/"
+ROOT_DIR = "media/collage_and_yearbook_personal/"
 
 current_dir = str(student.user)
 student_name = current_dir
