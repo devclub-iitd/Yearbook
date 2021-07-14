@@ -593,6 +593,15 @@ p {
   /* background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%); */
 }
 
+.collagePage2 {
+  /* add a seperate background here if needed for collage page */
+  /* background-image: url("./670.svg"); */
+  /* background-image: url("./668.svg"); */
+  background-size: cover;
+  /* background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%); */
+  /* background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%); */
+}
+
 @media print
 {
     .qTile, .pollCard, .qTileComment{

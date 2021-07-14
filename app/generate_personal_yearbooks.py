@@ -44,6 +44,9 @@ for student in all_students:
         i.CommentsIGet=list(gen_commentsIGet)
         allFriends.append(i)
 
+    collage_dir = "media/collage_and_yearbook_personal/"+ str(student.user) + "/collages"
+    collages = [os.path.join(collage_dir, file) for file in os.listdir(collage_dir) if file.endswith('.jpg')]
+
     # local
     # deployPort = os.getenv("DEPLOY_PORT")
     # if not deployPort:
@@ -52,7 +55,7 @@ for student in all_students:
 
     # production
     baseURL = 'https://yearbook.devclub.in/'
-    context={"students": allFriends, "user": student, "baseURL": baseURL}
+    context={"students": allFriends, "user": student, "baseURL": baseURL, "collages": collages}
     content = render_to_string('myapp/personalYearbook.html', context)
     with open('media/' + str(student.user) + '_personalYearbook.html', 'w') as static_file:
         static_file.write(content)
