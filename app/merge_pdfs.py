@@ -2,7 +2,7 @@ import os
 from PyPDF2 import PdfFileMerger, PdfFileWriter, PdfFileReader
 import img2pdf
 
-ROOT_DIR = "collage_and_yearbook/"
+ROOT_DIR = "media/collage_and_yearbook/"
 
 dirs = [f for f in os.listdir(ROOT_DIR) if os.path.isdir(os.path.join(ROOT_DIR, f))]
 

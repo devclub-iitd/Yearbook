@@ -10,7 +10,7 @@ python fix_collage.py
 echo "Fixing group pics... done"
 
 echo "Generating collages..."
-ROOT_DIR="collage_and_yearbook/"
+ROOT_DIR="media/collage_and_yearbook/"
 rm -rf $ROOT_DIR
 mkdir $ROOT_DIR
 

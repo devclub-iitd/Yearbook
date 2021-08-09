@@ -4,7 +4,7 @@ import shutil
 import collage_maker
 import img2pdf
 
-ROOT_DIR = "collage_and_yearbook"
+ROOT_DIR = "media/collage_and_yearbook"
 BATCH_SIZE = 8
 
 dirs = [f for f in os.listdir(ROOT_DIR) if os.path.isdir(os.path.join(ROOT_DIR, f))]
