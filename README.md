@@ -114,12 +114,12 @@ This repository contains the development code for the yearbook portal
 2. Just use `./start_dev_server.sh` to start the local development server!  
 A superuser is created with these credentials:
 	```
-	username (entry number): 2017_tester
+	username (entry number): 2018_tester
 	password: password
-	student name: 2017_tester
+	student name: 2018_tester
 	student department: cse
 	```  
-IITD OAuth is bypassed by default in development and you are directly logged in with user `2017_tester`. Set `BYPASS_OAUTH = False` in `settings_dev.py` to use OAuth instead. Entry year (2017) is required in tester username for polls to work properly.
+IITD OAuth is bypassed by default in development and you are directly logged in with user `2018_tester`. Set `BYPASS_OAUTH = False` in `settings_dev.py` to use OAuth instead. Entry year (2018) is required in tester username for polls to work properly.
 
 ## How is this supposed to work?
 ### Prior work to be done by admins
