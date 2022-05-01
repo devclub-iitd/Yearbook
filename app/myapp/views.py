@@ -38,11 +38,11 @@ def index(request):
 
     # For local development
     if hasattr(settings, 'BYPASS_OAUTH') and settings.BYPASS_OAUTH:
-        myUser = User.objects.get(username=('2017_tester').lower())
+        myUser = User.objects.get(username=('2018_tester').lower())
         if not hasattr(myUser, 'student'):
-            myUser.student = Student(name='2017_tester', department='cse')
+            myUser.student = Student(name='2018_tester', department='cse')
             myUser.student.save()
-            logger.info("New student created for user 2017_tester")
+            logger.info("New student created for user 2018_tester")
         
         login(request, myUser)
         return redirect('/profile')

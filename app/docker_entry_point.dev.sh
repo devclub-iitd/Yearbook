@@ -13,7 +13,7 @@ python3 add_random_users.py
 
 ## Add superusers
 usernames=(
-  2017_tester
+  2018_tester
 )
 
 passwords=(
