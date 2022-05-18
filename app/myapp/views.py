@@ -620,8 +620,11 @@ def closeFriends(request):
 
 @login_required
 def allYearbooks(request):
-    print(request.build_absolute_uri())
-    return render(request, 'myapp/allYearbooks.html', {})
+    if AdminTable.objects.first().displayYearbook or request.user.is_superuser:
+        print(request.build_absolute_uri())
+        return render(request, 'myapp/allYearbooks.html', {})
+    else:
+        return comingsoon(request)
 
 class PersonalYearbookView(LoginRequiredMixin, TemplateView):
     def get_template_names(self):
@@ -637,6 +640,6 @@ def getPersonalYearbook(request):
         personal_yb = open(settings.BASE_DIR + "/media/collage_and_yearbook_personal/" + str(request.user) + "/final_yearbook_" + str(request.user) + ".pdf", 'rb').read()
         return HttpResponse(personal_yb, content_type='application/pdf')
     else:
-        return 'myapp/comingsoon.html'
+        return comingsoon(request)
 
 
