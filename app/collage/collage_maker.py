@@ -28,17 +28,22 @@ def make_collage(images, filename, width, init_height):
         images_line = []
         x = 0
         while images_list:
-            # get first image and resize to `init_height`
-            img_path = images_list.pop(0)
-            img = Image.open(img_path)
-            img.thumbnail((width, init_height))
-            # when `x` will go beyond the `width`, start the next line
-            if x > width:
-                coefs_lines.append((float(x) / width, images_line))
-                images_line = []
-                x = 0
-            x += img.size[0] + margin_size
-            images_line.append(img_path)
+            try:
+                # get first image and resize to `init_height`
+                img_path = images_list.pop(0)
+                img = Image.open(img_path)
+                img.thumbnail((width, init_height))
+                # when `x` will go beyond the `width`, start the next line
+                if x > width:
+                    coefs_lines.append((float(x) / width, images_line))
+                    images_line = []
+                    x = 0
+                x += img.size[0] + margin_size
+                images_line.append(img_path)
+            except Exception as e:
+                print("Error occured in file: ", img_path)
+                print(e)
+
         # finally add the last line with images
         coefs_lines.append((float(x) / width, images_line))
 
@@ -71,9 +76,11 @@ def make_collage(images, filename, width, init_height):
                 # if need to enlarge an image - use `resize`, otherwise use `thumbnail`, it's faster
                 k = (init_height / coef) / img.size[1]
                 if k > 1:
-                    img = img.resize((int(img.size[0] * k), int(img.size[1] * k)), Image.ANTIALIAS)
+                    img = img.resize(
+                        (int(img.size[0] * k), int(img.size[1] * k)), Image.ANTIALIAS)
                 else:
-                    img.thumbnail((int(width / coef), int(init_height / coef)), Image.ANTIALIAS)
+                    img.thumbnail(
+                        (int(width / coef), int(init_height / coef)), Image.ANTIALIAS)
                 if collage_image:
                     collage_image.paste(img, (int(x), int(y)))
                 x += img.size[0] + margin_size
@@ -84,23 +91,25 @@ def make_collage(images, filename, width, init_height):
 
 def prepare(args):
     # prepare argument parser
-#     parse = argparse.ArgumentParser(description='Photo collage maker')
-#     parse.add_argument('-f', '--folder', dest='folder', help='folder with images (*.jpg, *.jpeg, *.png)', default='.')
-#     parse.add_argument('-o', '--output', dest='output', help='output collage image filename', default='collage.png')
-#     parse.add_argument('-w', '--width', dest='width', type=int, help='resulting collage image width')
-#     parse.add_argument('-i', '--init_height', dest='init_height', type=int, help='initial height for resize the images')
-#     parse.add_argument('-s', '--shuffle', action='store_true', dest='shuffle', help='enable images shuffle')
+    #     parse = argparse.ArgumentParser(description='Photo collage maker')
+    #     parse.add_argument('-f', '--folder', dest='folder', help='folder with images (*.jpg, *.jpeg, *.png)', default='.')
+    #     parse.add_argument('-o', '--output', dest='output', help='output collage image filename', default='collage.png')
+    #     parse.add_argument('-w', '--width', dest='width', type=int, help='resulting collage image width')
+    #     parse.add_argument('-i', '--init_height', dest='init_height', type=int, help='initial height for resize the images')
+    #     parse.add_argument('-s', '--shuffle', action='store_true', dest='shuffle', help='enable images shuffle')
 
-#     args = parse.parse_args()
+    #     args = parse.parse_args()
     if not args['width'] or not args['init_height']:
-#         parse.print_help()
+        #         parse.print_help()
         print("Width or init height not present. Exiting...")
         exit(1)
-#     if not args['output'] : 
-#         print (" No output path given") 
+#     if not args['output'] :
+#         print (" No output path given")
     # get images
-    files = [os.path.join(args['folder'], fn) for fn in os.listdir(args['folder'])]
-    images = [fn for fn in files if os.path.splitext(fn)[1].lower() in ('.jpg', '.jpeg', '.png')]
+    files = [os.path.join(args['folder'], fn)
+             for fn in os.listdir(args['folder'])]
+    images = [fn for fn in files if os.path.splitext(
+        fn)[1].lower() in ('.jpg', '.jpeg', '.png')]
     if not images:
         print('No images for making collage! Please select other directory with images!')
         exit(1)
@@ -110,10 +119,9 @@ def prepare(args):
         random.shuffle(images)
 
     print('Making collage... (Image folder: {})'.format(args['folder']))
-    res = make_collage(images, args['output'], args['width'], args['init_height'])
+    res = make_collage(images, args['output'],
+                       args['width'], args['init_height'])
     if not res:
         print('Failed to create collage!')
         exit(1)
     print('Collage is ready!')
-
-
