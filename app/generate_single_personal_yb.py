@@ -271,8 +271,9 @@ subprocess.run(["pdfjam", "-q", "--outfile", out_file, "--paper", "a4paper", pdf
 ##########################################
 # merge pdfs
 
-FRONT_PAGE = "myapp/static/myapp/pdf/Yearbook21GTA.pdf"
+# FRONT_PAGE = "myapp/static/myapp/pdf/Yearbook21GTA.pdf"
 ROOT_DIR = "media/collage_and_yearbook_personal/"
+FRONT_PAGE = os.path.join(ROOT_DIR, 'frontpage.pdf')
 
 current_dir = str(student.user)
 student_name = current_dir
@@ -280,7 +281,6 @@ current_dir = os.path.join(ROOT_DIR, current_dir)
 yearbook_pdf = os.path.join(current_dir, 'yearbook.pdf')
 collage_dir = os.path.join(current_dir, 'collages')
 collage_pdfs = os.listdir(collage_dir)
-# frontpage_pdf = os.path.join(ROOT_DIR, 'frontpage.pdf')
 
 a4inpt = (img2pdf.mm_to_pt(210),img2pdf.mm_to_pt(297)) # specify page size (A4)
 layout_fun = img2pdf.get_layout_fun(a4inpt)
