@@ -1,10 +1,11 @@
+asgiref==3.2.7
 asn1crypto==1.2.0
 beautifulsoup4==4.8.1
 certifi==2019.11.28
 cffi==1.13.2
 chardet==3.0.4
 config==0.4.2
-cryptography==2.8
+cryptography==3.0
 cycler==0.10.0
 Django==2.2.10
 django-cleanup==4.0.0
@@ -14,6 +15,7 @@ enum34==1.1.6
 idna==2.8
 ipaddress==1.0.23
 jsonfield==2.0.2
+PyJWT==1.7.1
 kiwisolver==1.2.0
 matplotlib==3.1.2
 numpy==1.18.2

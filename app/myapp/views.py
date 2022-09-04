@@ -38,18 +38,19 @@ def index(request):
 
     # For local development
     if hasattr(settings, 'BYPASS_OAUTH') and settings.BYPASS_OAUTH:
-        myUser = User.objects.get(username=('2018_tester').lower())
+        myUser = User.objects.get(username=('2019_tester').lower())
         if not hasattr(myUser, 'student'):
-            myUser.student = Student(name='2018_tester', department='cse')
+            myUser.student = Student(name='2019_tester', department='cse')
             myUser.student.save()
-            logger.info("New student created for user 2018_tester")
+            logger.info("New student created for user 2019_tester")
         
         login(request, myUser)
         return redirect('/profile')
 
     # For production
     if request.method == 'POST':
-        return redirect(os.environ["authLinkPart1"] + os.environ["CLIENT_ID"] + os.environ["authLinkPart2"])
+        # return redirect(os.environ["authLinkPart1"] + os.environ["CLIENT_ID"] + os.environ["authLinkPart2"])
+        return redirect('/profile')
     return render(request, 'myapp/index.html')
     # return render(request, 'myapp/index.html')
 
@@ -502,7 +503,7 @@ def yearbook(request):
     if request.user.is_superuser:
         dep = request.GET.get('department')
     else:
-        return redirect("https://drive.google.com/drive/u/1/folders/1aZJPdJbGrWiOi56WMVnJWqRtmGpxrr9D")
+        return redirect(os.environ.get("DEPT_YEARBOOK_DRIVE_LINK", "https://yearbook.devclub.in"))
         dep = request.user.student.department
         
     departmentN=""

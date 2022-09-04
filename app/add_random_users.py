@@ -9,7 +9,7 @@ User = get_user_model()
 print("Adding random users...")
 
 for i in range(40):
-    student_name = '2018student' + str(i)
+    student_name = '2019student' + str(i)
     if not User.objects.filter(username=student_name).exists():
         user = User.objects.create_user(username=student_name,
                                     email=student_name + '@gmail.com',

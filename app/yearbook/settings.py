@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'yearbook.middleware.SSOMiddleware',
 ]
 
 ROOT_URLCONF = 'yearbook.urls'
