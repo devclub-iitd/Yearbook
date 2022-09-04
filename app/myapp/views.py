@@ -502,7 +502,7 @@ def yearbook(request):
     if request.user.is_superuser:
         dep = request.GET.get('department')
     else:
-        return redirect("https://drive.google.com/drive/u/1/folders/1aZJPdJbGrWiOi56WMVnJWqRtmGpxrr9D")
+        return redirect(os.environ.get("DEPT_YEARBOOK_DRIVE_LINK", "https://yearbook.devclub.in"))
         dep = request.user.student.department
         
     departmentN=""
