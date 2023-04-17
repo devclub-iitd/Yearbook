@@ -30,6 +30,6 @@ python3 setAdminTable.py
 # python3 CsvToDatabase.py
 
 ## Commenting this so that polls are not added multiple times
-python3 addPolls.py
+# python3 addPolls.py
 
 exec "$@"
