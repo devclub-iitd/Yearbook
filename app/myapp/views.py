@@ -576,7 +576,8 @@ def is_deadline_over():
         return False
 
 def deadlineover(request):
-    return render(request, 'myapp/deadlineover.html')
+    # return render(request, 'myapp/deadlineover.html')
+    return render(request, 'myapp/comingsoon.html')
 
 
 @login_required()
