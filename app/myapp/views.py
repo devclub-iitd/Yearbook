@@ -17,6 +17,7 @@ from django.views.generic.base import TemplateView
 
 import io
 import json
+import logging
 
 import urllib3.contrib.pyopenssl
 urllib3.contrib.pyopenssl.inject_into_urllib3()
@@ -164,7 +165,7 @@ def profile(request):
         u.student.future = request.POST.get('future')
 
     u.student.save()
-
+    logging.info("user created inside profile view")
     if flag:
         obj["user"] = u.student
         return render(request, 'myapp/profile.html', obj)
