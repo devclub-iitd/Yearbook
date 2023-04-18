@@ -136,8 +136,13 @@ class SSOMiddleware:
                 globals()[key] = new_val
 
     def assign_user(self,request,user_payload):
+
         if(request.user.is_authenticated):
             return
+        
+        if match_regex_list(request.path, PUBLIC_PATHS): 
+            return
+        
         try:
             user = USER_MODEL.objects.get(email=user_payload['email'])
         except:
