@@ -143,7 +143,7 @@ class SSOMiddleware:
             user.last_name = user_payload['lastname']
             user.username = user_payload['username']
             user.save()
-            code = user_payload['username'][:2]
+            code = user_payload['email'][:2]
             s = Student(name=user_payload['firstname'],department=code2dept[code])
             user.student = s
             user.student.save()
