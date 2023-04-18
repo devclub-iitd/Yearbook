@@ -89,7 +89,7 @@ class SSOMiddleware:
                     logout(request)
                     return UNAUTHORIZED_HANDLER(request)
                 self.assign_user(request, decoded['user'])
-                logging.info("user assigned")
+                logging.info("user assigned in if statement")
 
             except Exception as err:
                 # print(err)
@@ -102,8 +102,11 @@ class SSOMiddleware:
                 user = self.refresh(request,{REFRESH_TOKEN:rememberme})
 
                 if(not self.authorize_roles(request, decoded['user'])):
+                    logout(request)
                     return UNAUTHORIZED_HANDLER(request)
                 self.assign_user(request,user_payload=user)
+                logging.info("user assigned in else statement")
+
 
             except Exception as err:
                 print(err)
@@ -139,11 +142,14 @@ class SSOMiddleware:
             user = USER_MODEL.objects.get(email=user_payload['email'])
         except:
             user = USER_MODEL.objects.create_user(email=user_payload['email'],username=user_payload['username'])
-        
+
             user.first_name = user_payload['firstname']
             user.last_name = user_payload['lastname']
             user.username = user_payload['username']
             user.save()
+            
+            logging.info("user created in assign_user function")
+
             code = user_payload['email'][:2]
             s = Student(name=user_payload['firstname'],department=code2dept[code])
             user.student = s
