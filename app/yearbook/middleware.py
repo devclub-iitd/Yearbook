@@ -86,6 +86,7 @@ class SSOMiddleware:
 
                 if(not self.authorize_roles(request, decoded['user'])):
                     # logging.info("line 88")
+                    logout(request)
                     return UNAUTHORIZED_HANDLER(request)
                 self.assign_user(request, decoded['user'])
                 logging.info("user assigned")
