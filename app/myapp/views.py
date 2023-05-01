@@ -232,9 +232,12 @@ def poll(request):
     dept_users = []
 
     for i in users_all:
-        enum_to_name[i.username] = i.student.name
-        if i.student.department==u.student.department:
-            dept_users.append(i)
+        try: 
+            enum_to_name[i.username] = i.student.name
+            if i.student.department==u.student.department:
+                dept_users.append(i)
+        except:
+            logging.info(i.username)
 
     allPolls = Poll.objects.filter(department="all").order_by('poll')
     deptPolls = Poll.objects.filter(department=u.student.department).order_by('poll')
